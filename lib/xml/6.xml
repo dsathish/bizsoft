@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <customization>
+    <report_id><![CDATA[6]]></report_id>
+    <report_code></report_code>
+    <report_name><![CDATA[Handloan Report]]></report_name>
+    <view_name><![CDATA[handloan_report_view]]></view_name>
+    <customization_id><![CDATA[6]]></customization_id>
+    <customization_name><![CDATA[Def]]></customization_name>
+    <sub_total></sub_total>
+    <grand_total></grand_total>
+    <is_default><![CDATA[2]]></is_default>
+    <default_id><![CDATA[6]]></default_id>
+  </customization>
+  <columns>
+    <column_id><![CDATA[26]]></column_id>
+    <column_name><![CDATA[relationship_name]]></column_name>
+    <data_type><![CDATA[varchar]]></data_type>
+    <display_name><![CDATA[Buyer]]></display_name>
+    <display_order><![CDATA[1]]></display_order>
+    <sort_order></sort_order>
+    <is_group><![CDATA[1]]></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Buyer]]></default_display_name>
+    <default_is_group><![CDATA[1]]></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[40]]></column_id>
+    <column_name><![CDATA['<a href="details.php?module=handloan&handln_id='||handln_id||'">'||handln_ref||'</a>']]></column_name>
+    <data_type><![CDATA[int]]></data_type>
+    <display_name><![CDATA[Handloan Reference]]></display_name>
+    <display_order><![CDATA[2]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Handloan Reference]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[41]]></column_id>
+    <column_name><![CDATA[handln_date]]></column_name>
+    <data_type><![CDATA[date]]></data_type>
+    <display_name><![CDATA[Handloan Date]]></display_name>
+    <display_order><![CDATA[3]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Handloan Date]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[42]]></column_id>
+    <column_name><![CDATA['<a href="details.php?module=handloan&handln_id='||parent_id||'">'||parent_ref||'</a>']]></column_name>
+    <data_type><![CDATA[int]]></data_type>
+    <display_name><![CDATA[Parent Reference]]></display_name>
+    <display_order><![CDATA[4]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Parent Reference]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[5]]></column_id>
+    <column_name><![CDATA[product_desc]]></column_name>
+    <data_type><![CDATA[varchar]]></data_type>
+    <display_name><![CDATA[Product]]></display_name>
+    <display_order><![CDATA[6]]></display_order>
+    <sort_order><![CDATA[ASC]]></sort_order>
+    <is_group><![CDATA[1]]></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Product]]></default_display_name>
+    <default_is_group><![CDATA[1]]></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[43]]></column_id>
+    <column_name><![CDATA[issued_quantity]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Issued Qty]]></display_name>
+    <display_order><![CDATA[7]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Issued Qty]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[44]]></column_id>
+    <column_name><![CDATA[received_back_quantity]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Received Back Qty]]></display_name>
+    <display_order><![CDATA[8]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Received Back Qty]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[45]]></column_id>
+    <column_name><![CDATA[received_quantity]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Received Qty]]></display_name>
+    <display_order><![CDATA[9]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Received Qty]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[46]]></column_id>
+    <column_name><![CDATA[issued_back_quantity]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Issued Back Qty]]></display_name>
+    <display_order><![CDATA[10]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Issued Back Qty]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[17]]></column_id>
+    <column_name><![CDATA[uom_desc]]></column_name>
+    <data_type><![CDATA[varchar]]></data_type>
+    <display_name><![CDATA[UOM]]></display_name>
+    <display_order><![CDATA[11]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[UOM]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+</root>

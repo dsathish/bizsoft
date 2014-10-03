@@ -1,0 +1,14 @@
+Body { font-size:12px; font-family:arial; color:#000000; font-weight:normal; background-color:#EFF9FF;}
+A { text-decoration:none; font-size:11px; border:0px;}
+A:link,A:visited { color:#105289;}
+A:hover { color:red;}
+Img { border:0; }
+FORM { margin:0; padding:0; }
+INPUT, SELECT {border-style:solid;}
+.error { color:red; font-size:11px;}
+
+TABLE {border:0px;}
+CAPTION {font-weight:bold;font-size:13px;}
+TH, .tHead {padding:3px;}
+TD {padding:3px;}
+/* F3F5EE, A6A6A6, CCCCCC, 508099,  */

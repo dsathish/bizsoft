@@ -1,0 +1,79 @@
+@charset "UTF-8";
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
+ *
+ * (en) Screen layout for YAML examples
+ * (de) Bildschirmlayout für YAML-Beispiele
+ *
+ * @copyright       Copyright 2005-2009, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.1
+ * @revision        $Revision: 343 $
+ * @lastmodified    $Date: 2009-01-19 23:41:32 +0100 (Mo, 19. Jan 2009) $
+ */
+
+@media screen, projection
+{
+  body { height: 90% ;background: #888; text-align: center; }
+  
+  .page { margin: 0 20px; }
+
+  #header {
+    	height:75px;
+    	color: #fff;
+    	border-top: 1px #fff solid;
+  	border-bottom: 1px #fff solid;
+    	background: #4d87c7 url("../../img/bg_blue.png") repeat-x top left;
+  }
+
+  #header h1 { color: #fff !important; }
+  #header h2 { color: #fff !important; }
+  #header h3 { color: #fff !important; }
+
+
+  #header .page { padding: 35px 20px; text-align:left; }
+  
+  #header h1 {
+    font-weight:bold;
+    letter-spacing: 0.3px;
+    line-height:65%;
+    color:#000;
+  }
+
+  #header span { color:#ccc; }
+  #header span.navwel { padding:10px 40px; float:left; }
+  #header span.navlinks { padding:10px; float:right; }
+  
+  #main {
+	height: auto !important;
+	min-height:85%;
+	background: #EFF9FF;
+  }
+
+  #main, #extended { padding-top: 20px; padding-bottom: 10px; }
+  #footer {
+	height:25px;	 
+  	color: #fff;	
+  	border-top: 1px ; 
+  	background: #EFF9FF; 
+  }
+
+  #botnav {
+  	background: #EFF9FF; 
+  }
+  
+  #footer .page { text-align:left; }
+
+  .alert { background: #FFE900; }
+
+  a { text-decoration:none; font-size:11px; border:0px;}
+  a:link,a:visited { color:#105289; }
+  a:hover { color:red; }  	
+  
+  #header a { color: #ccc; font-weight: bold; background:transparent; }
+
+  #footer a { color: #fff; font-weight: bold; background:transparent; }
+}

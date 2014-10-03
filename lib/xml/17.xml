@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <customization>
+    <report_id><![CDATA[4]]></report_id>
+    <report_code></report_code>
+    <report_name><![CDATA[Payment Report]]></report_name>
+    <view_name><![CDATA[payment_report_view]]></view_name>
+    <customization_id><![CDATA[17]]></customization_id>
+    <customization_name><![CDATA[Supplier  Payments]]></customization_name>
+    <sub_total></sub_total>
+    <grand_total><![CDATA[1]]></grand_total>
+    <is_default><![CDATA[0]]></is_default>
+    <default_id><![CDATA[4]]></default_id>
+  </customization>
+  <columns>
+    <column_id><![CDATA[26]]></column_id>
+    <column_name><![CDATA[relationship_name]]></column_name>
+    <data_type><![CDATA[varchar]]></data_type>
+    <display_name><![CDATA[Supplier]]></display_name>
+    <display_order><![CDATA[1]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter><![CDATA[1]]></is_filter>
+    <default_value><![CDATA[FENICE INTERANTIONAL~#~NCP DYES~#~FENICE INDIA LTD]]></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Payee Name]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter><![CDATA[1]]></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[22]]></column_id>
+    <column_name><![CDATA['<a href="details.php?module=payment&payment_id='||payment_id||'">'||payment_ref||'</a>']]></column_name>
+    <data_type><![CDATA[int]]></data_type>
+    <display_name><![CDATA[Payment]]></display_name>
+    <display_order><![CDATA[2]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Payment]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[27]]></column_id>
+    <column_name><![CDATA[paid_amount]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Paid Amount]]></display_name>
+    <display_order><![CDATA[3]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Paid Amount]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[29]]></column_id>
+    <column_name><![CDATA[paid_total]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Paid Total]]></display_name>
+    <display_order><![CDATA[4]]></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Paid Total]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[2]]></column_id>
+    <column_name><![CDATA['<a href="details.php?module=receipt&receipt_id='||receipt_id||'">'||receipt_ref||'</a>']]></column_name>
+    <data_type><![CDATA[varchar]]></data_type>
+    <display_name><![CDATA[Receipt Ref]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Receipt Ref]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[11]]></column_id>
+    <column_name><![CDATA[sales_id]]></column_name>
+    <data_type><![CDATA[int]]></data_type>
+    <display_name><![CDATA[Sales]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Sales]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[12]]></column_id>
+    <column_name><![CDATA['<a href="details.php?module=sales&sales_id='||sales_id||'">'||sales_ref||'</a>']]></column_name>
+    <data_type><![CDATA[varchar]]></data_type>
+    <display_name><![CDATA[Sales Ref]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Sales Ref]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[23]]></column_id>
+    <column_name><![CDATA[payment_date]]></column_name>
+    <data_type><![CDATA[date]]></data_type>
+    <display_name><![CDATA[Payment Date]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Payment Date]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[24]]></column_id>
+    <column_name><![CDATA[payment_mode]]></column_name>
+    <data_type><![CDATA[varchar]]></data_type>
+    <display_name><![CDATA[Payment Mode]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Payment Mode]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[1]]></column_id>
+    <column_name><![CDATA[receipt_id]]></column_name>
+    <data_type><![CDATA[int]]></data_type>
+    <display_name><![CDATA[Receipt]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Receipt]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[31]]></column_id>
+    <column_name><![CDATA[received_deductions]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Received Deductions]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Received Deductions]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[30]]></column_id>
+    <column_name><![CDATA[received_amount]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Received Amount]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Received Amount]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[28]]></column_id>
+    <column_name><![CDATA[paid_deductions]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Paid Deductions]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Paid Deductions]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[32]]></column_id>
+    <column_name><![CDATA[received_total]]></column_name>
+    <data_type><![CDATA[numeric]]></data_type>
+    <display_name><![CDATA[Received Total]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style><![CDATA[text-align:right;]]></style>
+    <decimal_places><![CDATA[0]]></decimal_places>
+    <date_format></date_format>
+    <display_total><![CDATA[1]]></display_total>
+    <default_display_name><![CDATA[Received Total]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total><![CDATA[1]]></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+  <columns>
+    <column_id><![CDATA[25]]></column_id>
+    <column_name><![CDATA[status]]></column_name>
+    <data_type><![CDATA[varchar]]></data_type>
+    <display_name><![CDATA[Status]]></display_name>
+    <display_order></display_order>
+    <sort_order></sort_order>
+    <is_group></is_group>
+    <is_filter></is_filter>
+    <default_value></default_value>
+    <style></style>
+    <decimal_places></decimal_places>
+    <date_format></date_format>
+    <display_total></display_total>
+    <default_display_name><![CDATA[Status]]></default_display_name>
+    <default_is_group></default_is_group>
+    <default_display_total></default_display_total>
+    <default_is_filter></default_is_filter>
+  </columns>
+</root>

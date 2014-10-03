@@ -1,0 +1,3418 @@
+--
+-- PostgreSQL database dump
+--
+
+SET client_encoding = 'LATIN1';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+--
+-- Name: demo; Type: SCHEMA; Schema: -; Owner: sathish
+--
+
+CREATE SCHEMA demo;
+
+
+ALTER SCHEMA demo OWNER TO sathish;
+
+SET search_path = demo, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = true;
+
+--
+-- Name: city; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE city (
+    city_id integer NOT NULL,
+    city_code character varying(10),
+    city_name character varying NOT NULL,
+    country_id integer NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.city OWNER TO sathish;
+
+--
+-- Name: columns; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE columns (
+    column_id integer NOT NULL,
+    column_name character varying NOT NULL,
+    is_filter smallint,
+    filter_query character varying,
+    data_type character varying DEFAULT 'int'::character varying NOT NULL
+);
+
+
+ALTER TABLE demo.columns OWNER TO sathish;
+
+--
+-- Name: contacts; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE contacts (
+    contact_id integer NOT NULL,
+    relationship_id integer NOT NULL,
+    address1 character varying,
+    address2 character varying,
+    pincode integer,
+    phone_no integer,
+    email character varying,
+    tax_detail character varying,
+    payment_term character varying,
+    credit_days integer
+);
+
+
+ALTER TABLE demo.contacts OWNER TO sathish;
+
+--
+-- Name: country; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE country (
+    country_id integer NOT NULL,
+    country_code character varying(10),
+    country_name character varying NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.country OWNER TO sathish;
+
+--
+-- Name: currency; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE currency (
+    currency_id integer NOT NULL,
+    currency_code character varying,
+    currency_name character varying NOT NULL,
+    conversion_rate numeric DEFAULT 1,
+    CONSTRAINT c_conversion_rate_chk CHECK ((conversion_rate > (0)::numeric))
+);
+
+
+ALTER TABLE demo.currency OWNER TO sathish;
+
+--
+-- Name: tsort; Type: TYPE; Schema: demo; Owner: sathish
+--
+
+CREATE TYPE tsort AS ENUM (
+    'ASC',
+    'DESC'
+);
+
+
+ALTER TYPE demo.tsort OWNER TO sathish;
+
+--
+-- Name: customization_columns; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE customization_columns (
+    customization_id integer NOT NULL,
+    column_id integer NOT NULL,
+    display_name character varying NOT NULL,
+    display_order numeric,
+    sort_order tsort,
+    is_group smallint,
+    is_filter smallint,
+    default_value character varying,
+    date_condition character varying[],
+    decimal_places integer,
+    date_format character varying,
+    display_total smallint,
+    style character varying
+);
+
+
+ALTER TABLE demo.customization_columns OWNER TO sathish;
+
+--
+-- Name: customizations; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE customizations (
+    customization_id integer NOT NULL,
+    customization_name character varying NOT NULL,
+    is_active smallint DEFAULT 1,
+    is_default smallint DEFAULT 0,
+    report_id integer NOT NULL,
+    sub_total smallint,
+    grand_total smallint,
+    date_column character varying,
+    from_date date,
+    to_date date
+);
+
+
+ALTER TABLE demo.customizations OWNER TO sathish;
+
+--
+-- Name: handloan; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE handloan (
+    handln_id integer NOT NULL,
+    handln_ref character varying,
+    relationship_id integer NOT NULL,
+    handln_date date,
+    currency_id integer
+);
+
+
+ALTER TABLE demo.handloan OWNER TO sathish;
+
+--
+-- Name: handloan_items; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE handloan_items (
+    item_id integer NOT NULL,
+    handln_id integer NOT NULL,
+    ref_id integer,
+    product_id integer,
+    uom_id integer,
+    issued_quantity numeric(10,4) DEFAULT 0,
+    received_quantity numeric(10,4) DEFAULT 0,
+    price numeric(10,4),
+    conversion_rate numeric DEFAULT 1,
+    remarks character varying
+);
+
+
+ALTER TABLE demo.handloan_items OWNER TO sathish;
+
+--
+-- Name: tactivity; Type: TYPE; Schema: demo; Owner: sathish
+--
+
+CREATE TYPE tactivity AS ENUM (
+    'int',
+    'sel',
+    'buy',
+    'grp'
+);
+
+
+ALTER TYPE demo.tactivity OWNER TO sathish;
+
+--
+-- Name: thead; Type: TYPE; Schema: demo; Owner: sathish
+--
+
+CREATE TYPE thead AS ENUM (
+    'pur',
+    'sal',
+    'adj',
+    'hdl',
+    'trn'
+);
+
+
+ALTER TYPE demo.thead OWNER TO sathish;
+
+--
+-- Name: ttype; Type: TYPE; Schema: demo; Owner: sathish
+--
+
+CREATE TYPE ttype AS ENUM (
+    'i',
+    'o'
+);
+
+
+ALTER TYPE demo.ttype OWNER TO sathish;
+
+--
+-- Name: products; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE products (
+    product_id integer NOT NULL,
+    product_code character varying(10),
+    product_desc character varying NOT NULL,
+    reorder integer,
+    product_category_id integer,
+    product_liter text,
+    cost_price numeric,
+    selling_price numeric,
+    cp_currency_id integer,
+    sp_currency_id integer
+);
+
+
+ALTER TABLE demo.products OWNER TO sathish;
+
+--
+-- Name: relationships; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE relationships (
+    relationship_id integer NOT NULL,
+    relationship_code character varying(10),
+    relationship_name character varying NOT NULL,
+    activity tactivity DEFAULT 'int'::tactivity NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.relationships OWNER TO sathish;
+
+--
+-- Name: transaction_details; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE transaction_details (
+    trans_id integer NOT NULL,
+    trans_date date NOT NULL,
+    trans_type ttype DEFAULT 'i'::ttype NOT NULL,
+    trans_head thead DEFAULT 'pur'::thead NOT NULL,
+    quantity numeric NOT NULL,
+    uom_id integer DEFAULT 1 NOT NULL,
+    value numeric,
+    ref_id integer NOT NULL,
+    parent_id integer,
+    CONSTRAINT t_quantity_chk CHECK ((quantity > (0)::numeric)),
+    CONSTRAINT t_value_chk CHECK ((value > (0)::numeric))
+);
+
+
+ALTER TABLE demo.transaction_details OWNER TO sathish;
+
+--
+-- Name: uom; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE uom (
+    uom_id integer NOT NULL,
+    uom_code character varying(10),
+    uom_desc character varying NOT NULL
+);
+
+
+ALTER TABLE demo.uom OWNER TO sathish;
+
+--
+-- Name: handloan_report_view; Type: VIEW; Schema: demo; Owner: sathish
+--
+
+CREATE VIEW handloan_report_view AS
+    SELECT hd.handln_id, hi.item_id, hd.handln_ref, hd.handln_date, re.relationship_name, hdb.handln_id AS parent_id, CASE WHEN (hi.ref_id IS NOT NULL) THEN hdb.handln_ref ELSE NULL::character varying END AS parent_ref, pr.product_desc, uo.uom_desc, CASE WHEN ((tr.trans_type = 'o'::ttype) AND (hi.ref_id IS NULL)) THEN tr.quantity ELSE (0)::numeric END AS issued_quantity, CASE WHEN (tr.trans_type = 'o'::ttype) THEN hib.received_quantity ELSE (0)::numeric END AS received_back_quantity, CASE WHEN ((tr.trans_type = 'i'::ttype) AND (hi.ref_id IS NULL)) THEN tr.quantity ELSE (0)::numeric END AS received_quantity, CASE WHEN (tr.trans_type = 'i'::ttype) THEN hib.received_quantity ELSE (0)::numeric END AS issued_back_quantity FROM (((((((handloan hd JOIN handloan_items hi ON ((hd.handln_id = hi.handln_id))) JOIN transaction_details tr ON (((tr.ref_id = hi.item_id) AND (tr.trans_head = 'hdl'::thead)))) LEFT JOIN handloan_items hib ON ((hib.item_id = hi.ref_id))) LEFT JOIN handloan hdb ON ((hdb.handln_id = hib.handln_id))) JOIN relationships re ON ((re.relationship_id = hd.relationship_id))) JOIN products pr ON ((pr.product_id = hi.product_id))) JOIN uom uo ON ((uo.uom_id = hi.uom_id)));
+
+
+ALTER TABLE demo.handloan_report_view OWNER TO sathish;
+
+--
+-- Name: order_items; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE order_items (
+    item_id integer NOT NULL,
+    order_id integer NOT NULL,
+    product_id integer NOT NULL,
+    order_quantity numeric NOT NULL,
+    trans_quantity numeric DEFAULT 0,
+    uom_id integer DEFAULT 1 NOT NULL,
+    price numeric,
+    currency_id integer DEFAULT 1,
+    conversion_rate numeric DEFAULT 1,
+    remarks character varying,
+    CONSTRAINT ri_price_chk CHECK ((price > (0)::numeric)),
+    CONSTRAINT ri_quantity_chk CHECK ((order_quantity > (0)::numeric))
+);
+
+
+ALTER TABLE demo.order_items OWNER TO sathish;
+
+--
+-- Name: tstatus; Type: TYPE; Schema: demo; Owner: sathish
+--
+
+CREATE TYPE tstatus AS ENUM (
+    'act',
+    'can',
+    'del',
+    'com'
+);
+
+
+ALTER TYPE demo.tstatus OWNER TO sathish;
+
+--
+-- Name: orders; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE orders (
+    order_id integer NOT NULL,
+    order_ref character varying,
+    relationship_id integer NOT NULL,
+    order_date date DEFAULT now() NOT NULL,
+    order_type character(2) DEFAULT 'io'::bpchar,
+    order_status tstatus DEFAULT 'act'::tstatus,
+    CONSTRAINT order_type_chk CHECK ((((order_type = 'io'::bpchar) OR (order_type = 'po'::bpchar)) OR (order_type = 'so'::bpchar)))
+);
+
+
+ALTER TABLE demo.orders OWNER TO sathish;
+
+--
+-- Name: order_report_view; Type: VIEW; Schema: demo; Owner: sathish
+--
+
+CREATE VIEW order_report_view AS
+    SELECT od.order_id, oi.item_id, od.order_ref, od.order_date, od.order_type, od.order_status AS status, re.relationship_name, uo.uom_code, uo.uom_desc, oi.order_quantity, oi.trans_quantity, pr.product_desc, oi.price, oi.conversion_rate, ((oi.order_quantity * oi.price) * oi.conversion_rate) AS order_value, cu.currency_code, oi.remarks FROM (((((orders od JOIN order_items oi USING (order_id)) JOIN products pr USING (product_id)) JOIN relationships re USING (relationship_id)) JOIN uom uo ON ((uo.uom_id = oi.uom_id))) JOIN currency cu ON ((cu.currency_id = oi.currency_id)));
+
+
+ALTER TABLE demo.order_report_view OWNER TO sathish;
+
+--
+-- Name: payment_mode; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE payment_mode (
+    payment_mode_id integer NOT NULL,
+    payment_mode_code character varying(10),
+    payment_mode_name character varying NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.payment_mode OWNER TO sathish;
+
+--
+-- Name: payments; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE payments (
+    payment_id integer NOT NULL,
+    relationship_id integer NOT NULL,
+    payment_ref character varying,
+    payment_date date,
+    payment_mode_id integer NOT NULL,
+    status tstatus DEFAULT 'act'::tstatus NOT NULL
+);
+
+
+ALTER TABLE demo.payments OWNER TO sathish;
+
+--
+-- Name: receipt; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE receipt (
+    receipt_id integer NOT NULL,
+    receipt_ref character varying,
+    supplier_id integer NOT NULL,
+    receipt_date date DEFAULT now() NOT NULL,
+    receipt_value numeric,
+    taxed_value numeric,
+    payment_value numeric DEFAULT 0,
+    CONSTRAINT receipt_payment_value_chk CHECK ((payment_value <= (receipt_value + taxed_value))),
+    CONSTRAINT receipt_value_chk CHECK ((receipt_value > 0.0))
+);
+
+
+ALTER TABLE demo.receipt OWNER TO sathish;
+
+--
+-- Name: receipt_payment_relation; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE receipt_payment_relation (
+    payment_id integer NOT NULL,
+    receipt_id integer NOT NULL,
+    amount numeric,
+    deductions numeric(10,4),
+    CONSTRAINT receipt_payment_relation_amount_check CHECK ((amount > 0.0))
+);
+
+
+ALTER TABLE demo.receipt_payment_relation OWNER TO sathish;
+
+--
+-- Name: sales; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE sales (
+    sales_id integer NOT NULL,
+    sales_ref character varying,
+    buyer_id integer NOT NULL,
+    sales_date date DEFAULT now() NOT NULL,
+    sales_value numeric,
+    taxed_value numeric,
+    payment_value numeric DEFAULT 0,
+    CONSTRAINT sales_payment_value_chk CHECK ((payment_value <= (sales_value + taxed_value))),
+    CONSTRAINT sales_value_chk CHECK ((sales_value > 0.0))
+);
+
+
+ALTER TABLE demo.sales OWNER TO sathish;
+
+--
+-- Name: sales_payment_relation; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE sales_payment_relation (
+    payment_id integer NOT NULL,
+    sales_id integer NOT NULL,
+    amount numeric,
+    deductions numeric(10,4),
+    CONSTRAINT sales_payment_relation_amount_check CHECK ((amount > 0.0))
+);
+
+
+ALTER TABLE demo.sales_payment_relation OWNER TO sathish;
+
+--
+-- Name: payment_report_view; Type: VIEW; Schema: demo; Owner: sathish
+--
+
+CREATE VIEW payment_report_view AS
+    SELECT pa.payment_id, pa.payment_date, pa.payment_ref, pa.status, pm.payment_mode_name AS payment_mode, re.receipt_ref, 'NA'::character varying AS sales_ref, re.receipt_id, re.receipt_date AS trans_date, r.relationship_name, r.activity, rpr.amount AS paid_amount, rpr.deductions AS paid_deductions, (rpr.amount - rpr.deductions) AS paid_total, 0.00 AS received_amount, 0.00 AS received_deductions, 0.00 AS received_total FROM ((((payments pa JOIN receipt_payment_relation rpr USING (payment_id)) JOIN receipt re USING (receipt_id)) JOIN relationships r USING (relationship_id)) JOIN payment_mode pm USING (payment_mode_id)) UNION SELECT pa.payment_id, pa.payment_date, pa.payment_ref, pa.status, pm.payment_mode_name AS payment_mode, 'NA'::character varying AS receipt_ref, sa.sales_ref, sa.sales_id AS receipt_id, sa.sales_date AS trans_date, r.relationship_name, r.activity, 0.00 AS paid_amount, 0.00 AS paid_deductions, 0.00 AS paid_total, spr.amount AS received_amount, spr.deductions AS received_deductions, (spr.amount - spr.deductions) AS received_total FROM ((((payments pa JOIN sales_payment_relation spr USING (payment_id)) JOIN sales sa USING (sales_id)) JOIN relationships r USING (relationship_id)) JOIN payment_mode pm USING (payment_mode_id));
+
+
+ALTER TABLE demo.payment_report_view OWNER TO sathish;
+
+SET default_with_oids = false;
+
+--
+-- Name: product_category; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE product_category (
+    product_category_id integer NOT NULL,
+    product_category_code character varying(10),
+    product_category_desc character varying NOT NULL
+);
+
+
+ALTER TABLE demo.product_category OWNER TO sathish;
+
+SET default_with_oids = true;
+
+--
+-- Name: receipt_items; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE receipt_items (
+    item_id integer NOT NULL,
+    receipt_id integer NOT NULL,
+    ref_id integer,
+    product_id integer NOT NULL,
+    quantity numeric NOT NULL,
+    uom_id integer DEFAULT 1 NOT NULL,
+    price numeric,
+    currency_id integer DEFAULT 1,
+    conversion_rate numeric DEFAULT 1,
+    remarks character varying,
+    CONSTRAINT ri_price_chk CHECK ((price > (0)::numeric)),
+    CONSTRAINT ri_quantity_chk CHECK ((quantity > (0)::numeric))
+);
+
+
+ALTER TABLE demo.receipt_items OWNER TO sathish;
+
+--
+-- Name: format_number(numeric); Type: FUNCTION; Schema: demo; Owner: sathish
+--
+
+CREATE FUNCTION format_number(numeric) RETURNS numeric
+    AS $_$
+DECLARE 
+	num numeric;
+BEGIN
+	SELECT substring($1::text,'-{0,1}[0-9]*[.][0-9]*')::numeric INTO num;
+        IF num IS NOT NULL THEN
+                SELECT substring($1::text,'-{0,1}[0-9]*.{1}[0-9]*[^0]')::numeric INTO num;
+        END IF;
+        RETURN coalesce(num,$1);
+END;
+$_$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.format_number(numeric) OWNER TO sathish;
+
+--
+-- Name: receipt_item_tax_value_func(integer, integer); Type: FUNCTION; Schema: demo; Owner: sathish
+--
+
+CREATE FUNCTION receipt_item_tax_value_func(integer, integer) RETURNS numeric
+    AS $_$
+DECLARE
+	-- arg[1] = receipt_id, [2] = item_id
+	tax_rec record;
+	var_bill_value numeric;
+	var_item_value numeric;
+	var_tax_value numeric;
+BEGIN
+	SELECT sum(quantity * price * conversion_rate) INTO var_bill_value FROM receipt_items WHERE receipt_id = $1;
+	SELECT quantity * price * conversion_rate INTO var_item_value FROM receipt_items WHERE item_id = $2;
+
+	var_tax_value = 0;
+	FOR tax_rec IN SELECT rt.tax_id, rt.tax_rate, rt.tax_value, t.tax_type_id FROM receipt_tax rt JOIN tax t USING (tax_id) WHERE receipt_id = $1 ORDER BY tax_sequence LOOP
+		IF tax_rec.tax_type_id = 1 then
+			var_tax_value = var_tax_value + (var_item_value * tax_rec.tax_value / var_bill_value);
+		ELSIF tax_rec.tax_type_id = 2 then
+			var_tax_value = var_tax_value + (var_item_value * tax_rec.tax_rate / 100);
+		ELSIF tax_rec.tax_type_id = 3 THEN
+			var_tax_value = var_tax_value - (var_item_value * tax_rec.tax_value / var_bill_value);
+		ELSIF tax_rec.tax_type_id = 4 THEN
+			var_tax_value = var_tax_value - (var_item_value * tax_rec.tax_rate / 100);
+		END IF;
+	END LOOP;
+RETURN round(var_tax_value,4);
+END;
+$_$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.receipt_item_tax_value_func(integer, integer) OWNER TO sathish;
+
+--
+-- Name: #; Type: OPERATOR; Schema: demo; Owner: sathish
+--
+
+CREATE OPERATOR # (
+    PROCEDURE = format_number,
+    RIGHTARG = numeric
+);
+
+
+ALTER OPERATOR demo.# (NONE, numeric) OWNER TO sathish;
+
+--
+-- Name: receipt_report_view; Type: VIEW; Schema: demo; Owner: sathish
+--
+
+CREATE VIEW receipt_report_view AS
+    SELECT rc.receipt_id, rc.receipt_ref, rc.receipt_date, re.relationship_name AS supplier, uo.uom_code, ri.quantity, pr.product_desc, ri.price, ri.conversion_rate, cu.currency_code, ri.remarks, (# receipt_item_tax_value_func(ri.receipt_id, ri.item_id)) AS item_tax_value FROM ((((((receipt rc JOIN receipt_items ri USING (receipt_id)) JOIN transaction_details td ON ((((td.ref_id = ri.item_id) AND (td.trans_type = 'i'::ttype)) AND (td.trans_head = ANY (ARRAY['pur'::thead, 'adj'::thead]))))) JOIN products pr ON ((pr.product_id = ri.product_id))) JOIN relationships re ON ((re.relationship_id = rc.supplier_id))) JOIN uom uo ON ((uo.uom_id = ri.uom_id))) JOIN currency cu ON ((cu.currency_id = ri.currency_id)));
+
+
+ALTER TABLE demo.receipt_report_view OWNER TO sathish;
+
+--
+-- Name: receipt_tax; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE receipt_tax (
+    receipt_id integer NOT NULL,
+    tax_id integer NOT NULL,
+    tax_rate numeric,
+    tax_value numeric,
+    tax_sequence integer
+);
+
+
+ALTER TABLE demo.receipt_tax OWNER TO sathish;
+
+--
+-- Name: reports; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE reports (
+    report_id integer NOT NULL,
+    report_code character varying(10),
+    report_name character varying NOT NULL,
+    view_name character varying NOT NULL
+);
+
+
+ALTER TABLE demo.reports OWNER TO sathish;
+
+--
+-- Name: sales_items; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE sales_items (
+    item_id integer NOT NULL,
+    sales_id integer NOT NULL,
+    ref_id integer,
+    product_id integer NOT NULL,
+    quantity numeric NOT NULL,
+    uom_id integer DEFAULT 1 NOT NULL,
+    price numeric,
+    currency_id integer DEFAULT 1,
+    conversion_rate numeric DEFAULT 1,
+    remarks character varying,
+    CONSTRAINT si_price_chk CHECK ((price > (0)::numeric)),
+    CONSTRAINT si_quantity_chk CHECK ((quantity > (0)::numeric))
+);
+
+
+ALTER TABLE demo.sales_items OWNER TO sathish;
+
+--
+-- Name: sales_item_tax_value_func(integer, integer); Type: FUNCTION; Schema: demo; Owner: sathish
+--
+
+CREATE FUNCTION sales_item_tax_value_func(integer, integer) RETURNS numeric
+    AS $_$
+DECLARE
+	-- arg[1] = sales_id, [2] = item_id
+	tax_rec record;
+	var_bill_value numeric;
+	var_item_value numeric;
+	var_tax_value numeric;
+BEGIN
+	SELECT sum(quantity * price * conversion_rate) INTO var_bill_value FROM sales_items WHERE sales_id = $1;
+	SELECT quantity * price * conversion_rate INTO var_item_value FROM sales_items WHERE item_id = $2;
+
+	var_tax_value = 0;
+	FOR tax_rec IN SELECT st.tax_id, st.tax_rate, st.tax_value, t.tax_type_id FROM sales_tax st JOIN tax t USING (tax_id) WHERE sales_id = $1 ORDER BY tax_sequence LOOP
+		IF tax_rec.tax_type_id = 1 then
+			var_tax_value = var_tax_value + (var_item_value * tax_rec.tax_value / var_bill_value);
+		ELSIF tax_rec.tax_type_id = 2 then
+			var_tax_value = var_tax_value + (var_item_value * tax_rec.tax_rate / 100);
+		ELSIF tax_rec.tax_type_id = 3 THEN
+			var_tax_value = var_tax_value - (var_item_value * tax_rec.tax_value / var_bill_value);
+		ELSIF tax_rec.tax_type_id = 4 THEN
+			var_tax_value = var_tax_value - (var_item_value * tax_rec.tax_rate / 100);
+		END IF;
+	END LOOP;
+RETURN round(var_tax_value,4);
+END;
+$_$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.sales_item_tax_value_func(integer, integer) OWNER TO sathish;
+
+--
+-- Name: sales_report_view; Type: VIEW; Schema: demo; Owner: sathish
+--
+
+CREATE VIEW sales_report_view AS
+    SELECT sa.sales_id, sa.sales_ref, sa.sales_date, re.relationship_name AS buyer, uo.uom_code, si.quantity, pr.product_desc, si.price, si.conversion_rate, cu.currency_code, si.remarks, (# sales_item_tax_value_func(si.sales_id, si.item_id)) AS item_tax_value FROM (((((sales sa JOIN sales_items si USING (sales_id)) JOIN products pr ON ((pr.product_id = si.product_id))) JOIN relationships re ON ((re.relationship_id = sa.buyer_id))) JOIN uom uo ON ((uo.uom_id = si.uom_id))) JOIN currency cu ON ((cu.currency_id = si.currency_id)));
+
+
+ALTER TABLE demo.sales_report_view OWNER TO sathish;
+
+--
+-- Name: sales_tax; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE sales_tax (
+    sales_id integer NOT NULL,
+    tax_id integer NOT NULL,
+    tax_rate numeric,
+    tax_value numeric,
+    tax_sequence integer
+);
+
+
+ALTER TABLE demo.sales_tax OWNER TO sathish;
+
+--
+-- Name: transaction_balance; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE transaction_balance (
+    trans_id integer NOT NULL,
+    in_qty numeric,
+    out_qty numeric DEFAULT 0,
+    bal_qty numeric DEFAULT 0,
+    in_value numeric DEFAULT 0,
+    out_value numeric DEFAULT 0,
+    bal_value numeric DEFAULT 0,
+    CONSTRAINT tb_inqty CHECK ((in_qty > (0)::numeric))
+);
+
+
+ALTER TABLE demo.transaction_balance OWNER TO sathish;
+
+--
+-- Name: stock_report_view; Type: VIEW; Schema: demo; Owner: sathish
+--
+
+CREATE VIEW stock_report_view AS
+    SELECT td.trans_id, td.trans_date, pr.product_code, pr.product_desc, u.uom_code, u.uom_desc, tb.in_qty, tb.out_qty, tb.bal_qty, rc.receipt_ref, re.relationship_name AS supplier FROM ((((((transaction_details td JOIN transaction_balance tb USING (trans_id)) JOIN receipt_items ri ON ((ri.item_id = td.ref_id))) JOIN receipt rc ON ((rc.receipt_id = ri.receipt_id))) JOIN relationships re ON ((re.relationship_id = rc.supplier_id))) JOIN products pr ON ((pr.product_id = ri.product_id))) JOIN uom u ON ((u.uom_id = td.uom_id))) WHERE ((tb.bal_qty > (0)::numeric) AND (td.trans_head = ANY (ARRAY['pur'::thead, 'adj'::thead])));
+
+
+ALTER TABLE demo.stock_report_view OWNER TO sathish;
+
+--
+-- Name: tax; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE tax (
+    tax_id integer NOT NULL,
+    tax_desc character varying NOT NULL,
+    tax_type_id integer NOT NULL,
+    is_billed smallint DEFAULT 1 NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.tax OWNER TO sathish;
+
+--
+-- Name: tax_type; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE tax_type (
+    tax_type_id integer NOT NULL,
+    tax_type_desc character varying NOT NULL
+);
+
+
+ALTER TABLE demo.tax_type OWNER TO sathish;
+
+--
+-- Name: users; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE TABLE users (
+    user_id integer NOT NULL,
+    user_name character varying NOT NULL,
+    password character varying NOT NULL,
+    display_name character varying,
+    user_type character varying DEFAULT 'int'::character varying,
+    added_date date DEFAULT now()
+);
+
+
+ALTER TABLE demo.users OWNER TO sathish;
+
+--
+-- Name: order_qty_update_func(); Type: FUNCTION; Schema: demo; Owner: sathish
+--
+
+CREATE FUNCTION order_qty_update_func() RETURNS trigger
+    AS $$
+BEGIN
+	IF ( NEW.ref_id IS NOT NULL ) THEN 
+		IF( TG_OP = 'INSERT' OR TG_OP = 'UPDATE' ) THEN
+			UPDATE order_items SET trans_quantity = trans_quantity + NEW.quantity WHERE item_id = NEW.ref_id;
+		END IF;
+		IF( TG_OP = 'DELETE' OR TG_OP = 'UPDATE' ) THEN
+			UPDATE order_items SET trans_quantity = trans_quantity - OLD.quantity WHERE item_id = NEW.ref_id;
+		END IF;
+	END IF;
+RETURN NULL;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.order_qty_update_func() OWNER TO sathish;
+
+--
+-- Name: receipt_tax_value_bupdate_func(); Type: FUNCTION; Schema: demo; Owner: sathish
+--
+
+CREATE FUNCTION receipt_tax_value_bupdate_func() RETURNS trigger
+    AS $$
+DECLARE
+	var_tax_type int;
+	var_bill_value numeric;
+BEGIN
+	SELECT tax_type_id INTO var_tax_type FROM tax WHERE tax_id = NEW.tax_id;
+	SELECT sum(quantity * price * conversion_rate) INTO var_bill_value FROM receipt_items WHERE receipt_id = NEW.receipt_id;
+
+	IF var_tax_type = 1 then
+                NEW.tax_value = NEW.tax_rate;
+        ELSIF var_tax_type = 2 then
+                NEW.tax_value = var_bill_value * (NEW.tax_rate/100);
+        ELSIF var_tax_type = 3 THEN
+                NEW.tax_value = - (NEW.tax_rate);
+        ELSIF var_tax_type = 4 THEN
+                NEW.tax_value = - var_bill_value * (NEW.tax_rate/100);
+	END IF;
+RETURN NEW;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.receipt_tax_value_bupdate_func() OWNER TO sathish;
+
+--
+-- Name: sales_tax_value_bupdate_func(); Type: FUNCTION; Schema: demo; Owner: sathish
+--
+
+CREATE FUNCTION sales_tax_value_bupdate_func() RETURNS trigger
+    AS $$
+DECLARE
+	var_tax_type int;
+	var_bill_value numeric;
+BEGIN
+	SELECT tax_type_id INTO var_tax_type FROM tax WHERE tax_id = NEW.tax_id;
+	SELECT sum(quantity * price * conversion_rate) INTO var_bill_value FROM sales_items WHERE sales_id = NEW.sales_id;
+
+	IF var_tax_type = 1 then
+                NEW.tax_value = NEW.tax_rate;
+        ELSIF var_tax_type = 2 then
+                NEW.tax_value = var_bill_value * (NEW.tax_rate/100);
+        ELSIF var_tax_type = 3 THEN
+                NEW.tax_value = - (NEW.tax_rate);
+        ELSIF var_tax_type = 4 THEN
+                NEW.tax_value = - var_bill_value * (NEW.tax_rate/100);
+	END IF;
+RETURN NEW;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.sales_tax_value_bupdate_func() OWNER TO sathish;
+
+--
+-- Name: trans_balance_func(); Type: FUNCTION; Schema: demo; Owner: sathish
+--
+
+CREATE FUNCTION trans_balance_func() RETURNS trigger
+    AS $$
+BEGIN
+IF (TG_OP = 'INSERT') THEN
+IF (NEW.trans_type = 'i' AND NEW.trans_head IN ('pur','adj','hdl')) THEN
+INSERT INTO transaction_balance(trans_id,in_qty,out_qty,bal_qty) VALUES (NEW.trans_id,NEW.quantity,0,NEW.quantity);
+ELSIF (NEW.trans_type = 'o' AND NEW.trans_head IN ('sal','adj','hdl')) THEN
+UPDATE transaction_balance SET out_qty = out_qty+NEW.quantity , bal_qty = bal_qty-NEW.quantity WHERE trans_id = NEW.parent_id;
+END IF;
+ELSIF (TG_OP = 'UPDATE') THEN
+IF (NEW.trans_type = 'i' AND NEW.trans_head IN ('pur','adj','hdl')) THEN
+UPDATE transaction_balance SET in_qty = in_qty+NEW.quantity-OLD.quantity , bal_qty = bal_qty-NEW.quantity+OLD.quantity WHERE trans_id = NEW.trans_id;
+ELSIF (NEW.trans_type = 'o' AND NEW.trans_head IN ('sal','adj','hdl')) THEN
+UPDATE transaction_balance SET out_qty = out_qty+NEW.quantity-OLD.quantity , bal_qty = bal_qty-NEW.quantity+OLD.quantity WHERE trans_id = NEW.parent_id;
+END IF; 
+ELSIF (TG_OP = 'DELETE') THEN
+IF (OLD.trans_type = 'i' AND OLD.trans_head IN ('pur','adj','hdl')) THEN
+DELETE FROM transaction_balance WHERE trans_id = OLD.trans_id;
+ELSIF (OLD.trans_type = 'o' AND OLD.trans_head IN ('sal','adj','hdl')) THEN
+UPDATE transaction_balance SET out_qty = out_qty-OLD.quantity , bal_qty = bal_qty+OLD.quantity WHERE trans_id = OLD.parent_id;
+END IF;
+END IF;
+
+RETURN NULL;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.trans_balance_func() OWNER TO sathish;
+
+--
+-- Name: city_city_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE city_city_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.city_city_id_seq OWNER TO sathish;
+
+--
+-- Name: city_city_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE city_city_id_seq OWNED BY city.city_id;
+
+
+--
+-- Name: city_city_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('city_city_id_seq', 1, true);
+
+
+--
+-- Name: columns_column_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE columns_column_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.columns_column_id_seq OWNER TO sathish;
+
+--
+-- Name: columns_column_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE columns_column_id_seq OWNED BY columns.column_id;
+
+
+--
+-- Name: columns_column_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('columns_column_id_seq', 46, true);
+
+
+--
+-- Name: contacts_contact_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE contacts_contact_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.contacts_contact_id_seq OWNER TO sathish;
+
+--
+-- Name: contacts_contact_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE contacts_contact_id_seq OWNED BY contacts.contact_id;
+
+
+--
+-- Name: contacts_contact_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('contacts_contact_id_seq', 1, false);
+
+
+--
+-- Name: country_country_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE country_country_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.country_country_id_seq OWNER TO sathish;
+
+--
+-- Name: country_country_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE country_country_id_seq OWNED BY country.country_id;
+
+
+--
+-- Name: country_country_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('country_country_id_seq', 1, true);
+
+
+--
+-- Name: currency_currency_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE currency_currency_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.currency_currency_id_seq OWNER TO sathish;
+
+--
+-- Name: currency_currency_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE currency_currency_id_seq OWNED BY currency.currency_id;
+
+
+--
+-- Name: currency_currency_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('currency_currency_id_seq', 3, true);
+
+
+--
+-- Name: customizations_customization_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE customizations_customization_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.customizations_customization_id_seq OWNER TO sathish;
+
+--
+-- Name: customizations_customization_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE customizations_customization_id_seq OWNED BY customizations.customization_id;
+
+
+--
+-- Name: customizations_customization_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('customizations_customization_id_seq', 23, true);
+
+
+--
+-- Name: handloan_handln_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE handloan_handln_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.handloan_handln_id_seq OWNER TO sathish;
+
+--
+-- Name: handloan_handln_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE handloan_handln_id_seq OWNED BY handloan.handln_id;
+
+
+--
+-- Name: handloan_handln_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('handloan_handln_id_seq', 9, true);
+
+
+--
+-- Name: handloan_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE handloan_items_item_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.handloan_items_item_id_seq OWNER TO sathish;
+
+--
+-- Name: handloan_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE handloan_items_item_id_seq OWNED BY handloan_items.item_id;
+
+
+--
+-- Name: handloan_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('handloan_items_item_id_seq', 9, true);
+
+
+--
+-- Name: order_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE order_items_item_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.order_items_item_id_seq OWNER TO sathish;
+
+--
+-- Name: order_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE order_items_item_id_seq OWNED BY order_items.item_id;
+
+
+--
+-- Name: order_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('order_items_item_id_seq', 8, true);
+
+
+--
+-- Name: orders_order_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE orders_order_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.orders_order_id_seq OWNER TO sathish;
+
+--
+-- Name: orders_order_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE orders_order_id_seq OWNED BY orders.order_id;
+
+
+--
+-- Name: orders_order_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('orders_order_id_seq', 3, true);
+
+
+--
+-- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE payment_mode_payment_mode_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.payment_mode_payment_mode_id_seq OWNER TO sathish;
+
+--
+-- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE payment_mode_payment_mode_id_seq OWNED BY payment_mode.payment_mode_id;
+
+
+--
+-- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('payment_mode_payment_mode_id_seq', 3, true);
+
+
+--
+-- Name: payments_payment_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE payments_payment_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.payments_payment_id_seq OWNER TO sathish;
+
+--
+-- Name: payments_payment_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE payments_payment_id_seq OWNED BY payments.payment_id;
+
+
+--
+-- Name: payments_payment_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('payments_payment_id_seq', 8, true);
+
+
+--
+-- Name: product_category_product_category_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE product_category_product_category_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.product_category_product_category_id_seq OWNER TO sathish;
+
+--
+-- Name: product_category_product_category_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE product_category_product_category_id_seq OWNED BY product_category.product_category_id;
+
+
+--
+-- Name: product_category_product_category_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('product_category_product_category_id_seq', 2, true);
+
+
+--
+-- Name: products_product_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE products_product_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.products_product_id_seq OWNER TO sathish;
+
+--
+-- Name: products_product_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE products_product_id_seq OWNED BY products.product_id;
+
+
+--
+-- Name: products_product_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('products_product_id_seq', 17, true);
+
+
+--
+-- Name: receipt_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE receipt_items_item_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.receipt_items_item_id_seq OWNER TO sathish;
+
+--
+-- Name: receipt_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE receipt_items_item_id_seq OWNED BY receipt_items.item_id;
+
+
+--
+-- Name: receipt_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('receipt_items_item_id_seq', 14, true);
+
+
+--
+-- Name: receipt_receipt_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE receipt_receipt_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.receipt_receipt_id_seq OWNER TO sathish;
+
+--
+-- Name: receipt_receipt_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE receipt_receipt_id_seq OWNED BY receipt.receipt_id;
+
+
+--
+-- Name: receipt_receipt_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('receipt_receipt_id_seq', 4, true);
+
+
+--
+-- Name: relationships_relationship_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE relationships_relationship_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.relationships_relationship_id_seq OWNER TO sathish;
+
+--
+-- Name: relationships_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE relationships_relationship_id_seq OWNED BY relationships.relationship_id;
+
+
+--
+-- Name: relationships_relationship_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('relationships_relationship_id_seq', 17, true);
+
+
+--
+-- Name: reports_report_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE reports_report_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.reports_report_id_seq OWNER TO sathish;
+
+--
+-- Name: reports_report_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE reports_report_id_seq OWNED BY reports.report_id;
+
+
+--
+-- Name: reports_report_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('reports_report_id_seq', 6, true);
+
+
+--
+-- Name: sales_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE sales_items_item_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.sales_items_item_id_seq OWNER TO sathish;
+
+--
+-- Name: sales_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE sales_items_item_id_seq OWNED BY sales_items.item_id;
+
+
+--
+-- Name: sales_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('sales_items_item_id_seq', 25, true);
+
+
+--
+-- Name: sales_sales_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE sales_sales_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.sales_sales_id_seq OWNER TO sathish;
+
+--
+-- Name: sales_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE sales_sales_id_seq OWNED BY sales.sales_id;
+
+
+--
+-- Name: sales_sales_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('sales_sales_id_seq', 14, true);
+
+
+--
+-- Name: tax_tax_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE tax_tax_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.tax_tax_id_seq OWNER TO sathish;
+
+--
+-- Name: tax_tax_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE tax_tax_id_seq OWNED BY tax.tax_id;
+
+
+--
+-- Name: tax_tax_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('tax_tax_id_seq', 2, true);
+
+
+--
+-- Name: tax_type_tax_type_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE tax_type_tax_type_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.tax_type_tax_type_id_seq OWNER TO sathish;
+
+--
+-- Name: tax_type_tax_type_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE tax_type_tax_type_id_seq OWNED BY tax_type.tax_type_id;
+
+
+--
+-- Name: tax_type_tax_type_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('tax_type_tax_type_id_seq', 5, true);
+
+
+--
+-- Name: transaction_details_trans_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE transaction_details_trans_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.transaction_details_trans_id_seq OWNER TO sathish;
+
+--
+-- Name: transaction_details_trans_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE transaction_details_trans_id_seq OWNED BY transaction_details.trans_id;
+
+
+--
+-- Name: transaction_details_trans_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('transaction_details_trans_id_seq', 47, true);
+
+
+--
+-- Name: uom_uom_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE uom_uom_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.uom_uom_id_seq OWNER TO sathish;
+
+--
+-- Name: uom_uom_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE uom_uom_id_seq OWNED BY uom.uom_id;
+
+
+--
+-- Name: uom_uom_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('uom_uom_id_seq', 3, true);
+
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+--
+
+CREATE SEQUENCE users_user_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.users_user_id_seq OWNER TO sathish;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+--
+
+ALTER SEQUENCE users_user_id_seq OWNED BY users.user_id;
+
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+--
+
+SELECT pg_catalog.setval('users_user_id_seq', 1, true);
+
+
+--
+-- Name: city_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE city ALTER COLUMN city_id SET DEFAULT nextval('city_city_id_seq'::regclass);
+
+
+--
+-- Name: column_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE columns ALTER COLUMN column_id SET DEFAULT nextval('columns_column_id_seq'::regclass);
+
+
+--
+-- Name: contact_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE contacts ALTER COLUMN contact_id SET DEFAULT nextval('contacts_contact_id_seq'::regclass);
+
+
+--
+-- Name: country_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE country ALTER COLUMN country_id SET DEFAULT nextval('country_country_id_seq'::regclass);
+
+
+--
+-- Name: currency_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE currency ALTER COLUMN currency_id SET DEFAULT nextval('currency_currency_id_seq'::regclass);
+
+
+--
+-- Name: customization_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE customizations ALTER COLUMN customization_id SET DEFAULT nextval('customizations_customization_id_seq'::regclass);
+
+
+--
+-- Name: handln_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE handloan ALTER COLUMN handln_id SET DEFAULT nextval('handloan_handln_id_seq'::regclass);
+
+
+--
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE handloan_items ALTER COLUMN item_id SET DEFAULT nextval('handloan_items_item_id_seq'::regclass);
+
+
+--
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE order_items ALTER COLUMN item_id SET DEFAULT nextval('order_items_item_id_seq'::regclass);
+
+
+--
+-- Name: order_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE orders ALTER COLUMN order_id SET DEFAULT nextval('orders_order_id_seq'::regclass);
+
+
+--
+-- Name: payment_mode_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE payment_mode ALTER COLUMN payment_mode_id SET DEFAULT nextval('payment_mode_payment_mode_id_seq'::regclass);
+
+
+--
+-- Name: payment_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE payments ALTER COLUMN payment_id SET DEFAULT nextval('payments_payment_id_seq'::regclass);
+
+
+--
+-- Name: product_category_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE product_category ALTER COLUMN product_category_id SET DEFAULT nextval('product_category_product_category_id_seq'::regclass);
+
+
+--
+-- Name: product_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE products ALTER COLUMN product_id SET DEFAULT nextval('products_product_id_seq'::regclass);
+
+
+--
+-- Name: receipt_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE receipt ALTER COLUMN receipt_id SET DEFAULT nextval('receipt_receipt_id_seq'::regclass);
+
+
+--
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE receipt_items ALTER COLUMN item_id SET DEFAULT nextval('receipt_items_item_id_seq'::regclass);
+
+
+--
+-- Name: relationship_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE relationships ALTER COLUMN relationship_id SET DEFAULT nextval('relationships_relationship_id_seq'::regclass);
+
+
+--
+-- Name: report_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE reports ALTER COLUMN report_id SET DEFAULT nextval('reports_report_id_seq'::regclass);
+
+
+--
+-- Name: sales_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'::regclass);
+
+
+--
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE sales_items ALTER COLUMN item_id SET DEFAULT nextval('sales_items_item_id_seq'::regclass);
+
+
+--
+-- Name: tax_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE tax ALTER COLUMN tax_id SET DEFAULT nextval('tax_tax_id_seq'::regclass);
+
+
+--
+-- Name: tax_type_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE tax_type ALTER COLUMN tax_type_id SET DEFAULT nextval('tax_type_tax_type_id_seq'::regclass);
+
+
+--
+-- Name: trans_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE transaction_details ALTER COLUMN trans_id SET DEFAULT nextval('transaction_details_trans_id_seq'::regclass);
+
+
+--
+-- Name: uom_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE uom ALTER COLUMN uom_id SET DEFAULT nextval('uom_uom_id_seq'::regclass);
+
+
+--
+-- Name: user_id; Type: DEFAULT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_seq'::regclass);
+
+
+--
+-- Data for Name: city; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO city VALUES (1, NULL, 'CHENNAI', 1, NULL);
+
+
+--
+-- Data for Name: columns; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO columns VALUES (1, 'receipt_id', NULL, NULL, 'int');
+INSERT INTO columns VALUES (2, '''<a href="details.php?module=receipt&receipt_id=''||receipt_id||''">''||receipt_ref||''</a>''', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (3, 'receipt_date', NULL, NULL, 'date');
+INSERT INTO columns VALUES (5, 'product_desc', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (6, 'quantity', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (7, 'item_tax_value', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (8, 'price', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (9, 'quantity * price * conversion_rate', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (10, 'quantity * price * conversion_rate + item_tax_value', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (11, 'sales_id', NULL, NULL, 'int');
+INSERT INTO columns VALUES (12, '''<a href="details.php?module=sales&sales_id=''||sales_id||''">''||sales_ref||''</a>''', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (13, 'sales_date', NULL, NULL, 'date');
+INSERT INTO columns VALUES (14, 'buyer', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (15, '''<a href="details.php?module=stock&trans_id=''||trans_id||''">''||trans_id||''</a>''', NULL, NULL, 'int');
+INSERT INTO columns VALUES (16, 'uom_code', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (17, 'uom_desc', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (18, 'trans_date', NULL, NULL, 'date');
+INSERT INTO columns VALUES (19, 'in_qty', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (20, 'out_qty', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (21, 'bal_qty', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (22, '''<a href="details.php?module=payment&payment_id=''||payment_id||''">''||payment_ref||''</a>''', NULL, NULL, 'int');
+INSERT INTO columns VALUES (23, 'payment_date', NULL, NULL, 'date');
+INSERT INTO columns VALUES (24, 'payment_mode', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (25, 'status', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (27, 'paid_amount', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (28, 'paid_deductions', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (29, 'paid_total', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (30, 'received_amount', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (31, 'received_deductions', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (32, 'received_total', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (33, 'CASE order_type WHEN ''po'' THEN ''<a href="details.php?module=indent&order_id=''||order_id||''">''||order_ref||''</a>'' WHEN ''so'' THEN ''<a href="details.php?module=order&order_id=''||order_id||''">''||order_ref||''</a>'' END', NULL, NULL, 'int');
+INSERT INTO columns VALUES (34, 'order_date', NULL, NULL, 'date');
+INSERT INTO columns VALUES (35, 'order_type', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (36, 'order_quantity', NULL, NULL, 'varchar');
+INSERT INTO columns VALUES (37, 'trans_quantity', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (38, 'order_quantity-trans_quantity', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (39, 'order_quantity * price * conversion_rate', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (40, '''<a href="details.php?module=handloan&handln_id=''||handln_id||''">''||handln_ref||''</a>''', NULL, NULL, 'int');
+INSERT INTO columns VALUES (41, 'handln_date', NULL, NULL, 'date');
+INSERT INTO columns VALUES (42, '''<a href="details.php?module=handloan&handln_id=''||parent_id||''">''||parent_ref||''</a>''', NULL, NULL, 'int');
+INSERT INTO columns VALUES (43, 'issued_quantity', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (44, 'received_back_quantity', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (45, 'received_quantity', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (46, 'issued_back_quantity', NULL, NULL, 'numeric');
+INSERT INTO columns VALUES (4, 'supplier', NULL, 'select relationship_name as value from relationships where activity=''sel''', 'varchar');
+INSERT INTO columns VALUES (26, 'relationship_name', NULL, 'select relationship_name as value from relationships ', 'varchar');
+
+
+--
+-- Data for Name: contacts; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+
+
+--
+-- Data for Name: country; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO country VALUES (1, 'IN', 'INDIA', NULL);
+
+
+--
+-- Data for Name: currency; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO currency VALUES (1, 'INR', 'INR', 1);
+INSERT INTO currency VALUES (2, 'USD', 'USD', 45);
+INSERT INTO currency VALUES (3, 'EUR', 'EUR', 68);
+
+
+--
+-- Data for Name: customization_columns; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO customization_columns VALUES (1, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (1, 2, 'Receipt Ref', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (1, 3, 'Receipt Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, 'dd/mm/yyyy', NULL, NULL);
+INSERT INTO customization_columns VALUES (1, 5, 'Product', 4, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (1, 6, 'Quantity', 5, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (1, 7, 'Item Tax', 8, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (1, 8, 'Price', 6, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (1, 9, 'Value', 7, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (1, 10, 'Taxed Value', 9, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (2, 11, 'Sales', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (2, 12, 'Sales Ref', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (2, 13, 'Sales Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, 'dd/mm/yyyy', NULL, NULL);
+INSERT INTO customization_columns VALUES (2, 14, 'Buyer', 1, 'ASC', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (2, 5, 'Product', 4, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (2, 6, 'Quantity', 5, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (2, 8, 'Price', 6, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (2, 9, 'Value', 7, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (2, 7, 'Item Tax', 8, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (2, 10, 'Taxed Value', 9, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (3, 15, 'Stock', 1.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (3, 16, 'UOM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (3, 17, 'UOM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (3, 18, 'Stock Date', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (3, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (3, 2, 'Receipt Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (3, 5, 'Product', 1, 'ASC', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (3, 19, 'Receipt Qty', 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (3, 20, 'Sales Qty', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (3, 21, 'Bal Qty', 4, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (4, 22, 'Payment', 1.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (4, 23, 'Payment Date', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (4, 24, 'Payment Mode', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (4, 25, 'Status', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (4, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (4, 2, 'Receipt Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (4, 11, 'Sales', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (4, 12, 'Sales Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (4, 27, 'Paid Amount', 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (4, 28, 'Paid Deductions', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (4, 29, 'Paid Total', 4, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (4, 30, 'Received Amount', 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (4, 31, 'Received Deductions', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (4, 32, 'Received Total', 4, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (5, 33, 'Order Reference', 1.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (5, 34, 'Order Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (5, 35, 'Order Type', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (5, 25, 'Order Status', 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (5, 5, 'Product', 6, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (5, 36, 'Order Quantity', 7, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (5, 17, 'UOM', 7.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (5, 37, 'Transaction Quantity', 8, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (5, 38, 'Balance Quantity', 9, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (5, 8, 'Price', 10, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (5, 39, 'Value', 11, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (6, 26, 'Buyer', 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (6, 40, 'Handloan Reference', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (6, 41, 'Handloan Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (6, 42, 'Parent Reference', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (6, 5, 'Product', 6, 'ASC', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (6, 43, 'Issued Qty', 7, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (6, 44, 'Received Back Qty', 8, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (6, 45, 'Received Qty', 9, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (6, 46, 'Issued Back Qty', 10, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (6, 17, 'UOM', 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (7, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (7, 2, 'Receipt Ref', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (7, 3, 'Receipt Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, 'dd/mm/yyyy', NULL, NULL);
+INSERT INTO customization_columns VALUES (7, 5, 'Product', 4, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (7, 6, 'Quantity', 5, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (7, 7, 'Item Tax', 8, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (7, 8, 'Price', 6, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (7, 9, 'Value', 7, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (7, 10, 'Taxed Value', 9, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (8, 11, 'Sales', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (8, 12, 'Sales Ref', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (8, 13, 'Sales Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, 'dd/mm/yyyy', NULL, NULL);
+INSERT INTO customization_columns VALUES (8, 14, 'Buyer', 1, 'ASC', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (8, 5, 'Product', 4, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (8, 6, 'Quantity', 5, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (8, 8, 'Price', 6, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (8, 9, 'Value', 7, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (8, 7, 'Item Tax', 8, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (8, 10, 'Taxed Value', 9, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (9, 15, 'Stock', 1.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (9, 16, 'UOM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (9, 17, 'UOM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (9, 18, 'Stock Date', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (9, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (9, 2, 'Receipt Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (9, 5, 'Product', 1, 'ASC', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (9, 19, 'Receipt Qty', 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (9, 20, 'Sales Qty', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (9, 21, 'Bal Qty', 4, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (10, 22, 'Payment', 1.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 23, 'Payment Date', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 24, 'Payment Mode', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 25, 'Status', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 2, 'Receipt Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 11, 'Sales', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 12, 'Sales Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 26, 'Payee Name', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 27, 'Paid Amount', 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (10, 28, 'Paid Deductions', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (10, 29, 'Paid Total', 4, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (10, 30, 'Received Amount', 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (10, 31, 'Received Deductions', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (1, 4, 'Supplier', 1, 'ASC', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (4, 26, 'Payee Name', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (5, 26, 'Relationship', 2, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (10, 32, 'Received Total', 4, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (11, 33, 'Order Reference', 1.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (11, 26, 'Relationship', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (11, 34, 'Order Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (11, 35, 'Order Type', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (11, 25, 'Order Status', 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (11, 5, 'Product', 6, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (11, 36, 'Order Quantity', 7, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (11, 17, 'UOM', 7.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (11, 37, 'Transaction Quantity', 8, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (11, 38, 'Balance Quantity', 9, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (11, 8, 'Price', 10, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (11, 39, 'Value', 11, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (12, 26, 'Buyer', 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (12, 40, 'Handloan Reference', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (12, 41, 'Handloan Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (12, 42, 'Parent Reference', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (12, 5, 'Product', 6, 'ASC', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (12, 43, 'Issued Qty', 7, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (12, 44, 'Received Back Qty', 8, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (12, 45, 'Received Qty', 9, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (12, 46, 'Issued Back Qty', 10, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (12, 17, 'UOM', 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (3, 4, 'Supplier', 4, 'ASC', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (7, 4, 'Supplier', 1, 'ASC', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (9, 4, 'Supplier', 4, 'ASC', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (13, 26, 'Buyer', 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (13, 40, 'Handloan Reference', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (13, 41, 'Handloan Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (13, 42, 'Parent Reference', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (13, 5, 'Product', 6, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (13, 43, 'Issued Qty', 7, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (13, 44, 'Received Back Qty', 8, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (13, 45, 'Received Qty', 9, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (13, 46, 'Issued Back Qty', 10, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (13, 17, 'UOM', 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (15, 14, 'Buyer', 1, 'ASC', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (15, 12, 'Sales Ref', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (15, 13, 'Sales Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, 'dd/mm/yyyy', NULL, NULL);
+INSERT INTO customization_columns VALUES (15, 5, 'Product', 4, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (15, 6, 'Quantity', 5, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (15, 8, 'Price', 6, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (15, 9, 'Value', 7, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (15, 7, 'Item Tax', 8, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (15, 10, 'Taxed Value', 9, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (15, 11, 'Sales', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (16, 5, 'Product', 1, 'ASC', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (16, 15, 'Stock', 1.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (16, 19, 'In Qty', 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (16, 20, 'Out Qty', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (16, 21, 'Bal Qty', 4, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (16, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (16, 4, 'Supplier', NULL, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (16, 2, 'Receipt Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (16, 16, 'UOM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (16, 17, 'UOM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (16, 18, 'Stock Date', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (19, 34, 'Indent Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (19, 5, 'Product', 4, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (19, 36, 'Order Qty (Kgs)', 5, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (19, 37, 'Received Qty (Kgs)', 6, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (19, 38, 'Balance Qty ( Kgs)', 7, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (19, 8, 'Price', 8, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (19, 39, 'Value', 9, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (19, 25, 'Order Status', 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (19, 35, 'Order Type', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (19, 17, 'UOM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (19, 26, 'Supplier', 1, NULL, NULL, 1, 'FENICE INTERANTIONAL~#~NCP DYES~#~FENICE INDIA LTD', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (19, 33, 'Order Reference', 1.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (18, 32, 'Received Total', 4, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (18, 28, 'Paid Deductions', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (18, 12, 'Sales Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (18, 27, 'Paid Amount', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (18, 31, 'Received Deductions', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (18, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (18, 2, 'Receipt Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (18, 11, 'Sales', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (18, 25, 'Status', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (14, 3, 'Receipt Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, 'dd/mm/yyyy', NULL, NULL);
+INSERT INTO customization_columns VALUES (18, 29, 'Paid Total', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (18, 23, 'Payment Date', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (18, 24, 'Payment Mode', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (18, 22, 'Payment', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 22, 'Payment', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 27, 'Paid Amount', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (17, 29, 'Paid Total', 4, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (17, 28, 'Paid Deductions', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (17, 32, 'Received Total', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (17, 25, 'Status', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 2, 'Receipt Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 11, 'Sales', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 12, 'Sales Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 23, 'Payment Date', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 24, 'Payment Mode', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 31, 'Received Deductions', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (17, 26, 'Supplier', 1, NULL, NULL, 1, 'FENICE INTERANTIONAL~#~NCP DYES~#~FENICE INDIA LTD', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (20, 33, 'PO No.', 1.5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (20, 34, 'Indent Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (14, 5, 'Product', 4, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (14, 6, 'Quantity', 5, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (14, 8, 'Price', 6, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (14, 9, 'Value', 7, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (14, 7, 'Item Tax', NULL, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (14, 10, 'Taxed Value', NULL, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (14, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (14, 2, 'Receipt Ref', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (18, 30, 'Received Amount', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (18, 26, 'Supplier', 1, NULL, NULL, 1, 'FORWARD SHOES~#~FINEWEAR CORPORATION~#~SIGMA OVERSEAS~#~DANISH LEATHERS~#~STELLA LEATHERS~#~NUTECH LEATHERS~#~RMK EXPORTS~#~RAM LEATHERS', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (17, 30, 'Received Amount', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (20, 5, 'Product', 4, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (20, 36, 'Order Qty (Kgs)', 5, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (20, 37, 'Sales Qty (Kgs)', 6, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (20, 38, 'Balance Qty ( Kgs)', 7, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (20, 8, 'Price', 8, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (20, 39, 'Value', 9, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (20, 25, 'Order Status', 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (20, 35, 'Order Type', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (20, 17, 'UOM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (20, 26, 'Buyer', 1, NULL, NULL, 1, 'FORWARD SHOES~#~FINEWEAR CORPORATION~#~SIGMA OVERSEAS~#~DANISH LEATHERS~#~STELLA LEATHERS~#~NUTECH LEATHERS~#~RMK EXPORTS~#~RAM LEATHERS', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (21, 4, 'Supplier', NULL, 'ASC', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (21, 2, 'Receipt Ref', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (21, 3, 'Receipt Date', 2, NULL, NULL, NULL, NULL, NULL, NULL, 'dd/mm/yyyy', NULL, NULL);
+INSERT INTO customization_columns VALUES (21, 5, 'Product', 1, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (21, 6, 'Quantity', 3, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (21, 8, 'Price', 5, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (21, 9, 'Value', 6, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (21, 7, 'Item Tax', 7, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (21, 10, 'Taxed Value', 8, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (21, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (23, 26, 'Buyer', 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (23, 40, 'Handloan Reference', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (23, 41, 'Handloan Date', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (23, 42, 'Parent Reference', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (23, 5, 'Product', 6, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (23, 43, 'Issued Qty', 7, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (23, 44, 'Received Back Qty', 8, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (23, 45, 'Received Qty', 9, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (23, 46, 'Issued Back Qty', 10, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (23, 17, 'UOM', 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (14, 4, 'Supplier', 1, 'ASC', 1, 1, 'FENICE INTERANTIONAL~#~NCP DYES~#~FENICE INDIA LTD', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (22, 5, 'Product', 1, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (22, 14, 'Buyer', 2, 'ASC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (22, 12, 'Sales Ref', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customization_columns VALUES (22, 13, 'Sales Date', 4, NULL, NULL, NULL, NULL, NULL, NULL, 'dd/mm/yyyy', NULL, NULL);
+INSERT INTO customization_columns VALUES (22, 6, 'Quantity', 5, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (22, 8, 'Price', 6, NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, 'text-align:right;');
+INSERT INTO customization_columns VALUES (22, 9, 'Value', 7, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (22, 7, 'Item Tax', 8, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (22, 10, 'Taxed Value', 9, NULL, NULL, NULL, NULL, NULL, 2, NULL, 1, 'text-align:right;');
+INSERT INTO customization_columns VALUES (22, 11, 'Sales', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+
+--
+-- Data for Name: customizations; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO customizations VALUES (3, 'Def', 1, 2, 3, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customizations VALUES (9, 'Default', 1, 0, 3, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO customizations VALUES (16, 'Stock Summary', 1, 1, 3, NULL, 1, NULL, NULL, NULL);
+INSERT INTO customizations VALUES (1, 'Def', 1, 2, 1, NULL, NULL, 'receipt_date', NULL, NULL);
+INSERT INTO customizations VALUES (7, 'Default', 1, 0, 1, NULL, NULL, 'receipt_date', NULL, NULL);
+INSERT INTO customizations VALUES (21, 'SAMPLE', 1, 0, 1, NULL, NULL, 'receipt_date', NULL, NULL);
+INSERT INTO customizations VALUES (14, 'Receipts Summary', 1, 1, 1, 1, 1, 'receipt_date', NULL, NULL);
+INSERT INTO customizations VALUES (2, 'Def', 1, 2, 2, NULL, NULL, 'sales_date', NULL, NULL);
+INSERT INTO customizations VALUES (8, 'Default', 1, 0, 2, NULL, NULL, 'sales_date', NULL, NULL);
+INSERT INTO customizations VALUES (15, 'Sales Summary', 1, 0, 2, 1, 1, 'sales_date', NULL, NULL);
+INSERT INTO customizations VALUES (22, 'Product-wise Report', 1, 1, 2, NULL, 1, 'sales_date', NULL, NULL);
+INSERT INTO customizations VALUES (4, 'Def', 1, 2, 4, NULL, NULL, 'payment_date', NULL, NULL);
+INSERT INTO customizations VALUES (10, 'Default', 1, 0, 4, NULL, NULL, 'payment_date', NULL, NULL);
+INSERT INTO customizations VALUES (18, 'Buyer Payments', 1, 1, 4, NULL, 1, 'payment_date', NULL, NULL);
+INSERT INTO customizations VALUES (17, 'Supplier  Payments', 1, 0, 4, NULL, 1, 'payment_date', NULL, NULL);
+INSERT INTO customizations VALUES (5, 'Def', 1, 2, 5, NULL, NULL, 'order_date', NULL, NULL);
+INSERT INTO customizations VALUES (11, 'Default', 1, 0, 5, NULL, NULL, 'order_date', NULL, NULL);
+INSERT INTO customizations VALUES (20, 'PO Summary', 1, 1, 5, NULL, 1, 'order_date', NULL, NULL);
+INSERT INTO customizations VALUES (19, 'Indents Summary', 1, 0, 5, NULL, 1, 'order_date', NULL, NULL);
+INSERT INTO customizations VALUES (6, 'Def', 1, 2, 6, NULL, NULL, 'handln_date', NULL, NULL);
+INSERT INTO customizations VALUES (12, 'Default', 1, 0, 6, NULL, NULL, 'handln_date', NULL, NULL);
+INSERT INTO customizations VALUES (13, 'Handloan Summary', 1, 0, 6, 1, NULL, 'handln_date', NULL, NULL);
+INSERT INTO customizations VALUES (23, 'DANISH HANDLOAN SHEET', 1, 1, 6, 1, NULL, 'handln_date', NULL, NULL);
+
+
+--
+-- Data for Name: handloan; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO handloan VALUES (1, 'HL0020', 8, '2009-05-15', 1);
+INSERT INTO handloan VALUES (2, 'HL0010', 5, '2009-04-02', 1);
+INSERT INTO handloan VALUES (3, 'HL0012', 11, '2009-05-02', 1);
+INSERT INTO handloan VALUES (4, 'HL0021', 5, '2009-05-10', 1);
+INSERT INTO handloan VALUES (5, 'HL0022', 8, '2009-05-20', 1);
+INSERT INTO handloan VALUES (6, 'HL0001', 5, '2009-05-19', 1);
+INSERT INTO handloan VALUES (7, 'HL001', 5, '2009-05-19', 1);
+INSERT INTO handloan VALUES (8, 'DL0001', 11, '2009-05-19', 1);
+INSERT INTO handloan VALUES (9, 'DL0001', 11, '2009-05-19', 1);
+
+
+--
+-- Data for Name: handloan_items; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO handloan_items VALUES (3, 3, NULL, 6, 2, 100.0000, 0.0000, 210.0000, 1, NULL);
+INSERT INTO handloan_items VALUES (4, 4, 2, 2, 2, 80.0000, 0.0000, 210.0000, 1, NULL);
+INSERT INTO handloan_items VALUES (2, 2, NULL, 6, 2, 80.0000, 100.0000, 210.0000, 1, NULL);
+INSERT INTO handloan_items VALUES (5, 5, 1, 7, 2, 200.0000, 0.0000, 210.0000, 1, NULL);
+INSERT INTO handloan_items VALUES (1, 1, NULL, 7, 2, 200.0000, 200.0000, 200.0000, 1, NULL);
+INSERT INTO handloan_items VALUES (7, 7, 6, 3, 2, 0.0000, 200.0000, 200.0000, 1, NULL);
+INSERT INTO handloan_items VALUES (6, 6, NULL, 3, 2, 200.0000, 200.0000, 200.0000, 1, NULL);
+INSERT INTO handloan_items VALUES (9, 9, 8, 17, 2, 10.0000, 0.0000, 200.0000, 1, NULL);
+INSERT INTO handloan_items VALUES (8, 8, NULL, 17, 2, 10.0000, 25.0000, 200.0000, 1, NULL);
+
+
+--
+-- Data for Name: order_items; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO order_items VALUES (3, 1, 8, 5000, 0, 2, 1.11, 3, 58, NULL);
+INSERT INTO order_items VALUES (7, 2, 2, 100, 0, 2, 180, 1, 1, NULL);
+INSERT INTO order_items VALUES (5, 2, 3, 200, 200, 2, 200, 1, 1, NULL);
+INSERT INTO order_items VALUES (6, 2, 4, 200, 200, 2, 250, 1, 1, NULL);
+INSERT INTO order_items VALUES (1, 1, 6, 3000, 1200, 2, 1.2, 3, 58, NULL);
+INSERT INTO order_items VALUES (2, 1, 7, 5000, 3000, 2, 0.6, 3, 58, NULL);
+INSERT INTO order_items VALUES (4, 1, 9, 10000, 5500, 2, 0.95, 3, 58, NULL);
+INSERT INTO order_items VALUES (8, 3, 16, 200, 0, 2, 200, 1, 1, NULL);
+
+
+--
+-- Data for Name: orders; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO orders VALUES (1, 'FN0001', 3, '2009-04-02', 'po', 'act');
+INSERT INTO orders VALUES (2, 'AC0001', 5, '2009-04-15', 'so', 'act');
+INSERT INTO orders VALUES (3, 'FD001', 17, '2009-05-19', 'po', 'act');
+
+
+--
+-- Data for Name: payment_mode; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO payment_mode VALUES (1, NULL, 'CASH', NULL);
+INSERT INTO payment_mode VALUES (2, NULL, 'CHEQUE', NULL);
+INSERT INTO payment_mode VALUES (3, NULL, 'DEMAND DRAFT', NULL);
+
+
+--
+-- Data for Name: payments; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO payments VALUES (1, 11, 'PO00012', '2009-05-02', 2, 'act');
+INSERT INTO payments VALUES (3, 3, 'FI9912', '2009-04-29', 3, 'act');
+INSERT INTO payments VALUES (4, 6, 'DC0012', '2009-05-14', 2, 'act');
+INSERT INTO payments VALUES (5, 5, 'FS', '2009-05-07', 2, 'act');
+INSERT INTO payments VALUES (6, 4, 'DC00021', '2009-05-15', 2, 'act');
+INSERT INTO payments VALUES (7, 15, 'RM0012', '2009-05-11', 2, 'act');
+INSERT INTO payments VALUES (8, 16, 'RM0021', '2009-05-12', 2, 'act');
+
+
+--
+-- Data for Name: product_category; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO product_category VALUES (1, NULL, 'GENERIC');
+INSERT INTO product_category VALUES (2, NULL, 'DYES');
+
+
+--
+-- Data for Name: products; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO products VALUES (2, NULL, 'ABIPOLYFL DER', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (3, NULL, 'ABIPOLYFL DUP CONC', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (4, NULL, 'ABIGEN SUP LIQ', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (5, NULL, 'ABITOL TUR', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (6, NULL, 'ABIFAT 2003', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (7, NULL, 'ABIFAT 1201', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (8, NULL, 'ABIPOLYSOL 100', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (9, NULL, 'ABIPOLYSOL 200', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (10, NULL, 'ABIDERM BLACK CLI', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (11, NULL, 'ABIDERM BROWN DRL', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (12, NULL, 'ABIDERM YELLOW 2RL', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (13, NULL, 'ABIDERM BROWN 2RR', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (14, NULL, 'ABIDERM DARK BROWN RL', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (16, NULL, 'DERMA RED', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (17, NULL, 'ABIDERM SOFT BLUE', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO products VALUES (15, NULL, 'ABIDERM BLACK 2BJ', 100, 2, NULL, NULL, NULL, 1, 1);
+
+
+--
+-- Data for Name: receipt; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO receipt VALUES (4, 'R0005', 12, '2009-05-15', 1660000, 66400, 0);
+INSERT INTO receipt VALUES (2, 'RP0001', 3, '2009-04-10', 1090400, NULL, 1200000);
+INSERT INTO receipt VALUES (3, 'NC10001', 4, '2009-04-02', 1747000, 87350, 1200000);
+
+
+--
+-- Data for Name: receipt_items; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO receipt_items VALUES (2, 2, NULL, 2, 2000, 2, 1.2, 3, 58, NULL);
+INSERT INTO receipt_items VALUES (3, 2, NULL, 3, 3000, 2, 0.95, 3, 58, NULL);
+INSERT INTO receipt_items VALUES (4, 2, NULL, 4, 5000, 2, 1.6, 3, 58, NULL);
+INSERT INTO receipt_items VALUES (5, 2, NULL, 5, 5000, 2, 1.11, 3, 58, NULL);
+INSERT INTO receipt_items VALUES (6, 3, NULL, 10, 3000, 2, 120, 1, 1, NULL);
+INSERT INTO receipt_items VALUES (7, 3, NULL, 11, 2000, 2, 210, 1, 1, NULL);
+INSERT INTO receipt_items VALUES (8, 3, NULL, 12, 1100, 2, 220, 1, 1, NULL);
+INSERT INTO receipt_items VALUES (9, 3, NULL, 13, 1500, 2, 180, 1, 1, NULL);
+INSERT INTO receipt_items VALUES (10, 3, NULL, 14, 1000, 2, 230, 1, 1, NULL);
+INSERT INTO receipt_items VALUES (11, 3, NULL, 15, 1500, 2, 150, 1, 1, NULL);
+INSERT INTO receipt_items VALUES (12, 4, 1, 6, 1200, 2, 150, 1, 1, NULL);
+INSERT INTO receipt_items VALUES (13, 4, 2, 7, 3000, 2, 200, 1, 1, NULL);
+INSERT INTO receipt_items VALUES (14, 4, 4, 9, 5500, 2, 160, 1, 1, NULL);
+
+
+--
+-- Data for Name: receipt_payment_relation; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO receipt_payment_relation VALUES (3, 2, 1200000, 0.0000);
+INSERT INTO receipt_payment_relation VALUES (6, 3, 1200000, 0.0000);
+
+
+--
+-- Data for Name: receipt_tax; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO receipt_tax VALUES (3, 1, 5, 87350.00000000000000000000, 1);
+INSERT INTO receipt_tax VALUES (4, 1, 4, 66400.00000000000000000000, 1);
+
+
+--
+-- Data for Name: relationships; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO relationships VALUES (1, NULL, 'DEMO', 'int', NULL);
+INSERT INTO relationships VALUES (3, NULL, 'FENICE INTERANTIONAL', 'sel', NULL);
+INSERT INTO relationships VALUES (4, NULL, 'NCP DYES', 'sel', NULL);
+INSERT INTO relationships VALUES (5, NULL, 'FORWARD SHOES', 'buy', NULL);
+INSERT INTO relationships VALUES (6, NULL, 'FINEWEAR CORPORATION', 'buy', NULL);
+INSERT INTO relationships VALUES (8, NULL, 'SIGMA OVERSEAS', 'buy', NULL);
+INSERT INTO relationships VALUES (11, NULL, 'DANISH LEATHERS', 'buy', NULL);
+INSERT INTO relationships VALUES (12, NULL, 'FENICE INDIA LTD', 'sel', NULL);
+INSERT INTO relationships VALUES (13, NULL, 'STELLA LEATHERS', 'buy', NULL);
+INSERT INTO relationships VALUES (14, NULL, 'NUTECH LEATHERS', 'buy', NULL);
+INSERT INTO relationships VALUES (15, NULL, 'RMK EXPORTS', 'buy', NULL);
+INSERT INTO relationships VALUES (16, NULL, 'RAM LEATHERS', 'buy', NULL);
+INSERT INTO relationships VALUES (17, NULL, 'BASF', 'sel', NULL);
+
+
+--
+-- Data for Name: reports; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO reports VALUES (1, NULL, 'Receipt Report', 'receipt_report_view');
+INSERT INTO reports VALUES (2, NULL, 'Sales Report', 'sales_report_view');
+INSERT INTO reports VALUES (3, NULL, 'Stock Report', 'stock_report_view');
+INSERT INTO reports VALUES (4, NULL, 'Payment Report', 'payment_report_view');
+INSERT INTO reports VALUES (5, NULL, 'Order Report', 'order_report_view');
+INSERT INTO reports VALUES (6, NULL, 'Handloan Report', 'handloan_report_view');
+
+
+--
+-- Data for Name: sales; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO sales VALUES (5, 'S00012', 13, '2009-05-20', 168000, 8400, 0);
+INSERT INTO sales VALUES (6, 'S00031', 14, '2009-05-05', 113000, 5650, 0);
+INSERT INTO sales VALUES (7, 'S00033', 11, '2009-05-12', 57000, 2280, 0);
+INSERT INTO sales VALUES (9, 'S00045', 15, '2009-05-06', 58000, 2900, 0);
+INSERT INTO sales VALUES (10, 'S00042', 16, '2009-05-18', 115320, 5766, 0);
+INSERT INTO sales VALUES (8, 'S00051', 11, '2009-05-20', 150000, 7500, 40000);
+INSERT INTO sales VALUES (2, 'SO0002', 6, '2009-04-28', 92500, 4625, 50000);
+INSERT INTO sales VALUES (11, 'S00031', 6, '2009-05-12', 110250, 4410, 0);
+INSERT INTO sales VALUES (1, 'SO0001', 5, '2009-04-16', 90000, 4500, 30000);
+INSERT INTO sales VALUES (12, 'S00041', 5, '2009-05-15', 195000, 9750, 120000);
+INSERT INTO sales VALUES (13, 'S00045', 15, '2009-05-17', 108000, 5400, 95000);
+INSERT INTO sales VALUES (14, 'S00045', 16, '2009-05-04', 495000, 19800, 300000);
+
+
+--
+-- Data for Name: sales_items; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO sales_items VALUES (1, 1, 5, 3, 200, 2, 200, 1, 1, NULL);
+INSERT INTO sales_items VALUES (2, 1, 6, 4, 200, 2, 250, 1, 1, NULL);
+INSERT INTO sales_items VALUES (3, 2, NULL, 10, 200, 2, 200, 1, 1, NULL);
+INSERT INTO sales_items VALUES (4, 2, NULL, 11, 150, 2, 350, 1, 1, NULL);
+INSERT INTO sales_items VALUES (5, 5, NULL, 6, 200, 2, 240, 1, 1, NULL);
+INSERT INTO sales_items VALUES (6, 5, NULL, 11, 300, 2, 400, 1, 1, NULL);
+INSERT INTO sales_items VALUES (7, 6, NULL, 10, 300, 2, 210, 1, 1, NULL);
+INSERT INTO sales_items VALUES (8, 6, NULL, 3, 200, 2, 250, 1, 1, NULL);
+INSERT INTO sales_items VALUES (9, 7, NULL, 12, 50, 2, 450, 1, 1, NULL);
+INSERT INTO sales_items VALUES (10, 7, NULL, 13, 25, 2, 540, 1, 1, NULL);
+INSERT INTO sales_items VALUES (11, 7, NULL, 15, 100, 2, 210, 1, 1, NULL);
+INSERT INTO sales_items VALUES (12, 8, NULL, 6, 200, 2, 250, 1, 1, NULL);
+INSERT INTO sales_items VALUES (13, 8, NULL, 15, 400, 2, 250, 1, 1, NULL);
+INSERT INTO sales_items VALUES (14, 9, NULL, 5, 200, 2, 230, 1, 1, NULL);
+INSERT INTO sales_items VALUES (15, 9, NULL, 3, 100, 2, 120, 1, 1, NULL);
+INSERT INTO sales_items VALUES (16, 10, NULL, 5, 120, 2, 240, 1, 1, NULL);
+INSERT INTO sales_items VALUES (17, 10, NULL, 14, 210, 2, 412, 1, 1, NULL);
+INSERT INTO sales_items VALUES (18, 11, NULL, 5, 500, 2, 200, 1, 1, NULL);
+INSERT INTO sales_items VALUES (19, 11, NULL, 11, 25, 2, 410, 1, 1, NULL);
+INSERT INTO sales_items VALUES (20, 12, NULL, 15, 300, 2, 300, 1, 1, NULL);
+INSERT INTO sales_items VALUES (21, 12, NULL, 10, 500, 2, 210, 1, 1, NULL);
+INSERT INTO sales_items VALUES (22, 13, NULL, 3, 200, 2, 300, 1, 1, NULL);
+INSERT INTO sales_items VALUES (23, 13, NULL, 2, 120, 2, 400, 1, 1, NULL);
+INSERT INTO sales_items VALUES (24, 14, NULL, 10, 500, 2, 310, 1, 1, NULL);
+INSERT INTO sales_items VALUES (25, 14, NULL, 4, 1000, 2, 340, 1, 1, NULL);
+
+
+--
+-- Data for Name: sales_payment_relation; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO sales_payment_relation VALUES (1, 8, 40000, 0.0000);
+INSERT INTO sales_payment_relation VALUES (4, 2, 50000, 0.0000);
+INSERT INTO sales_payment_relation VALUES (5, 1, 30000, 0.0000);
+INSERT INTO sales_payment_relation VALUES (5, 12, 120000, 0.0000);
+INSERT INTO sales_payment_relation VALUES (7, 13, 95000, 0.0000);
+INSERT INTO sales_payment_relation VALUES (8, 14, 300000, 0.0000);
+
+
+--
+-- Data for Name: sales_tax; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO sales_tax VALUES (1, 1, 5, 4500.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (2, 1, 5, 4625.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (5, 1, 5, 8400.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (6, 1, 5, 5650.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (7, 1, 4, 2280.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (8, 1, 5, 7500.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (9, 1, 5, 2900.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (10, 1, 5, 5766.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (11, 1, 4, 4410.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (12, 1, 5, 9750.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (13, 1, 5, 5400.00000000000000000000, 1);
+INSERT INTO sales_tax VALUES (14, 1, 4, 19800.00000000000000000000, 1);
+
+
+--
+-- Data for Name: tax; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO tax VALUES (1, 'VAT %', 2, 1, NULL);
+INSERT INTO tax VALUES (2, 'Sales Tax', 1, 1, NULL);
+
+
+--
+-- Data for Name: tax_type; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO tax_type VALUES (1, 'Add');
+INSERT INTO tax_type VALUES (2, 'Add %');
+INSERT INTO tax_type VALUES (3, 'Deduce');
+INSERT INTO tax_type VALUES (4, 'Deduce %');
+INSERT INTO tax_type VALUES (5, 'Surcharge');
+
+
+--
+-- Data for Name: transaction_balance; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO transaction_balance VALUES (16, 100, 100, 0, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (21, 5500, 0, 5500, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (20, 3000, 200, 2800, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (7, 1100, 50, 1050, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (8, 1500, 25, 1475, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (19, 1200, 400, 800, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (9, 1000, 210, 790, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (4, 5000, 820, 4180, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (6, 2000, 475, 1525, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (10, 1500, 800, 700, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (1, 2000, 200, 1800, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (5, 3000, 1500, 1500, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (3, 5000, 1200, 3800, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (2, 3000, 900, 2100, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (45, 200, 0, 200, 0, 0, 0);
+INSERT INTO transaction_balance VALUES (46, 25, 10, 15, 0, 0, 0);
+
+
+--
+-- Data for Name: transaction_details; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO transaction_details VALUES (1, '2009-04-10', 'i', 'pur', 2000, 2, 139200, 2, NULL);
+INSERT INTO transaction_details VALUES (2, '2009-04-10', 'i', 'pur', 3000, 2, 165300, 3, NULL);
+INSERT INTO transaction_details VALUES (3, '2009-04-10', 'i', 'pur', 5000, 2, 464000, 4, NULL);
+INSERT INTO transaction_details VALUES (4, '2009-04-10', 'i', 'pur', 5000, 2, 321900, 5, NULL);
+INSERT INTO transaction_details VALUES (5, '2009-04-02', 'i', 'pur', 3000, 2, 360000, 6, NULL);
+INSERT INTO transaction_details VALUES (6, '2009-04-02', 'i', 'pur', 2000, 2, 420000, 7, NULL);
+INSERT INTO transaction_details VALUES (7, '2009-04-02', 'i', 'pur', 1100, 2, 242000, 8, NULL);
+INSERT INTO transaction_details VALUES (8, '2009-04-02', 'i', 'pur', 1500, 2, 270000, 9, NULL);
+INSERT INTO transaction_details VALUES (9, '2009-04-02', 'i', 'pur', 1000, 2, 230000, 10, NULL);
+INSERT INTO transaction_details VALUES (10, '2009-04-02', 'i', 'pur', 1500, 2, 225000, 11, NULL);
+INSERT INTO transaction_details VALUES (11, '2009-04-16', 'o', 'sal', 200, 2, 1, 1, 2);
+INSERT INTO transaction_details VALUES (12, '2009-04-16', 'o', 'sal', 200, 2, 1, 2, 3);
+INSERT INTO transaction_details VALUES (13, '2009-04-28', 'o', 'sal', 200, 2, 1, 3, 5);
+INSERT INTO transaction_details VALUES (14, '2009-04-28', 'o', 'sal', 150, 2, 1, 4, 6);
+INSERT INTO transaction_details VALUES (15, '2009-05-15', 'i', 'hdl', 200, 2, 40000, 1, NULL);
+INSERT INTO transaction_details VALUES (16, '2009-04-02', 'i', 'hdl', 100, 2, 21000, 2, NULL);
+INSERT INTO transaction_details VALUES (17, '2009-05-02', 'o', 'hdl', 100, 2, 1, 3, 16);
+INSERT INTO transaction_details VALUES (18, '2009-05-10', 'o', 'hdl', 80, 2, 1, 4, 1);
+INSERT INTO transaction_details VALUES (19, '2009-05-15', 'i', 'pur', 1200, 2, 180000, 12, NULL);
+INSERT INTO transaction_details VALUES (20, '2009-05-15', 'i', 'pur', 3000, 2, 600000, 13, NULL);
+INSERT INTO transaction_details VALUES (21, '2009-05-15', 'i', 'pur', 5500, 2, 880000, 14, NULL);
+INSERT INTO transaction_details VALUES (22, '2009-05-20', 'o', 'hdl', 200, 2, 1, 5, 20);
+INSERT INTO transaction_details VALUES (23, '2009-05-20', 'o', 'sal', 200, 2, 1, 5, 19);
+INSERT INTO transaction_details VALUES (24, '2009-05-20', 'o', 'sal', 300, 2, 1, 6, 6);
+INSERT INTO transaction_details VALUES (25, '2009-05-05', 'o', 'sal', 300, 2, 1, 7, 5);
+INSERT INTO transaction_details VALUES (26, '2009-05-05', 'o', 'sal', 200, 2, 1, 8, 2);
+INSERT INTO transaction_details VALUES (27, '2009-05-12', 'o', 'sal', 50, 2, 1, 9, 7);
+INSERT INTO transaction_details VALUES (28, '2009-05-12', 'o', 'sal', 25, 2, 1, 10, 8);
+INSERT INTO transaction_details VALUES (29, '2009-05-12', 'o', 'sal', 100, 2, 1, 11, 10);
+INSERT INTO transaction_details VALUES (30, '2009-05-20', 'o', 'sal', 200, 2, 1, 12, 19);
+INSERT INTO transaction_details VALUES (31, '2009-05-20', 'o', 'sal', 400, 2, 1, 13, 10);
+INSERT INTO transaction_details VALUES (32, '2009-05-06', 'o', 'sal', 200, 2, 1, 14, 4);
+INSERT INTO transaction_details VALUES (33, '2009-05-06', 'o', 'sal', 100, 2, 1, 15, 2);
+INSERT INTO transaction_details VALUES (34, '2009-05-18', 'o', 'sal', 120, 2, 1, 16, 4);
+INSERT INTO transaction_details VALUES (35, '2009-05-18', 'o', 'sal', 210, 2, 1, 17, 9);
+INSERT INTO transaction_details VALUES (36, '2009-05-12', 'o', 'sal', 500, 2, 1, 18, 4);
+INSERT INTO transaction_details VALUES (37, '2009-05-12', 'o', 'sal', 25, 2, 1, 19, 6);
+INSERT INTO transaction_details VALUES (38, '2009-05-15', 'o', 'sal', 300, 2, 1, 20, 10);
+INSERT INTO transaction_details VALUES (39, '2009-05-15', 'o', 'sal', 500, 2, 1, 21, 5);
+INSERT INTO transaction_details VALUES (40, '2009-05-17', 'o', 'sal', 200, 2, 1, 22, 2);
+INSERT INTO transaction_details VALUES (41, '2009-05-17', 'o', 'sal', 120, 2, 1, 23, 1);
+INSERT INTO transaction_details VALUES (42, '2009-05-04', 'o', 'sal', 500, 2, 1, 24, 5);
+INSERT INTO transaction_details VALUES (43, '2009-05-04', 'o', 'sal', 1000, 2, 1, 25, 3);
+INSERT INTO transaction_details VALUES (44, '2009-05-19', 'o', 'hdl', 200, 2, 1, 6, 2);
+INSERT INTO transaction_details VALUES (45, '2009-05-19', 'i', 'hdl', 200, 2, 40000, 7, NULL);
+INSERT INTO transaction_details VALUES (46, '2009-05-19', 'i', 'hdl', 25, 2, 5000, 8, NULL);
+INSERT INTO transaction_details VALUES (47, '2009-05-19', 'o', 'hdl', 10, 2, 1, 9, 46);
+
+
+--
+-- Data for Name: uom; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO uom VALUES (1, 'numb', 'Number');
+INSERT INTO uom VALUES (2, 'kigm', 'Kilograms');
+INSERT INTO uom VALUES (3, 'ltrs', 'Litres');
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: demo; Owner: sathish
+--
+
+INSERT INTO users VALUES (1, 'admin', 'YWRtaW4xMjM=', 'Admin', 'int', '2009-05-18');
+
+
+--
+-- Name: city_city_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY city
+    ADD CONSTRAINT city_city_name_key UNIQUE (city_name);
+
+
+--
+-- Name: city_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY city
+    ADD CONSTRAINT city_pkey PRIMARY KEY (city_id);
+
+
+--
+-- Name: columns_column_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY columns
+    ADD CONSTRAINT columns_column_name_key UNIQUE (column_name);
+
+
+--
+-- Name: columns_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY columns
+    ADD CONSTRAINT columns_pkey PRIMARY KEY (column_id);
+
+
+--
+-- Name: contacts_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_pkey PRIMARY KEY (contact_id);
+
+
+--
+-- Name: country_country_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY country
+    ADD CONSTRAINT country_country_name_key UNIQUE (country_name);
+
+
+--
+-- Name: country_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY country
+    ADD CONSTRAINT country_pkey PRIMARY KEY (country_id);
+
+
+--
+-- Name: currency_currency_code_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY currency
+    ADD CONSTRAINT currency_currency_code_key UNIQUE (currency_code);
+
+
+--
+-- Name: currency_currency_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY currency
+    ADD CONSTRAINT currency_currency_name_key UNIQUE (currency_name);
+
+
+--
+-- Name: currency_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY currency
+    ADD CONSTRAINT currency_pkey PRIMARY KEY (currency_id);
+
+
+--
+-- Name: cust_column_id_unq; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY customization_columns
+    ADD CONSTRAINT cust_column_id_unq UNIQUE (customization_id, column_id);
+
+
+--
+-- Name: customizations_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY customizations
+    ADD CONSTRAINT customizations_pkey PRIMARY KEY (customization_id);
+
+
+--
+-- Name: handloan_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY handloan_items
+    ADD CONSTRAINT handloan_items_pkey PRIMARY KEY (item_id);
+
+
+--
+-- Name: handloan_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY handloan
+    ADD CONSTRAINT handloan_pkey PRIMARY KEY (handln_id);
+
+
+--
+-- Name: order_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY order_items
+    ADD CONSTRAINT order_items_pkey PRIMARY KEY (item_id);
+
+
+--
+-- Name: orders_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (order_id);
+
+
+--
+-- Name: payment_mode_payment_mode_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY payment_mode
+    ADD CONSTRAINT payment_mode_payment_mode_name_key UNIQUE (payment_mode_name);
+
+
+--
+-- Name: payment_mode_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY payment_mode
+    ADD CONSTRAINT payment_mode_pkey PRIMARY KEY (payment_mode_id);
+
+
+--
+-- Name: payments_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (payment_id);
+
+
+--
+-- Name: product_category_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY product_category
+    ADD CONSTRAINT product_category_pkey PRIMARY KEY (product_category_id);
+
+
+--
+-- Name: product_category_product_category_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY product_category
+    ADD CONSTRAINT product_category_product_category_desc_key UNIQUE (product_category_desc);
+
+
+--
+-- Name: products_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY products
+    ADD CONSTRAINT products_pkey PRIMARY KEY (product_id);
+
+
+--
+-- Name: products_product_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY products
+    ADD CONSTRAINT products_product_desc_key UNIQUE (product_desc);
+
+
+--
+-- Name: receipt_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_pkey PRIMARY KEY (item_id);
+
+
+--
+-- Name: receipt_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY receipt
+    ADD CONSTRAINT receipt_pkey PRIMARY KEY (receipt_id);
+
+
+--
+-- Name: relationships_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY relationships
+    ADD CONSTRAINT relationships_pkey PRIMARY KEY (relationship_id);
+
+
+--
+-- Name: report_cust_id_unq; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY customizations
+    ADD CONSTRAINT report_cust_id_unq UNIQUE (report_id, customization_id);
+
+
+--
+-- Name: reports_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_pkey PRIMARY KEY (report_id);
+
+
+--
+-- Name: reports_report_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_report_name_key UNIQUE (report_name);
+
+
+--
+-- Name: sales_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_pkey PRIMARY KEY (item_id);
+
+
+--
+-- Name: sales_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY sales
+    ADD CONSTRAINT sales_pkey PRIMARY KEY (sales_id);
+
+
+--
+-- Name: tax_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY tax
+    ADD CONSTRAINT tax_pkey PRIMARY KEY (tax_id);
+
+
+--
+-- Name: tax_tax_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY tax
+    ADD CONSTRAINT tax_tax_desc_key UNIQUE (tax_desc);
+
+
+--
+-- Name: tax_type_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY tax_type
+    ADD CONSTRAINT tax_type_pkey PRIMARY KEY (tax_type_id);
+
+
+--
+-- Name: tax_type_tax_type_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY tax_type
+    ADD CONSTRAINT tax_type_tax_type_desc_key UNIQUE (tax_type_desc);
+
+
+--
+-- Name: transaction_details_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY transaction_details
+    ADD CONSTRAINT transaction_details_pkey PRIMARY KEY (trans_id);
+
+
+--
+-- Name: uom_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY uom
+    ADD CONSTRAINT uom_pkey PRIMARY KEY (uom_id);
+
+
+--
+-- Name: uom_uom_code_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY uom
+    ADD CONSTRAINT uom_uom_code_key UNIQUE (uom_code);
+
+
+--
+-- Name: uom_uom_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY uom
+    ADD CONSTRAINT uom_uom_desc_key UNIQUE (uom_desc);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: users_user_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_user_name_key UNIQUE (user_name);
+
+
+--
+-- Name: c_reports_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX c_reports_idx ON customizations USING btree (report_id);
+
+
+--
+-- Name: cc_column_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX cc_column_id_idx ON customization_columns USING btree (column_id);
+
+
+--
+-- Name: cc_customization_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX cc_customization_id_idx ON customization_columns USING btree (customization_id);
+
+
+--
+-- Name: ci_country_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX ci_country_id_idx ON city USING btree (country_id);
+
+
+--
+-- Name: co_relationship_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX co_relationship_id_idx ON contacts USING btree (relationship_id);
+
+
+--
+-- Name: r_buyer_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX r_buyer_id_idx ON sales USING btree (buyer_id);
+
+
+--
+-- Name: r_supplier_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX r_supplier_id_idx ON receipt USING btree (supplier_id);
+
+
+--
+-- Name: ri_currency_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX ri_currency_id_idx ON receipt_items USING btree (currency_id);
+
+
+--
+-- Name: ri_product_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX ri_product_id_idx ON receipt_items USING btree (product_id);
+
+
+--
+-- Name: ri_receipt_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX ri_receipt_id_idx ON receipt_items USING btree (receipt_id);
+
+
+--
+-- Name: ri_uom_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX ri_uom_id_idx ON receipt_items USING btree (uom_id);
+
+
+--
+-- Name: rt_receipt_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX rt_receipt_id_idx ON receipt_tax USING btree (receipt_id);
+
+
+--
+-- Name: rt_tax_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX rt_tax_id_idx ON receipt_tax USING btree (tax_id);
+
+
+--
+-- Name: si_currency_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX si_currency_id_idx ON sales_items USING btree (currency_id);
+
+
+--
+-- Name: si_product_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX si_product_id_idx ON sales_items USING btree (product_id);
+
+
+--
+-- Name: si_sales_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX si_sales_id_idx ON sales_items USING btree (sales_id);
+
+
+--
+-- Name: si_uom_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX si_uom_id_idx ON sales_items USING btree (uom_id);
+
+
+--
+-- Name: st_sales_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX st_sales_id_idx ON sales_tax USING btree (sales_id);
+
+
+--
+-- Name: st_tax_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX st_tax_id_idx ON sales_tax USING btree (tax_id);
+
+
+--
+-- Name: t_parent_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX t_parent_idx ON transaction_details USING btree (parent_id);
+
+
+--
+-- Name: t_trans_date_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX t_trans_date_idx ON transaction_details USING btree (trans_date);
+
+
+--
+-- Name: t_trans_head_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX t_trans_head_idx ON transaction_details USING btree (trans_head);
+
+
+--
+-- Name: t_trans_type_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX t_trans_type_idx ON transaction_details USING btree (trans_type);
+
+
+--
+-- Name: t_uom_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX t_uom_idx ON transaction_details USING btree (uom_id);
+
+
+--
+-- Name: tb_trans_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+--
+
+CREATE INDEX tb_trans_id_idx ON transaction_balance USING btree (trans_id);
+
+
+--
+-- Name: receipt_qty_update_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+--
+
+CREATE TRIGGER receipt_qty_update_trig
+    AFTER INSERT OR DELETE OR UPDATE ON receipt_items
+    FOR EACH ROW
+    EXECUTE PROCEDURE order_qty_update_func();
+
+
+--
+-- Name: receipt_tax_value_bupdate_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+--
+
+CREATE TRIGGER receipt_tax_value_bupdate_trig
+    BEFORE INSERT OR UPDATE ON receipt_tax
+    FOR EACH ROW
+    EXECUTE PROCEDURE receipt_tax_value_bupdate_func();
+
+
+--
+-- Name: sales_qty_update_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+--
+
+CREATE TRIGGER sales_qty_update_trig
+    AFTER INSERT OR DELETE OR UPDATE ON sales_items
+    FOR EACH ROW
+    EXECUTE PROCEDURE order_qty_update_func();
+
+
+--
+-- Name: sales_tax_value_bupdate_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+--
+
+CREATE TRIGGER sales_tax_value_bupdate_trig
+    BEFORE INSERT OR UPDATE ON sales_tax
+    FOR EACH ROW
+    EXECUTE PROCEDURE sales_tax_value_bupdate_func();
+
+
+--
+-- Name: trans_balance_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+--
+
+CREATE TRIGGER trans_balance_trig
+    AFTER INSERT OR DELETE OR UPDATE ON transaction_details
+    FOR EACH ROW
+    EXECUTE PROCEDURE trans_balance_func();
+
+
+--
+-- Name: city_country_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY city
+    ADD CONSTRAINT city_country_id_fkey FOREIGN KEY (country_id) REFERENCES country(country_id);
+
+
+--
+-- Name: contacts_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_relationship_id_fkey FOREIGN KEY (relationship_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: customization_columns_column_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY customization_columns
+    ADD CONSTRAINT customization_columns_column_id_fkey FOREIGN KEY (column_id) REFERENCES columns(column_id);
+
+
+--
+-- Name: customization_columns_customization_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY customization_columns
+    ADD CONSTRAINT customization_columns_customization_id_fkey FOREIGN KEY (customization_id) REFERENCES customizations(customization_id);
+
+
+--
+-- Name: customizations_report_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY customizations
+    ADD CONSTRAINT customizations_report_id_fkey FOREIGN KEY (report_id) REFERENCES reports(report_id);
+
+
+--
+-- Name: handloan_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY handloan
+    ADD CONSTRAINT handloan_currency_id_fkey FOREIGN KEY (currency_id) REFERENCES currency(currency_id);
+
+
+--
+-- Name: handloan_items_handln_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY handloan_items
+    ADD CONSTRAINT handloan_items_handln_id_fkey FOREIGN KEY (handln_id) REFERENCES handloan(handln_id);
+
+
+--
+-- Name: handloan_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY handloan_items
+    ADD CONSTRAINT handloan_items_product_id_fkey FOREIGN KEY (product_id) REFERENCES products(product_id);
+
+
+--
+-- Name: handloan_items_ref_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY handloan_items
+    ADD CONSTRAINT handloan_items_ref_id_fkey FOREIGN KEY (ref_id) REFERENCES handloan_items(item_id);
+
+
+--
+-- Name: handloan_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY handloan_items
+    ADD CONSTRAINT handloan_items_uom_id_fkey FOREIGN KEY (uom_id) REFERENCES uom(uom_id);
+
+
+--
+-- Name: handloan_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY handloan
+    ADD CONSTRAINT handloan_relationship_id_fkey FOREIGN KEY (relationship_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: order_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY order_items
+    ADD CONSTRAINT order_items_currency_id_fkey FOREIGN KEY (currency_id) REFERENCES currency(currency_id);
+
+
+--
+-- Name: order_items_order_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY order_items
+    ADD CONSTRAINT order_items_order_id_fkey FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE;
+
+
+--
+-- Name: order_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY order_items
+    ADD CONSTRAINT order_items_product_id_fkey FOREIGN KEY (product_id) REFERENCES products(product_id);
+
+
+--
+-- Name: order_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY order_items
+    ADD CONSTRAINT order_items_uom_id_fkey FOREIGN KEY (uom_id) REFERENCES uom(uom_id);
+
+
+--
+-- Name: orders_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT orders_relationship_id_fkey FOREIGN KEY (relationship_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: payments_payment_mode_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT payments_payment_mode_id_fkey FOREIGN KEY (payment_mode_id) REFERENCES payment_mode(payment_mode_id);
+
+
+--
+-- Name: payments_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT payments_relationship_id_fkey FOREIGN KEY (relationship_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: products_cp_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY products
+    ADD CONSTRAINT products_cp_currency_id_fkey FOREIGN KEY (cp_currency_id) REFERENCES currency(currency_id);
+
+
+--
+-- Name: products_product_category_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY products
+    ADD CONSTRAINT products_product_category_id_fkey FOREIGN KEY (product_category_id) REFERENCES product_category(product_category_id);
+
+
+--
+-- Name: products_sp_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY products
+    ADD CONSTRAINT products_sp_currency_id_fkey FOREIGN KEY (sp_currency_id) REFERENCES currency(currency_id);
+
+
+--
+-- Name: receipt_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_currency_id_fkey FOREIGN KEY (currency_id) REFERENCES currency(currency_id);
+
+
+--
+-- Name: receipt_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_product_id_fkey FOREIGN KEY (product_id) REFERENCES products(product_id);
+
+
+--
+-- Name: receipt_items_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_receipt_id_fkey FOREIGN KEY (receipt_id) REFERENCES receipt(receipt_id) ON DELETE CASCADE;
+
+
+--
+-- Name: receipt_items_ref_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_ref_id_fkey FOREIGN KEY (ref_id) REFERENCES order_items(item_id);
+
+
+--
+-- Name: receipt_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_uom_id_fkey FOREIGN KEY (uom_id) REFERENCES uom(uom_id);
+
+
+--
+-- Name: receipt_payment_relation_payment_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt_payment_relation
+    ADD CONSTRAINT receipt_payment_relation_payment_id_fkey FOREIGN KEY (payment_id) REFERENCES payments(payment_id);
+
+
+--
+-- Name: receipt_payment_relation_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt_payment_relation
+    ADD CONSTRAINT receipt_payment_relation_receipt_id_fkey FOREIGN KEY (receipt_id) REFERENCES receipt(receipt_id);
+
+
+--
+-- Name: receipt_supplier_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt
+    ADD CONSTRAINT receipt_supplier_id_fkey FOREIGN KEY (supplier_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: receipt_tax_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt_tax
+    ADD CONSTRAINT receipt_tax_receipt_id_fkey FOREIGN KEY (receipt_id) REFERENCES receipt(receipt_id) ON DELETE CASCADE;
+
+
+--
+-- Name: receipt_tax_tax_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY receipt_tax
+    ADD CONSTRAINT receipt_tax_tax_id_fkey FOREIGN KEY (tax_id) REFERENCES tax(tax_id);
+
+
+--
+-- Name: sales_buyer_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales
+    ADD CONSTRAINT sales_buyer_id_fkey FOREIGN KEY (buyer_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: sales_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_currency_id_fkey FOREIGN KEY (currency_id) REFERENCES currency(currency_id);
+
+
+--
+-- Name: sales_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_product_id_fkey FOREIGN KEY (product_id) REFERENCES products(product_id);
+
+
+--
+-- Name: sales_items_ref_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_ref_id_fkey FOREIGN KEY (ref_id) REFERENCES order_items(item_id);
+
+
+--
+-- Name: sales_items_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_sales_id_fkey FOREIGN KEY (sales_id) REFERENCES sales(sales_id) ON DELETE CASCADE;
+
+
+--
+-- Name: sales_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_uom_id_fkey FOREIGN KEY (uom_id) REFERENCES uom(uom_id);
+
+
+--
+-- Name: sales_payment_relation_payment_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales_payment_relation
+    ADD CONSTRAINT sales_payment_relation_payment_id_fkey FOREIGN KEY (payment_id) REFERENCES payments(payment_id);
+
+
+--
+-- Name: sales_payment_relation_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales_payment_relation
+    ADD CONSTRAINT sales_payment_relation_sales_id_fkey FOREIGN KEY (sales_id) REFERENCES sales(sales_id);
+
+
+--
+-- Name: sales_tax_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales_tax
+    ADD CONSTRAINT sales_tax_sales_id_fkey FOREIGN KEY (sales_id) REFERENCES sales(sales_id) ON DELETE CASCADE;
+
+
+--
+-- Name: sales_tax_tax_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY sales_tax
+    ADD CONSTRAINT sales_tax_tax_id_fkey FOREIGN KEY (tax_id) REFERENCES tax(tax_id);
+
+
+--
+-- Name: tax_tax_type_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY tax
+    ADD CONSTRAINT tax_tax_type_id_fkey FOREIGN KEY (tax_type_id) REFERENCES tax_type(tax_type_id);
+
+
+--
+-- Name: transaction_balance_trans_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY transaction_balance
+    ADD CONSTRAINT transaction_balance_trans_id_fkey FOREIGN KEY (trans_id) REFERENCES transaction_details(trans_id);
+
+
+--
+-- Name: transaction_details_parent_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY transaction_details
+    ADD CONSTRAINT transaction_details_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES transaction_details(trans_id);
+
+
+--
+-- Name: transaction_details_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+--
+
+ALTER TABLE ONLY transaction_details
+    ADD CONSTRAINT transaction_details_uom_id_fkey FOREIGN KEY (uom_id) REFERENCES uom(uom_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

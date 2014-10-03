@@ -1,0 +1,27 @@
+1.getRelatioshipid(check for relatioship_id exists and if not insert a new and return a id)
+2.getProductid(check for product_id exists and if not insert a new and return a id)
+
+title in all pages
+change details page table border
+deduction field is not compulsary
+payment print is not working
+payment report is not clear
+what is the use of deduction value stored in receipt_payment_relation table? 
+	storing payment value as payment received - deduction
+delete relatioship link in contacts page
+handloan page product is not displaying (we can give auto complete for products)
+order item_id column in receipt_items/sales_items table
+
+26/05 -- changes
+lib/css/jquerycssmenu.css
+lib/css/screen/base_layout.css
+lib/css/screen/content.css
+
+added date_condition column in customizations table (db_tables.sql)
+update date_condition[1] = 'receipt_date' for report_id 1 (receipt report, similar this need to update for other reports)
+modified class.report.php (append post values in report main query)
+modified reports.php (generate condition arr for date condition)
+modified report.tpl (modified text box size and maxlength)
+modified customizations.php and customizations.tpl
+new file generateXML.php, to recreate xml files
+isLoggedIn func in filters.php

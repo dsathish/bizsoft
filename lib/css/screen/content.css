@@ -1,0 +1,208 @@
+@charset "UTF-8";
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
+ *
+ * (en) Screen layout for YAML examples
+ * (de) Bildschirmlayout für YAML-Beispiele
+ *
+ * @copyright       Copyright 2005-2009, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.1
+ * @revision        $Revision: 343 $
+ * @lastmodified    $Date: 2009-01-19 23:41:32 +0100 (Mo, 19. Jan 2009) $
+ */
+
+@media screen, projection
+{
+   h1, h2, h3, h4, h5, h6 {
+	color:#222222;
+	font-family:"Times New Roman",Times,serif;
+	font-weight:normal;
+	margin:0 0 0.25em;
+	}
+
+  h6 { font-size:100%; }
+
+  p {
+	line-height:1.5em;
+	margin:0 0 1em;
+	}
+
+
+  fieldset {
+	border: 1px #ddd solid;
+	background: #fafafa;
+	margin: 0 0 1em 0;
+	padding: 0.5em 1em;
+	}
+
+  form.yform legend {
+    	font-size: 100%; font-weight: normal; color: #000;
+  	}
+
+  form.yform fieldset { width:80%;}
+
+  .type-input input,
+  .type-input textarea,
+  .type-input select{
+	font-family:  Arial, Helvetica, sans-serif; /* proportional fonts for all form elements */
+    	border: 1px solid #ddd;
+	padding: 0px;
+	font-size:11px;
+	text-align:left;
+    	}
+
+  form.yform table.type-input {
+   	margin:0.5em 0;
+	text-align:left;
+	border:1px solid firebrick;
+	background-color:#F3F5EE;
+	}
+
+  form.yform .type-input select {
+	cursor:pointer;
+	display:block;
+	}
+	
+  form.yform .type-input input, form.yform .type-input textarea {
+	display:block;
+	}
+
+  .error { color:red; font-size:11px;}
+
+  table.details_data {
+	border-bottom:2px solid #E0E0E0;
+	border-collapse:collapse;
+	border-top:2px solid #E0E0E0;
+	margin-bottom:0.5em;
+	border-color:#888;
+	width:75%;
+	}
+
+  table.details_data thead th {
+	height:25px;
+	color:#000000;
+	background:#F3F5EE;	
+	border-bottom:1px solid firebrick;
+	}
+	
+  th, td {
+	padding:1px;
+	}
+	
+  tbody th {	  
+	color:#000000;
+	text-align:center;
+	background:#F3F5EE none repeat scroll 0;
+	text-decoration:none;
+	}
+
+  table.items_data {
+	border:2px solid #E0E0E0;
+	margin-bottom:0.5em;
+	border-color:#888;
+	width:75%;
+	}
+
+
+  a {	  
+	color:#000000;
+	text-decoration:none;
+	}
+	
+  div.report_data {
+	 height:400px;
+	 margin:0 auto;
+	 overflow:auto;
+	 width:95%;
+ 	}	
+
+  div.report_data table {
+	border:1px solid #888;
+	width:100%;
+    }
+    
+  div.report_data thead th {
+	height:40px; 
+	font-size:11px;
+	color:#000000;
+	background:#E0E0E0;
+	}	
+    
+  div.report_data table tbody {
+	height:300px;
+	overflow-x:hidden;
+	overflow-y:auto;
+	}	
+
+  #col1 {
+	width:67%;
+	float:left;
+	}
+
+  #col3 {
+	margin:0 0 0 67%;
+	}
+
+  #col1_content {
+	border-right:1px dotted #DDDDDD;
+	padding:10px 10px 10px 20px;
+	}
+
+  #col3_content {
+	padding:10px 20px 10px 10px;
+	}
+
+
+  .box-top .c33l, .box-top .c33r {
+	background:transparent url(../../img/lframe.png) no-repeat scroll left top;
+	}
+		
+   .box-top .subcl, .box-top .subcr, .box-top .subc {
+	background:transparent url(../../img/rframe.png) no-repeat scroll right top;
+	margin-bottom:-100em;
+	padding:15px 15px 100em;
+	}
+
+   .box-top h6 {
+	border-bottom:1px solid #CC8888;
+	display:block;
+	font-style:normal;
+	font-variant:small-caps;
+	margin:10px 5px 5px;
+	}
+
+   .box-bottom {
+	margin-bottom:1em;
+	text-align:right;
+	}
+
+   .box-bottom .c33l, .box-bottom .c33r {
+	background:transparent url(../../img/lframe.png) no-repeat scroll left bottom;
+	}
+	
+   .box-bottom .subcl, .box-bottom .subcr, .box-bottom .subc {
+	background:transparent url(../../img/rframe.png) no-repeat scroll right bottom;
+	padding:0 20px 15px;
+	}
+
+   .important {
+	background:#FFFFEE none repeat scroll 0 0;
+	border:2px solid #888844;
+	color:#444400;
+	margin-bottom:1em;
+	padding:10px;
+	}
+
+
+   .info {
+	background:#F8F8F8 none repeat scroll 0 0;
+	color:#666666;
+	font-size:91.7%;
+	margin-bottom:0.5em;
+	padding:10px;
+	}
+}

@@ -1,0 +1,14 @@
+09/02/09
+	by default we have to write def customizations xml file for all report. (because user can't edit this)
+
+
+Next,
+date condition, filters, save format or show format
+grouped report,
+cross tab report
+
+SELECT * from crosstab('select receipt_id, product_id, quantity from receipt_items','select distinct(product_id) from receipt_items') as t (receipt_id int, a numeric, b  numeric, c numeric, d numeric, e numeric);
+
+rajarajan80@gmail.com
+006596113167
+

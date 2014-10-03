@@ -1,0 +1,89 @@
+.jquerycssmenu{
+font-weight: bold;
+/* border: 1px solid #B5B8C8; */
+background: #F3F5EE;
+padding-left: 15px; /*offset of tabs relative to browser left edge*/
+}
+
+.jquerycssmenu ul{
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+
+/*Top level list items*/
+.jquerycssmenu ul li{
+position: relative;
+display: inline;
+float: left;
+}
+
+/*Top level menu link items style*/
+.jquerycssmenu ul li a{
+display: block;
+background: white url(../img/tintblue.gif) top center repeat-x; /*background of tabs (default state)*/
+padding: 1px 5px 4px 7px;
+margin-right: 3px; /*spacing between tabs*/
+border: 1px solid #B5B8C8;
+border-bottom-width: 0;
+color: #2d2b2b;
+text-align: left;
+text-decoration: none;
+}
+
+.jquerycssmenu ul li a:hover{
+background-image: url(../img/tintbluedark.gif) /*tab link background during hover state*/
+}
+	
+/*1st sub level menu*/
+.jquerycssmenu ul li ul{
+position: absolute;
+left: 0;
+display: block;
+visibility: hidden;
+border-top: 1px solid black;
+}
+
+/*Sub level menu list items (undo style from Top level List Items)*/
+.jquerycssmenu ul li ul li{
+display: list-item;
+float: none;
+}
+
+/*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.jquerycssmenu ul li ul li ul{
+top: 0;
+}
+
+/* Sub level menu links style */
+.jquerycssmenu ul li ul li a{
+font-weight: normal;
+font-size: 12px;
+width: 160px; /*width of sub menus*/
+background: white;
+color: black;
+padding: 1px 5px;
+margin: 0;
+border-top-width: 0;
+border-bottom: 1px solid black;
+}
+
+.jquerycssmenu ul li ul li a:hover{ /*sub menus hover style*/
+background: #DFE8F6;
+color: black;
+
+}
+
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass{
+position: absolute;
+top: 7px;
+right: 5px;
+}
+
+.rightarrowclass{
+position: absolute;
+top: 5px;
+right: 5px;
+}

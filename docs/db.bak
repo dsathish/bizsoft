@@ -1,0 +1,2766 @@
+--
+-- PostgreSQL database dump
+--
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+--
+-- Name: demo; Type: SCHEMA; Schema: -; Owner: raja
+--
+
+CREATE SCHEMA demo;
+
+
+ALTER SCHEMA demo OWNER TO raja;
+
+SET search_path = demo, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = true;
+
+--
+-- Name: city; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE city (
+    city_id integer NOT NULL,
+    city_code character varying(10),
+    city_name character varying NOT NULL,
+    country_id integer NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.city OWNER TO raja;
+
+--
+-- Name: columns; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE columns (
+    column_id integer NOT NULL,
+    column_name character varying NOT NULL,
+    is_filter smallint,
+    filter_query character varying,
+    data_type character varying DEFAULT 'int'::character varying NOT NULL
+);
+
+
+ALTER TABLE demo.columns OWNER TO raja;
+
+--
+-- Name: contacts; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE contacts (
+    contact_id integer NOT NULL,
+    relationship_id integer NOT NULL,
+    address1 character varying,
+    address2 character varying,
+    pincode integer,
+    phone_no integer,
+    email character varying,
+    city_id integer NOT NULL
+);
+
+
+ALTER TABLE demo.contacts OWNER TO raja;
+
+--
+-- Name: country; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE country (
+    country_id integer NOT NULL,
+    country_code character varying(10),
+    country_name character varying NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.country OWNER TO raja;
+
+--
+-- Name: currency; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE currency (
+    currency_id integer NOT NULL,
+    currency_code character varying,
+    currency_name character varying NOT NULL,
+    conversion_rate numeric DEFAULT 1,
+    CONSTRAINT c_conversion_rate_chk CHECK ((conversion_rate > (0)::numeric))
+);
+
+
+ALTER TABLE demo.currency OWNER TO raja;
+
+--
+-- Name: tsort; Type: TYPE; Schema: demo; Owner: raja
+--
+
+CREATE TYPE tsort AS ENUM (
+    'ASC',
+    'DESC'
+);
+
+
+ALTER TYPE demo.tsort OWNER TO raja;
+
+--
+-- Name: customization_columns; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE customization_columns (
+    customization_id integer NOT NULL,
+    column_id integer NOT NULL,
+    display_name character varying NOT NULL,
+    display_order numeric,
+    sort_order tsort,
+    is_group smallint,
+    is_filter smallint,
+    default_value character varying,
+    date_condition character varying[],
+    decimal_places integer,
+    date_format character varying,
+    display_total smallint,
+    style character varying
+);
+
+
+ALTER TABLE demo.customization_columns OWNER TO raja;
+
+--
+-- Name: customizations; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE customizations (
+    customization_id integer NOT NULL,
+    customization_name character varying NOT NULL,
+    is_active smallint DEFAULT 1,
+    is_default smallint DEFAULT 0 NOT NULL,
+    report_id integer NOT NULL,
+    sub_total smallint,
+    grand_total smallint
+);
+
+
+ALTER TABLE demo.customizations OWNER TO raja;
+
+--
+-- Name: payment_mode; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE payment_mode (
+    payment_mode_id integer NOT NULL,
+    payment_mode_code character varying(10),
+    payment_mode_name character varying NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.payment_mode OWNER TO raja;
+
+--
+-- Name: tstatus; Type: TYPE; Schema: demo; Owner: raja
+--
+
+CREATE TYPE tstatus AS ENUM (
+    'act',
+    'can',
+    'del',
+    'com'
+);
+
+
+ALTER TYPE demo.tstatus OWNER TO raja;
+
+--
+-- Name: payments; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE payments (
+    payment_id integer NOT NULL,
+    relationship_id integer NOT NULL,
+    payment_ref character varying,
+    payment_date date,
+    payment_mode_id integer NOT NULL,
+    status tstatus DEFAULT 'act'::tstatus NOT NULL
+);
+
+
+ALTER TABLE demo.payments OWNER TO raja;
+
+--
+-- Name: products; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE products (
+    product_id integer NOT NULL,
+    product_code character varying(10),
+    product_desc character varying NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.products OWNER TO raja;
+
+--
+-- Name: receipt; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE receipt (
+    receipt_id integer NOT NULL,
+    receipt_ref character varying,
+    supplier_id integer NOT NULL,
+    receipt_date date DEFAULT now() NOT NULL,
+    payment_status tstatus DEFAULT 'act'::tstatus NOT NULL
+);
+
+
+ALTER TABLE demo.receipt OWNER TO raja;
+
+--
+-- Name: receipt_items; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE receipt_items (
+    item_id integer NOT NULL,
+    receipt_id integer NOT NULL,
+    product_id integer NOT NULL,
+    quantity numeric NOT NULL,
+    uom_id integer DEFAULT 1 NOT NULL,
+    price numeric,
+    currency_id integer DEFAULT 1,
+    conversion_rate numeric DEFAULT 1,
+    remarks character varying,
+    CONSTRAINT ri_price_chk CHECK ((price > (0)::numeric)),
+    CONSTRAINT ri_quantity_chk CHECK ((quantity > (0)::numeric))
+);
+
+
+ALTER TABLE demo.receipt_items OWNER TO raja;
+
+--
+-- Name: receipt_payment_relation; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE receipt_payment_relation (
+    payment_id integer NOT NULL,
+    receipt_id integer NOT NULL,
+    amount numeric(10,4),
+    deductions numeric(10,4),
+    CONSTRAINT receipt_payment_relation_amount_check CHECK ((amount > 0.0))
+);
+
+
+ALTER TABLE demo.receipt_payment_relation OWNER TO raja;
+
+--
+-- Name: tactivity; Type: TYPE; Schema: demo; Owner: raja
+--
+
+CREATE TYPE tactivity AS ENUM (
+    'int',
+    'sel',
+    'buy'
+);
+
+
+ALTER TYPE demo.tactivity OWNER TO raja;
+
+--
+-- Name: thead; Type: TYPE; Schema: demo; Owner: raja
+--
+
+CREATE TYPE thead AS ENUM (
+    'pur',
+    'sal'
+);
+
+
+ALTER TYPE demo.thead OWNER TO raja;
+
+--
+-- Name: ttype; Type: TYPE; Schema: demo; Owner: raja
+--
+
+CREATE TYPE ttype AS ENUM (
+    'i',
+    'o'
+);
+
+
+ALTER TYPE demo.ttype OWNER TO raja;
+
+--
+-- Name: format_number(numeric); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION format_number(numeric) RETURNS numeric
+    AS $_$
+DECLARE 
+	num numeric;
+BEGIN
+	SELECT substring($1::text,'-{0,1}[0-9]*[.][0-9]*')::numeric INTO num;
+        IF num IS NOT NULL THEN
+                SELECT substring($1::text,'-{0,1}[0-9]*.{1}[0-9]*[^0]')::numeric INTO num;
+        END IF;
+        RETURN coalesce(num,$1);
+END;
+$_$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.format_number(numeric) OWNER TO raja;
+
+--
+-- Name: receipt_item_tax_value_func(integer, integer); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION receipt_item_tax_value_func(integer, integer) RETURNS numeric
+    AS $_$
+DECLARE
+	-- arg[1] = receipt_id, [2] = item_id
+	tax_rec record;
+	var_bill_value numeric;
+	var_item_value numeric;
+	var_tax_value numeric;
+BEGIN
+	SELECT sum(quantity * price * conversion_rate) INTO var_bill_value FROM receipt_items WHERE receipt_id = $1;
+	SELECT quantity * price * conversion_rate INTO var_item_value FROM receipt_items WHERE item_id = $2;
+
+	var_tax_value = 0;
+	FOR tax_rec IN SELECT rt.tax_id, rt.tax_rate, rt.tax_value, t.tax_type_id FROM receipt_tax rt JOIN tax t USING (tax_id) WHERE receipt_id = $1 ORDER BY tax_sequence LOOP
+		IF tax_rec.tax_type_id = 1 then
+			var_tax_value = var_tax_value + (var_item_value * tax_rec.tax_value / var_bill_value);
+		ELSIF tax_rec.tax_type_id = 2 then
+			var_tax_value = var_tax_value + (var_item_value * tax_rec.tax_rate / 100);
+		ELSIF tax_rec.tax_type_id = 3 THEN
+			var_tax_value = var_tax_value - (var_item_value * tax_rec.tax_value / var_bill_value);
+		ELSIF tax_rec.tax_type_id = 4 THEN
+			var_tax_value = var_tax_value - (var_item_value * tax_rec.tax_rate / 100);
+		END IF;
+	END LOOP;
+RETURN round(var_tax_value,4);
+END;
+$_$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.receipt_item_tax_value_func(integer, integer) OWNER TO raja;
+
+--
+-- Name: #; Type: OPERATOR; Schema: demo; Owner: raja
+--
+
+CREATE OPERATOR # (
+    PROCEDURE = format_number,
+    RIGHTARG = numeric
+);
+
+
+ALTER OPERATOR demo.# (NONE, numeric) OWNER TO raja;
+
+--
+-- Name: relationships; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE relationships (
+    relationship_id integer NOT NULL,
+    relationship_code character varying(10),
+    relationship_name character varying NOT NULL,
+    activity tactivity DEFAULT 'int'::tactivity NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.relationships OWNER TO raja;
+
+--
+-- Name: transaction_details; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE transaction_details (
+    trans_id integer NOT NULL,
+    trans_date date NOT NULL,
+    trans_type ttype DEFAULT 'i'::ttype NOT NULL,
+    trans_head thead DEFAULT 'pur'::thead NOT NULL,
+    quantity numeric NOT NULL,
+    uom_id integer DEFAULT 1 NOT NULL,
+    value numeric,
+    ref_id integer NOT NULL,
+    parent_id integer,
+    CONSTRAINT t_quantity_chk CHECK ((quantity > (0)::numeric)),
+    CONSTRAINT t_value_chk CHECK ((value > (0)::numeric))
+);
+
+
+ALTER TABLE demo.transaction_details OWNER TO raja;
+
+--
+-- Name: uom; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE uom (
+    uom_id integer NOT NULL,
+    uom_code character varying(10),
+    uom_desc character varying NOT NULL
+);
+
+
+ALTER TABLE demo.uom OWNER TO raja;
+
+--
+-- Name: receipt_report_view; Type: VIEW; Schema: demo; Owner: raja
+--
+
+CREATE VIEW receipt_report_view AS
+    SELECT rc.receipt_id, rc.receipt_ref, rc.receipt_date, re.relationship_name AS supplier, uo.uom_code, ri.quantity, pr.product_desc, ri.price, ri.conversion_rate, cu.currency_code, ri.remarks, (# receipt_item_tax_value_func(ri.receipt_id, ri.item_id)) AS item_tax_value FROM ((((((receipt rc JOIN receipt_items ri USING (receipt_id)) JOIN transaction_details td ON ((((td.ref_id = ri.item_id) AND (td.trans_type = 'i'::ttype)) AND (td.trans_head = 'pur'::thead)))) JOIN products pr ON ((pr.product_id = ri.product_id))) JOIN relationships re ON ((re.relationship_id = rc.supplier_id))) JOIN uom uo ON ((uo.uom_id = ri.uom_id))) JOIN currency cu ON ((cu.currency_id = ri.currency_id)));
+
+
+ALTER TABLE demo.receipt_report_view OWNER TO raja;
+
+--
+-- Name: receipt_tax; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE receipt_tax (
+    receipt_id integer NOT NULL,
+    tax_id integer NOT NULL,
+    tax_rate numeric,
+    tax_value numeric,
+    tax_sequence integer
+);
+
+
+ALTER TABLE demo.receipt_tax OWNER TO raja;
+
+--
+-- Name: reports; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE reports (
+    report_id integer NOT NULL,
+    report_code character varying(10),
+    report_name character varying NOT NULL,
+    view_name character varying NOT NULL
+);
+
+
+ALTER TABLE demo.reports OWNER TO raja;
+
+--
+-- Name: sales; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE sales (
+    sales_id integer NOT NULL,
+    sales_ref character varying,
+    buyer_id integer NOT NULL,
+    sales_date date DEFAULT now() NOT NULL,
+    payment_status tstatus DEFAULT 'act'::tstatus NOT NULL
+);
+
+
+ALTER TABLE demo.sales OWNER TO raja;
+
+--
+-- Name: sales_items; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE sales_items (
+    item_id integer NOT NULL,
+    sales_id integer NOT NULL,
+    product_id integer NOT NULL,
+    quantity numeric NOT NULL,
+    uom_id integer DEFAULT 1 NOT NULL,
+    price numeric,
+    currency_id integer DEFAULT 1,
+    conversion_rate numeric DEFAULT 1,
+    remarks character varying,
+    CONSTRAINT si_price_chk CHECK ((price > (0)::numeric)),
+    CONSTRAINT si_quantity_chk CHECK ((quantity > (0)::numeric))
+);
+
+
+ALTER TABLE demo.sales_items OWNER TO raja;
+
+--
+-- Name: sales_payment_relation; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE sales_payment_relation (
+    payment_id integer NOT NULL,
+    sales_id integer NOT NULL,
+    amount numeric(10,4),
+    deductions numeric(10,4),
+    CONSTRAINT sales_payment_relation_amount_check CHECK ((amount > 0.0))
+);
+
+
+ALTER TABLE demo.sales_payment_relation OWNER TO raja;
+
+--
+-- Name: sales_item_tax_value_func(integer, integer); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION sales_item_tax_value_func(integer, integer) RETURNS numeric
+    AS $_$
+DECLARE
+	-- arg[1] = sales_id, [2] = item_id
+	tax_rec record;
+	var_bill_value numeric;
+	var_item_value numeric;
+	var_tax_value numeric;
+BEGIN
+	SELECT sum(quantity * price * conversion_rate) INTO var_bill_value FROM sales_items WHERE sales_id = $1;
+	SELECT quantity * price * conversion_rate INTO var_item_value FROM sales_items WHERE item_id = $2;
+
+	var_tax_value = 0;
+	FOR tax_rec IN SELECT st.tax_id, st.tax_rate, st.tax_value, t.tax_type_id FROM sales_tax st JOIN tax t USING (tax_id) WHERE sales_id = $1 ORDER BY tax_sequence LOOP
+		IF tax_rec.tax_type_id = 1 then
+			var_tax_value = var_tax_value + (var_item_value * tax_rec.tax_value / var_bill_value);
+		ELSIF tax_rec.tax_type_id = 2 then
+			var_tax_value = var_tax_value + (var_item_value * tax_rec.tax_rate / 100);
+		ELSIF tax_rec.tax_type_id = 3 THEN
+			var_tax_value = var_tax_value - (var_item_value * tax_rec.tax_value / var_bill_value);
+		ELSIF tax_rec.tax_type_id = 4 THEN
+			var_tax_value = var_tax_value - (var_item_value * tax_rec.tax_rate / 100);
+		END IF;
+	END LOOP;
+RETURN round(var_tax_value,4);
+END;
+$_$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.sales_item_tax_value_func(integer, integer) OWNER TO raja;
+
+--
+-- Name: sales_report_view; Type: VIEW; Schema: demo; Owner: raja
+--
+
+CREATE VIEW sales_report_view AS
+    SELECT sa.sales_id, sa.sales_ref, sa.sales_date, re.relationship_name AS buyer, uo.uom_code, si.quantity, pr.product_desc, si.price, si.conversion_rate, cu.currency_code, si.remarks, (# sales_item_tax_value_func(si.sales_id, si.item_id)) AS item_tax_value FROM (((((sales sa JOIN sales_items si USING (sales_id)) JOIN products pr ON ((pr.product_id = si.product_id))) JOIN relationships re ON ((re.relationship_id = sa.buyer_id))) JOIN uom uo ON ((uo.uom_id = si.uom_id))) JOIN currency cu ON ((cu.currency_id = si.currency_id)));
+
+
+ALTER TABLE demo.sales_report_view OWNER TO raja;
+
+--
+-- Name: sales_tax; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE sales_tax (
+    sales_id integer NOT NULL,
+    tax_id integer NOT NULL,
+    tax_rate numeric,
+    tax_value numeric,
+    tax_sequence integer
+);
+
+
+ALTER TABLE demo.sales_tax OWNER TO raja;
+
+--
+-- Name: transaction_balance; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE transaction_balance (
+    trans_id integer NOT NULL,
+    in_qty numeric,
+    out_qty numeric DEFAULT 0,
+    bal_qty numeric DEFAULT 0,
+    in_value numeric DEFAULT 0,
+    out_value numeric DEFAULT 0,
+    bal_value numeric DEFAULT 0,
+    CONSTRAINT tb_inqty CHECK ((in_qty > (0)::numeric))
+);
+
+
+ALTER TABLE demo.transaction_balance OWNER TO raja;
+
+--
+-- Name: stock_report_view; Type: VIEW; Schema: demo; Owner: raja
+--
+
+CREATE VIEW stock_report_view AS
+    SELECT td.trans_id, td.trans_date, pr.product_code, pr.product_desc, u.uom_code, u.uom_desc, tb.in_qty, tb.out_qty, tb.bal_qty, rc.receipt_ref, re.relationship_name AS supplier FROM ((((((transaction_details td JOIN transaction_balance tb USING (trans_id)) JOIN receipt_items ri ON ((ri.item_id = td.ref_id))) JOIN receipt rc ON ((rc.receipt_id = ri.receipt_id))) JOIN relationships re ON ((re.relationship_id = rc.supplier_id))) JOIN products pr ON ((pr.product_id = ri.product_id))) JOIN uom u ON ((u.uom_id = td.uom_id))) WHERE ((tb.bal_qty > (0)::numeric) AND (td.trans_head = 'pur'::thead));
+
+
+ALTER TABLE demo.stock_report_view OWNER TO raja;
+
+--
+-- Name: tablefunc_crosstab_2; Type: TYPE; Schema: demo; Owner: raja
+--
+
+CREATE TYPE tablefunc_crosstab_2 AS (
+	row_name text,
+	category_1 text,
+	category_2 text
+);
+
+
+ALTER TYPE demo.tablefunc_crosstab_2 OWNER TO raja;
+
+--
+-- Name: tablefunc_crosstab_3; Type: TYPE; Schema: demo; Owner: raja
+--
+
+CREATE TYPE tablefunc_crosstab_3 AS (
+	row_name text,
+	category_1 text,
+	category_2 text,
+	category_3 text
+);
+
+
+ALTER TYPE demo.tablefunc_crosstab_3 OWNER TO raja;
+
+--
+-- Name: tablefunc_crosstab_4; Type: TYPE; Schema: demo; Owner: raja
+--
+
+CREATE TYPE tablefunc_crosstab_4 AS (
+	row_name text,
+	category_1 text,
+	category_2 text,
+	category_3 text,
+	category_4 text
+);
+
+
+ALTER TYPE demo.tablefunc_crosstab_4 OWNER TO raja;
+
+--
+-- Name: tax; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE tax (
+    tax_id integer NOT NULL,
+    tax_desc character varying NOT NULL,
+    tax_type_id integer NOT NULL,
+    is_billed smallint DEFAULT 1 NOT NULL,
+    print_order integer
+);
+
+
+ALTER TABLE demo.tax OWNER TO raja;
+
+--
+-- Name: tax_type; Type: TABLE; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE TABLE tax_type (
+    tax_type_id integer NOT NULL,
+    tax_type_desc character varying NOT NULL
+);
+
+
+ALTER TABLE demo.tax_type OWNER TO raja;
+
+--
+-- Name: connectby(text, text, text, text, integer, text); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION connectby(text, text, text, text, integer, text) RETURNS SETOF record
+    AS '$libdir/tablefunc', 'connectby_text'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.connectby(text, text, text, text, integer, text) OWNER TO raja;
+
+--
+-- Name: connectby(text, text, text, text, integer); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION connectby(text, text, text, text, integer) RETURNS SETOF record
+    AS '$libdir/tablefunc', 'connectby_text'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.connectby(text, text, text, text, integer) OWNER TO raja;
+
+--
+-- Name: connectby(text, text, text, text, text, integer, text); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION connectby(text, text, text, text, text, integer, text) RETURNS SETOF record
+    AS '$libdir/tablefunc', 'connectby_text_serial'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.connectby(text, text, text, text, text, integer, text) OWNER TO raja;
+
+--
+-- Name: connectby(text, text, text, text, text, integer); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION connectby(text, text, text, text, text, integer) RETURNS SETOF record
+    AS '$libdir/tablefunc', 'connectby_text_serial'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.connectby(text, text, text, text, text, integer) OWNER TO raja;
+
+--
+-- Name: crosstab(text); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION crosstab(text) RETURNS SETOF record
+    AS '$libdir/tablefunc', 'crosstab'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.crosstab(text) OWNER TO raja;
+
+--
+-- Name: crosstab(text, integer); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION crosstab(text, integer) RETURNS SETOF record
+    AS '$libdir/tablefunc', 'crosstab'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.crosstab(text, integer) OWNER TO raja;
+
+--
+-- Name: crosstab(text, text); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION crosstab(text, text) RETURNS SETOF record
+    AS '$libdir/tablefunc', 'crosstab_hash'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.crosstab(text, text) OWNER TO raja;
+
+--
+-- Name: crosstab2(text); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION crosstab2(text) RETURNS SETOF tablefunc_crosstab_2
+    AS '$libdir/tablefunc', 'crosstab'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.crosstab2(text) OWNER TO raja;
+
+--
+-- Name: crosstab3(text); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION crosstab3(text) RETURNS SETOF tablefunc_crosstab_3
+    AS '$libdir/tablefunc', 'crosstab'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.crosstab3(text) OWNER TO raja;
+
+--
+-- Name: crosstab4(text); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION crosstab4(text) RETURNS SETOF tablefunc_crosstab_4
+    AS '$libdir/tablefunc', 'crosstab'
+    LANGUAGE c STABLE STRICT;
+
+
+ALTER FUNCTION demo.crosstab4(text) OWNER TO raja;
+
+--
+-- Name: normal_rand(integer, double precision, double precision); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION normal_rand(integer, double precision, double precision) RETURNS SETOF double precision
+    AS '$libdir/tablefunc', 'normal_rand'
+    LANGUAGE c STRICT;
+
+
+ALTER FUNCTION demo.normal_rand(integer, double precision, double precision) OWNER TO raja;
+
+--
+-- Name: receipt_payment_status_func(); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION receipt_payment_status_func() RETURNS trigger
+    AS $$
+DECLARE 
+	receipt_value numeric;
+BEGIN
+	IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
+		SELECT INTO receipt_value sum((quantity*price*conversion_rate)+receipt_item_tax_value_func(receipt_id,item_id)) 
+		FROM receipt_items
+		WHERE receipt_id = NEW.receipt_id;
+		
+		IF ( (NEW.amount+NEW.deductions) >= receipt_value ) THEN
+		
+			UPDATE receipt SET payment_status='com' WHERE receipt_id = NEW.receipt_id;
+
+		END IF;
+
+	ELSIF (TG_OP = 'DELETE') THEN
+		
+			UPDATE receipt SET payment_status='com' WHERE receipt_id = NEW.receipt_id;
+
+	END IF;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.receipt_payment_status_func() OWNER TO raja;
+
+--
+-- Name: receipt_tax_value_bupdate_func(); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION receipt_tax_value_bupdate_func() RETURNS trigger
+    AS $$
+DECLARE
+	var_tax_type int;
+	var_bill_value numeric;
+BEGIN
+	SELECT tax_type_id INTO var_tax_type FROM tax WHERE tax_id = NEW.tax_id;
+	SELECT sum(quantity * price * conversion_rate) INTO var_bill_value FROM receipt_items WHERE receipt_id = NEW.receipt_id;
+
+	IF var_tax_type = 1 then
+                NEW.tax_value = NEW.tax_rate;
+        ELSIF var_tax_type = 2 then
+                NEW.tax_value = var_bill_value * (NEW.tax_rate/100);
+        ELSIF var_tax_type = 3 THEN
+                NEW.tax_value = - (NEW.tax_rate);
+        ELSIF var_tax_type = 4 THEN
+                NEW.tax_value = - var_bill_value * (NEW.tax_rate/100);
+	END IF;
+RETURN NEW;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.receipt_tax_value_bupdate_func() OWNER TO raja;
+
+--
+-- Name: sales_payment_status_func(); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION sales_payment_status_func() RETURNS trigger
+    AS $$
+DECLARE 
+	sales_value numeric(10,4);
+BEGIN
+	IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
+		SELECT INTO sales_value sum((quantity*price*conversion_rate)+sales_item_tax_value_func(sales_id,item_id)) 
+		FROM sales_items
+		WHERE sales_id = NEW.sales_id;
+		
+		IF ( (NEW.amount+NEW.deductions) >= sales_value ) THEN
+		
+			UPDATE sales SET payment_status='com' WHERE sales_id = NEW.sales_id;
+
+		END IF;
+
+	ELSIF (TG_OP = 'DELETE') THEN
+		
+			UPDATE sales SET payment_status='com' WHERE sales_id = NEW.sales_id;
+
+	END IF;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.sales_payment_status_func() OWNER TO raja;
+
+--
+-- Name: sales_tax_value_bupdate_func(); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION sales_tax_value_bupdate_func() RETURNS trigger
+    AS $$
+DECLARE
+	var_tax_type int;
+	var_bill_value numeric;
+BEGIN
+	SELECT tax_type_id INTO var_tax_type FROM tax WHERE tax_id = NEW.tax_id;
+	SELECT sum(quantity * price * conversion_rate) INTO var_bill_value FROM sales_items WHERE sales_id = NEW.sales_id;
+
+	IF var_tax_type = 1 then
+                NEW.tax_value = NEW.tax_rate;
+        ELSIF var_tax_type = 2 then
+                NEW.tax_value = var_bill_value * (NEW.tax_rate/100);
+        ELSIF var_tax_type = 3 THEN
+                NEW.tax_value = - (NEW.tax_rate);
+        ELSIF var_tax_type = 4 THEN
+                NEW.tax_value = - var_bill_value * (NEW.tax_rate/100);
+	END IF;
+RETURN NEW;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.sales_tax_value_bupdate_func() OWNER TO raja;
+
+--
+-- Name: trans_balance_func(); Type: FUNCTION; Schema: demo; Owner: raja
+--
+
+CREATE FUNCTION trans_balance_func() RETURNS trigger
+    AS $$
+BEGIN
+	IF (TG_OP = 'INSERT') THEN
+		IF (NEW.trans_type = 'i' AND NEW.trans_head = 'pur') THEN
+			INSERT INTO transaction_balance(trans_id,in_qty,out_qty,bal_qty) VALUES (NEW.trans_id,NEW.quantity,0,NEW.quantity);
+		ELSIF (NEW.trans_type = 'o' AND NEW.trans_head = 'sal') THEN
+			UPDATE transaction_balance SET out_qty = out_qty+NEW.quantity , bal_qty = bal_qty-NEW.quantity WHERE trans_id = NEW.parent_id;
+		END IF;
+	ELSIF (TG_OP = 'UPDATE') THEN
+		IF (NEW.trans_type = 'i' AND NEW.trans_head = 'pur') THEN
+			UPDATE transaction_balance SET in_qty = in_qty+NEW.quantity-OLD.quantity , bal_qty = bal_qty-NEW.quantity+OLD.quantity WHERE trans_id = NEW.trans_id;
+		ELSIF (NEW.trans_type = 'o' AND NEW.trans_head = 'sal') THEN
+			UPDATE transaction_balance SET out_qty = out_qty+NEW.quantity-OLD.quantity , bal_qty = bal_qty-NEW.quantity+OLD.quantity WHERE trans_id = NEW.parent_id;
+		END IF; 
+	ELSIF (TG_OP = 'DELETE') THEN
+		IF (OLD.trans_type = 'i' AND OLD.trans_head = 'pur') THEN
+			DELETE FROM transaction_balance WHERE trans_id = OLD.trans_id;
+		ELSIF (OLD.trans_type = 'o' AND OLD.trans_head = 'sal') THEN
+			UPDATE transaction_balance SET out_qty = out_qty-OLD.quantity , bal_qty = bal_qty+OLD.quantity WHERE trans_id = OLD.parent_id;			
+		END IF;
+	END IF;
+
+RETURN NULL;
+END;
+$$
+    LANGUAGE plpgsql;
+
+
+ALTER FUNCTION demo.trans_balance_func() OWNER TO raja;
+
+--
+-- Name: city_city_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE city_city_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.city_city_id_seq OWNER TO raja;
+
+--
+-- Name: city_city_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE city_city_id_seq OWNED BY city.city_id;
+
+
+--
+-- Name: city_city_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('city_city_id_seq', 1, true);
+
+
+--
+-- Name: columns_column_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE columns_column_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.columns_column_id_seq OWNER TO raja;
+
+--
+-- Name: columns_column_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE columns_column_id_seq OWNED BY columns.column_id;
+
+
+--
+-- Name: columns_column_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('columns_column_id_seq', 21, true);
+
+
+--
+-- Name: contacts_contact_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE contacts_contact_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.contacts_contact_id_seq OWNER TO raja;
+
+--
+-- Name: contacts_contact_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE contacts_contact_id_seq OWNED BY contacts.contact_id;
+
+
+--
+-- Name: contacts_contact_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('contacts_contact_id_seq', 1, false);
+
+
+--
+-- Name: country_country_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE country_country_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.country_country_id_seq OWNER TO raja;
+
+--
+-- Name: country_country_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE country_country_id_seq OWNED BY country.country_id;
+
+
+--
+-- Name: country_country_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('country_country_id_seq', 1, true);
+
+
+--
+-- Name: currency_currency_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE currency_currency_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.currency_currency_id_seq OWNER TO raja;
+
+--
+-- Name: currency_currency_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE currency_currency_id_seq OWNED BY currency.currency_id;
+
+
+--
+-- Name: currency_currency_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('currency_currency_id_seq', 1, true);
+
+
+--
+-- Name: customizations_customization_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE customizations_customization_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.customizations_customization_id_seq OWNER TO raja;
+
+--
+-- Name: customizations_customization_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE customizations_customization_id_seq OWNED BY customizations.customization_id;
+
+
+--
+-- Name: customizations_customization_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('customizations_customization_id_seq', 16, true);
+
+
+--
+-- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE payment_mode_payment_mode_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.payment_mode_payment_mode_id_seq OWNER TO raja;
+
+--
+-- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE payment_mode_payment_mode_id_seq OWNED BY payment_mode.payment_mode_id;
+
+
+--
+-- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('payment_mode_payment_mode_id_seq', 3, true);
+
+
+--
+-- Name: payments_payment_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE payments_payment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.payments_payment_id_seq OWNER TO raja;
+
+--
+-- Name: payments_payment_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE payments_payment_id_seq OWNED BY payments.payment_id;
+
+
+--
+-- Name: payments_payment_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('payments_payment_id_seq', 1, false);
+
+
+--
+-- Name: products_product_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE products_product_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.products_product_id_seq OWNER TO raja;
+
+--
+-- Name: products_product_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE products_product_id_seq OWNED BY products.product_id;
+
+
+--
+-- Name: products_product_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('products_product_id_seq', 5, true);
+
+
+--
+-- Name: receipt_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE receipt_items_item_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.receipt_items_item_id_seq OWNER TO raja;
+
+--
+-- Name: receipt_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE receipt_items_item_id_seq OWNED BY receipt_items.item_id;
+
+
+--
+-- Name: receipt_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('receipt_items_item_id_seq', 5, true);
+
+
+--
+-- Name: receipt_receipt_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE receipt_receipt_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.receipt_receipt_id_seq OWNER TO raja;
+
+--
+-- Name: receipt_receipt_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE receipt_receipt_id_seq OWNED BY receipt.receipt_id;
+
+
+--
+-- Name: receipt_receipt_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('receipt_receipt_id_seq', 1, true);
+
+
+--
+-- Name: relationships_relationship_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE relationships_relationship_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.relationships_relationship_id_seq OWNER TO raja;
+
+--
+-- Name: relationships_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE relationships_relationship_id_seq OWNED BY relationships.relationship_id;
+
+
+--
+-- Name: relationships_relationship_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('relationships_relationship_id_seq', 2, true);
+
+
+--
+-- Name: reports_report_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE reports_report_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.reports_report_id_seq OWNER TO raja;
+
+--
+-- Name: reports_report_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE reports_report_id_seq OWNED BY reports.report_id;
+
+
+--
+-- Name: reports_report_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('reports_report_id_seq', 3, true);
+
+
+--
+-- Name: sales_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE sales_items_item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.sales_items_item_id_seq OWNER TO raja;
+
+--
+-- Name: sales_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE sales_items_item_id_seq OWNED BY sales_items.item_id;
+
+
+--
+-- Name: sales_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('sales_items_item_id_seq', 1, false);
+
+
+--
+-- Name: sales_sales_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE sales_sales_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.sales_sales_id_seq OWNER TO raja;
+
+--
+-- Name: sales_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE sales_sales_id_seq OWNED BY sales.sales_id;
+
+
+--
+-- Name: sales_sales_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('sales_sales_id_seq', 1, false);
+
+
+--
+-- Name: tax_tax_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE tax_tax_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.tax_tax_id_seq OWNER TO raja;
+
+--
+-- Name: tax_tax_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE tax_tax_id_seq OWNED BY tax.tax_id;
+
+
+--
+-- Name: tax_tax_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('tax_tax_id_seq', 2, true);
+
+
+--
+-- Name: tax_type_tax_type_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE tax_type_tax_type_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.tax_type_tax_type_id_seq OWNER TO raja;
+
+--
+-- Name: tax_type_tax_type_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE tax_type_tax_type_id_seq OWNED BY tax_type.tax_type_id;
+
+
+--
+-- Name: tax_type_tax_type_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('tax_type_tax_type_id_seq', 5, true);
+
+
+--
+-- Name: transaction_details_trans_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE transaction_details_trans_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.transaction_details_trans_id_seq OWNER TO raja;
+
+--
+-- Name: transaction_details_trans_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE transaction_details_trans_id_seq OWNED BY transaction_details.trans_id;
+
+
+--
+-- Name: transaction_details_trans_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('transaction_details_trans_id_seq', 5, true);
+
+
+--
+-- Name: uom_uom_id_seq; Type: SEQUENCE; Schema: demo; Owner: raja
+--
+
+CREATE SEQUENCE uom_uom_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE demo.uom_uom_id_seq OWNER TO raja;
+
+--
+-- Name: uom_uom_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: raja
+--
+
+ALTER SEQUENCE uom_uom_id_seq OWNED BY uom.uom_id;
+
+
+--
+-- Name: uom_uom_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: raja
+--
+
+SELECT pg_catalog.setval('uom_uom_id_seq', 1, true);
+
+
+--
+-- Name: city_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE city ALTER COLUMN city_id SET DEFAULT nextval('city_city_id_seq'::regclass);
+
+
+--
+-- Name: column_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE columns ALTER COLUMN column_id SET DEFAULT nextval('columns_column_id_seq'::regclass);
+
+
+--
+-- Name: contact_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE contacts ALTER COLUMN contact_id SET DEFAULT nextval('contacts_contact_id_seq'::regclass);
+
+
+--
+-- Name: country_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE country ALTER COLUMN country_id SET DEFAULT nextval('country_country_id_seq'::regclass);
+
+
+--
+-- Name: currency_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE currency ALTER COLUMN currency_id SET DEFAULT nextval('currency_currency_id_seq'::regclass);
+
+
+--
+-- Name: customization_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE customizations ALTER COLUMN customization_id SET DEFAULT nextval('customizations_customization_id_seq'::regclass);
+
+
+--
+-- Name: payment_mode_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE payment_mode ALTER COLUMN payment_mode_id SET DEFAULT nextval('payment_mode_payment_mode_id_seq'::regclass);
+
+
+--
+-- Name: payment_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE payments ALTER COLUMN payment_id SET DEFAULT nextval('payments_payment_id_seq'::regclass);
+
+
+--
+-- Name: product_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE products ALTER COLUMN product_id SET DEFAULT nextval('products_product_id_seq'::regclass);
+
+
+--
+-- Name: receipt_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE receipt ALTER COLUMN receipt_id SET DEFAULT nextval('receipt_receipt_id_seq'::regclass);
+
+
+--
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE receipt_items ALTER COLUMN item_id SET DEFAULT nextval('receipt_items_item_id_seq'::regclass);
+
+
+--
+-- Name: relationship_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE relationships ALTER COLUMN relationship_id SET DEFAULT nextval('relationships_relationship_id_seq'::regclass);
+
+
+--
+-- Name: report_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE reports ALTER COLUMN report_id SET DEFAULT nextval('reports_report_id_seq'::regclass);
+
+
+--
+-- Name: sales_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'::regclass);
+
+
+--
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE sales_items ALTER COLUMN item_id SET DEFAULT nextval('sales_items_item_id_seq'::regclass);
+
+
+--
+-- Name: tax_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE tax ALTER COLUMN tax_id SET DEFAULT nextval('tax_tax_id_seq'::regclass);
+
+
+--
+-- Name: tax_type_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE tax_type ALTER COLUMN tax_type_id SET DEFAULT nextval('tax_type_tax_type_id_seq'::regclass);
+
+
+--
+-- Name: trans_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE transaction_details ALTER COLUMN trans_id SET DEFAULT nextval('transaction_details_trans_id_seq'::regclass);
+
+
+--
+-- Name: uom_id; Type: DEFAULT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE uom ALTER COLUMN uom_id SET DEFAULT nextval('uom_uom_id_seq'::regclass);
+
+
+--
+-- Data for Name: city; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY city (city_id, city_code, city_name, country_id, print_order) FROM stdin;
+1	\N	CHENNAI	1	\N
+\.
+
+
+--
+-- Data for Name: columns; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY columns (column_id, column_name, is_filter, filter_query, data_type) FROM stdin;
+1	receipt_id	\N	\N	int
+2	'<a href="details.php?module=receipt&receipt_id='||receipt_id||'">'||receipt_ref||'</a>'	\N	\N	varchar
+3	receipt_date	\N	\N	date
+4	supplier	\N	\N	varchar
+5	product_desc	\N	\N	varchar
+6	quantity	\N	\N	numeric
+7	item_tax_value	\N	\N	numeric
+8	price	\N	\N	numeric
+9	quantity * price	\N	\N	numeric
+10	quantity * price + item_tax_value	\N	\N	numeric
+11	sales_id	\N	\N	int
+12	'<a href="details.php?module=sales&sales_id='||sales_id||'">'||sales_ref||'</a>'	\N	\N	varchar
+13	sales_date	\N	\N	date
+14	buyer	\N	\N	varchar
+15	'<a href="details.php?module=stock&trans_id='||trans_id||'">'||trans_id||'</a>'	\N	\N	int
+16	uom_code	\N	\N	varchar
+17	uom_desc	\N	\N	varchar
+18	trans_date	\N	\N	date
+19	in_qty	\N	\N	numeric
+20	out_qty	\N	\N	numeric
+21	bal_qty	\N	\N	numeric
+\.
+
+
+--
+-- Data for Name: contacts; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY contacts (contact_id, relationship_id, address1, address2, pincode, phone_no, email, city_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: country; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY country (country_id, country_code, country_name, print_order) FROM stdin;
+1	IN	INDIA	\N
+\.
+
+
+--
+-- Data for Name: currency; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY currency (currency_id, currency_code, currency_name, conversion_rate) FROM stdin;
+1	INR	INR	1
+\.
+
+
+--
+-- Data for Name: customization_columns; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY customization_columns (customization_id, column_id, display_name, display_order, sort_order, is_group, is_filter, default_value, date_condition, decimal_places, date_format, display_total, style) FROM stdin;
+1	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1	2	Receipt Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1	3	Receipt Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+1	4	Supplier	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+1	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+1	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+1	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+1	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+1	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+1	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+2	11	Sales	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+2	12	Sales Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+2	13	Sales Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+2	14	Buyer	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+2	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+2	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+2	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+2	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+2	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+2	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+3	15	Stock	1.5	\N	\N	\N	\N	\N	\N	\N	\N	\N
+3	16	UOM	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+3	17	UOM	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+3	18	Stock Date	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+3	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+3	2	Receipt Ref	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+3	4	Supplier	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+3	5	Product	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+3	19	Receipt Qty	2	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+3	20	Sales Qty	3	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+3	21	Bal Qty	4	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+4	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+4	2	Receipt Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+4	3	Receipt Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+4	4	Supplier	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+4	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+4	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+4	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+4	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+4	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+4	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+5	11	Sales	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+5	12	Sales Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+5	13	Sales Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+5	14	Buyer	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+5	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+5	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+5	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+5	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+5	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+5	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+6	15	Stock	1.5	\N	\N	\N	\N	\N	\N	\N	\N	\N
+6	16	UOM	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+6	17	UOM	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+6	18	Stock Date	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+6	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+6	2	Receipt Ref	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+6	4	Supplier	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+6	5	Product	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+6	19	Receipt Qty	2	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+6	20	Sales Qty	3	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+6	21	Bal Qty	4	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+7	2	Receipt Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+7	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+7	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+7	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+7	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+7	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+7	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+7	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+8	14	Buyer	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+8	12	Sales Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+8	13	Sales Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+8	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+8	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+8	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+8	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+8	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+8	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+8	11	Sales	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+9	18	Stock Date	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+10	4	Supplier-copy	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+10	2	Receipt Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+10	3	Receipt Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+10	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+10	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+10	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+10	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+10	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+10	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+11	4	Supplier	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+9	5	Product	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+9	15	Stock	1.5	\N	\N	\N	\N	\N	\N	\N	\N	\N
+9	19	Receipt Qty	2	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+9	20	Sales Qty	3	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+9	21	Bal Qty	4	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+9	4	Supplier	5	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+9	16	UOM	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+9	2	Receipt Ref	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+9	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+9	17	UOM	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+10	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+11	2	Receipt Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+11	3	Receipt Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+11	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+11	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+11	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+11	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+11	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+11	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+11	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+12	4	Supplier	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+12	2	Receipt Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+12	3	Receipt Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+12	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+12	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+12	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+12	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+12	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+12	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+12	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+13	4	Supplier	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+13	2	Receipt Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+13	3	Receipt Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+13	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+13	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+13	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+13	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+13	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+13	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+13	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+7	4	Supplier	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+7	3	Receipt Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+15	4	Supplier	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+15	2	Receipt Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+15	3	Receipt Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+15	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+15	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+15	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+15	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+15	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+15	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+15	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+16	4	Supplier	1	ASC	1	\N	\N	\N	\N	\N	\N	\N
+16	2	Receipt Ref	2	\N	\N	\N	\N	\N	\N	\N	\N	\N
+16	3	Receipt Date	3	\N	\N	\N	\N	\N	\N	dd/mm/yyyy	\N	\N
+16	5	Product	4	ASC	\N	\N	\N	\N	\N	\N	\N	\N
+16	6	Quantity	5	\N	\N	\N	\N	\N	0	\N	1	text-align:right;
+16	8	Price	6	\N	\N	\N	\N	\N	2	\N	\N	text-align:right;
+16	9	Value	7	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+16	7	Item Tax	8	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+16	10	Taxed Value	9	\N	\N	\N	\N	\N	2	\N	1	text-align:right;
+16	1	Receipt	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: customizations; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY customizations (customization_id, customization_name, is_active, is_default, report_id, sub_total, grand_total) FROM stdin;
+1	Def	1	2	1	\N	\N
+2	Def	1	2	2	\N	\N
+3	Def	1	2	3	\N	\N
+5	Default	1	0	2	\N	\N
+8	Format 1	1	1	2	\N	\N
+6	Default	1	0	3	\N	\N
+9	Format 1	1	1	3	\N	1
+11	Copy2	0	0	1	\N	1
+13	Copy3	0	0	1	\N	\N
+4	Default	1	0	1	\N	\N
+12	Copy2	0	0	1	1	\N
+7	Format 1	1	1	1	\N	1
+10	Copy	0	0	1	1	1
+15	Copy4	1	0	1	\N	\N
+16	Copy66	1	0	1	\N	\N
+\.
+
+
+--
+-- Data for Name: payment_mode; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY payment_mode (payment_mode_id, payment_mode_code, payment_mode_name, print_order) FROM stdin;
+1	\N	CASH	\N
+2	\N	CHEQUE	\N
+3	\N	DEMAND DRAFT	\N
+\.
+
+
+--
+-- Data for Name: payments; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY payments (payment_id, relationship_id, payment_ref, payment_date, payment_mode_id, status) FROM stdin;
+\.
+
+
+--
+-- Data for Name: products; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY products (product_id, product_code, product_desc, print_order) FROM stdin;
+1	\N	Sample1	\N
+2	\N	Sample2	\N
+3	\N	Sample3	\N
+4	\N	Sample4	\N
+5	\N	Sample5	\N
+\.
+
+
+--
+-- Data for Name: receipt; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY receipt (receipt_id, receipt_ref, supplier_id, receipt_date, payment_status) FROM stdin;
+1	R1	2	2009-02-22	act
+\.
+
+
+--
+-- Data for Name: receipt_items; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY receipt_items (item_id, receipt_id, product_id, quantity, uom_id, price, currency_id, conversion_rate, remarks) FROM stdin;
+1	1	1	100	1	50	1	1	\N
+2	1	2	200	1	40	1	1	\N
+3	1	3	300	1	30	1	1	\N
+4	1	4	400	1	20	1	1	\N
+5	1	5	500	1	10	1	1	\N
+\.
+
+
+--
+-- Data for Name: receipt_payment_relation; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY receipt_payment_relation (payment_id, receipt_id, amount, deductions) FROM stdin;
+\.
+
+
+--
+-- Data for Name: receipt_tax; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY receipt_tax (receipt_id, tax_id, tax_rate, tax_value, tax_sequence) FROM stdin;
+1	1	4	1400.00000000000000000000	1
+\.
+
+
+--
+-- Data for Name: relationships; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY relationships (relationship_id, relationship_code, relationship_name, activity, print_order) FROM stdin;
+1	\N	DEMO	int	\N
+2	\N	Raja	sel	\N
+\.
+
+
+--
+-- Data for Name: reports; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY reports (report_id, report_code, report_name, view_name) FROM stdin;
+1	\N	Receipt Report	receipt_report_view
+2	\N	Sales Report	sales_report_view
+3	\N	Stock Report	stock_report_view
+\.
+
+
+--
+-- Data for Name: sales; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY sales (sales_id, sales_ref, buyer_id, sales_date, payment_status) FROM stdin;
+\.
+
+
+--
+-- Data for Name: sales_items; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY sales_items (item_id, sales_id, product_id, quantity, uom_id, price, currency_id, conversion_rate, remarks) FROM stdin;
+\.
+
+
+--
+-- Data for Name: sales_payment_relation; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY sales_payment_relation (payment_id, sales_id, amount, deductions) FROM stdin;
+\.
+
+
+--
+-- Data for Name: sales_tax; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY sales_tax (sales_id, tax_id, tax_rate, tax_value, tax_sequence) FROM stdin;
+\.
+
+
+--
+-- Data for Name: tax; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY tax (tax_id, tax_desc, tax_type_id, is_billed, print_order) FROM stdin;
+1	VAT 4%	2	1	\N
+2	Sales Tax	1	1	\N
+\.
+
+
+--
+-- Data for Name: tax_type; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY tax_type (tax_type_id, tax_type_desc) FROM stdin;
+1	Add
+2	Add %
+3	Deduce
+4	Deduce %
+5	Surcharge
+\.
+
+
+--
+-- Data for Name: transaction_balance; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY transaction_balance (trans_id, in_qty, out_qty, bal_qty, in_value, out_value, bal_value) FROM stdin;
+1	100	0	100	0	0	0
+2	200	0	200	0	0	0
+3	300	0	300	0	0	0
+4	400	0	400	0	0	0
+5	500	0	500	0	0	0
+\.
+
+
+--
+-- Data for Name: transaction_details; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY transaction_details (trans_id, trans_date, trans_type, trans_head, quantity, uom_id, value, ref_id, parent_id) FROM stdin;
+1	2009-02-22	i	pur	100	1	1	1	\N
+2	2009-02-22	i	pur	200	1	1	2	\N
+3	2009-02-22	i	pur	300	1	1	3	\N
+4	2009-02-22	i	pur	400	1	1	4	\N
+5	2009-02-22	i	pur	500	1	1	5	\N
+\.
+
+
+--
+-- Data for Name: uom; Type: TABLE DATA; Schema: demo; Owner: raja
+--
+
+COPY uom (uom_id, uom_code, uom_desc) FROM stdin;
+1	numb	Number
+\.
+
+
+--
+-- Name: city_city_name_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY city
+    ADD CONSTRAINT city_city_name_key UNIQUE (city_name);
+
+
+--
+-- Name: city_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY city
+    ADD CONSTRAINT city_pkey PRIMARY KEY (city_id);
+
+
+--
+-- Name: columns_column_name_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY columns
+    ADD CONSTRAINT columns_column_name_key UNIQUE (column_name);
+
+
+--
+-- Name: columns_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY columns
+    ADD CONSTRAINT columns_pkey PRIMARY KEY (column_id);
+
+
+--
+-- Name: contacts_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_pkey PRIMARY KEY (contact_id);
+
+
+--
+-- Name: country_country_name_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY country
+    ADD CONSTRAINT country_country_name_key UNIQUE (country_name);
+
+
+--
+-- Name: country_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY country
+    ADD CONSTRAINT country_pkey PRIMARY KEY (country_id);
+
+
+--
+-- Name: currency_currency_code_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY currency
+    ADD CONSTRAINT currency_currency_code_key UNIQUE (currency_code);
+
+
+--
+-- Name: currency_currency_name_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY currency
+    ADD CONSTRAINT currency_currency_name_key UNIQUE (currency_name);
+
+
+--
+-- Name: currency_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY currency
+    ADD CONSTRAINT currency_pkey PRIMARY KEY (currency_id);
+
+
+--
+-- Name: cust_column_id_unq; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY customization_columns
+    ADD CONSTRAINT cust_column_id_unq UNIQUE (customization_id, column_id);
+
+
+--
+-- Name: customizations_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY customizations
+    ADD CONSTRAINT customizations_pkey PRIMARY KEY (customization_id);
+
+
+--
+-- Name: payment_mode_payment_mode_name_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY payment_mode
+    ADD CONSTRAINT payment_mode_payment_mode_name_key UNIQUE (payment_mode_name);
+
+
+--
+-- Name: payment_mode_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY payment_mode
+    ADD CONSTRAINT payment_mode_pkey PRIMARY KEY (payment_mode_id);
+
+
+--
+-- Name: payments_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (payment_id);
+
+
+--
+-- Name: products_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY products
+    ADD CONSTRAINT products_pkey PRIMARY KEY (product_id);
+
+
+--
+-- Name: products_product_desc_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY products
+    ADD CONSTRAINT products_product_desc_key UNIQUE (product_desc);
+
+
+--
+-- Name: receipt_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_pkey PRIMARY KEY (item_id);
+
+
+--
+-- Name: receipt_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY receipt
+    ADD CONSTRAINT receipt_pkey PRIMARY KEY (receipt_id);
+
+
+--
+-- Name: relationships_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY relationships
+    ADD CONSTRAINT relationships_pkey PRIMARY KEY (relationship_id);
+
+
+--
+-- Name: report_cust_id_unq; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY customizations
+    ADD CONSTRAINT report_cust_id_unq UNIQUE (report_id, customization_id);
+
+
+--
+-- Name: reports_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_pkey PRIMARY KEY (report_id);
+
+
+--
+-- Name: reports_report_name_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_report_name_key UNIQUE (report_name);
+
+
+--
+-- Name: sales_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_pkey PRIMARY KEY (item_id);
+
+
+--
+-- Name: sales_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY sales
+    ADD CONSTRAINT sales_pkey PRIMARY KEY (sales_id);
+
+
+--
+-- Name: tax_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY tax
+    ADD CONSTRAINT tax_pkey PRIMARY KEY (tax_id);
+
+
+--
+-- Name: tax_tax_desc_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY tax
+    ADD CONSTRAINT tax_tax_desc_key UNIQUE (tax_desc);
+
+
+--
+-- Name: tax_type_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY tax_type
+    ADD CONSTRAINT tax_type_pkey PRIMARY KEY (tax_type_id);
+
+
+--
+-- Name: tax_type_tax_type_desc_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY tax_type
+    ADD CONSTRAINT tax_type_tax_type_desc_key UNIQUE (tax_type_desc);
+
+
+--
+-- Name: transaction_details_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY transaction_details
+    ADD CONSTRAINT transaction_details_pkey PRIMARY KEY (trans_id);
+
+
+--
+-- Name: uom_pkey; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY uom
+    ADD CONSTRAINT uom_pkey PRIMARY KEY (uom_id);
+
+
+--
+-- Name: uom_uom_code_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY uom
+    ADD CONSTRAINT uom_uom_code_key UNIQUE (uom_code);
+
+
+--
+-- Name: uom_uom_desc_key; Type: CONSTRAINT; Schema: demo; Owner: raja; Tablespace: 
+--
+
+ALTER TABLE ONLY uom
+    ADD CONSTRAINT uom_uom_desc_key UNIQUE (uom_desc);
+
+
+--
+-- Name: c_reports_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX c_reports_idx ON customizations USING btree (report_id);
+
+
+--
+-- Name: cc_column_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX cc_column_id_idx ON customization_columns USING btree (column_id);
+
+
+--
+-- Name: cc_customization_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX cc_customization_id_idx ON customization_columns USING btree (customization_id);
+
+
+--
+-- Name: ci_country_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX ci_country_id_idx ON city USING btree (country_id);
+
+
+--
+-- Name: co_city_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX co_city_id_idx ON contacts USING btree (city_id);
+
+
+--
+-- Name: co_relationship_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX co_relationship_id_idx ON contacts USING btree (relationship_id);
+
+
+--
+-- Name: r_buyer_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX r_buyer_id_idx ON sales USING btree (buyer_id);
+
+
+--
+-- Name: r_supplier_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX r_supplier_id_idx ON receipt USING btree (supplier_id);
+
+
+--
+-- Name: ri_currency_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX ri_currency_id_idx ON receipt_items USING btree (currency_id);
+
+
+--
+-- Name: ri_product_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX ri_product_id_idx ON receipt_items USING btree (product_id);
+
+
+--
+-- Name: ri_receipt_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX ri_receipt_id_idx ON receipt_items USING btree (receipt_id);
+
+
+--
+-- Name: ri_uom_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX ri_uom_id_idx ON receipt_items USING btree (uom_id);
+
+
+--
+-- Name: rt_receipt_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX rt_receipt_id_idx ON receipt_tax USING btree (receipt_id);
+
+
+--
+-- Name: rt_tax_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX rt_tax_id_idx ON receipt_tax USING btree (tax_id);
+
+
+--
+-- Name: si_currency_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX si_currency_id_idx ON sales_items USING btree (currency_id);
+
+
+--
+-- Name: si_product_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX si_product_id_idx ON sales_items USING btree (product_id);
+
+
+--
+-- Name: si_sales_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX si_sales_id_idx ON sales_items USING btree (sales_id);
+
+
+--
+-- Name: si_uom_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX si_uom_id_idx ON sales_items USING btree (uom_id);
+
+
+--
+-- Name: st_sales_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX st_sales_id_idx ON sales_tax USING btree (sales_id);
+
+
+--
+-- Name: st_tax_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX st_tax_id_idx ON sales_tax USING btree (tax_id);
+
+
+--
+-- Name: t_parent_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX t_parent_idx ON transaction_details USING btree (parent_id);
+
+
+--
+-- Name: t_trans_date_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX t_trans_date_idx ON transaction_details USING btree (trans_date);
+
+
+--
+-- Name: t_trans_head_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX t_trans_head_idx ON transaction_details USING btree (trans_head);
+
+
+--
+-- Name: t_trans_type_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX t_trans_type_idx ON transaction_details USING btree (trans_type);
+
+
+--
+-- Name: t_uom_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX t_uom_idx ON transaction_details USING btree (uom_id);
+
+
+--
+-- Name: tb_trans_id_idx; Type: INDEX; Schema: demo; Owner: raja; Tablespace: 
+--
+
+CREATE INDEX tb_trans_id_idx ON transaction_balance USING btree (trans_id);
+
+
+--
+-- Name: receipt_payment_status_trig; Type: TRIGGER; Schema: demo; Owner: raja
+--
+
+CREATE TRIGGER receipt_payment_status_trig
+    AFTER INSERT OR DELETE OR UPDATE ON receipt_payment_relation
+    FOR EACH ROW
+    EXECUTE PROCEDURE receipt_payment_status_func();
+
+
+--
+-- Name: receipt_tax_value_bupdate_trig; Type: TRIGGER; Schema: demo; Owner: raja
+--
+
+CREATE TRIGGER receipt_tax_value_bupdate_trig
+    BEFORE INSERT OR UPDATE ON receipt_tax
+    FOR EACH ROW
+    EXECUTE PROCEDURE receipt_tax_value_bupdate_func();
+
+
+--
+-- Name: sales_payment_status_trig; Type: TRIGGER; Schema: demo; Owner: raja
+--
+
+CREATE TRIGGER sales_payment_status_trig
+    AFTER INSERT OR DELETE OR UPDATE ON sales_payment_relation
+    FOR EACH ROW
+    EXECUTE PROCEDURE sales_payment_status_func();
+
+
+--
+-- Name: sales_tax_value_bupdate_trig; Type: TRIGGER; Schema: demo; Owner: raja
+--
+
+CREATE TRIGGER sales_tax_value_bupdate_trig
+    BEFORE INSERT OR UPDATE ON sales_tax
+    FOR EACH ROW
+    EXECUTE PROCEDURE sales_tax_value_bupdate_func();
+
+
+--
+-- Name: trans_balance_trig; Type: TRIGGER; Schema: demo; Owner: raja
+--
+
+CREATE TRIGGER trans_balance_trig
+    AFTER INSERT OR DELETE OR UPDATE ON transaction_details
+    FOR EACH ROW
+    EXECUTE PROCEDURE trans_balance_func();
+
+
+--
+-- Name: city_country_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY city
+    ADD CONSTRAINT city_country_id_fkey FOREIGN KEY (country_id) REFERENCES country(country_id);
+
+
+--
+-- Name: contacts_city_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_city_id_fkey FOREIGN KEY (city_id) REFERENCES city(city_id);
+
+
+--
+-- Name: contacts_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_relationship_id_fkey FOREIGN KEY (relationship_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: customization_columns_column_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY customization_columns
+    ADD CONSTRAINT customization_columns_column_id_fkey FOREIGN KEY (column_id) REFERENCES columns(column_id);
+
+
+--
+-- Name: customization_columns_customization_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY customization_columns
+    ADD CONSTRAINT customization_columns_customization_id_fkey FOREIGN KEY (customization_id) REFERENCES customizations(customization_id);
+
+
+--
+-- Name: customizations_report_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY customizations
+    ADD CONSTRAINT customizations_report_id_fkey FOREIGN KEY (report_id) REFERENCES reports(report_id);
+
+
+--
+-- Name: payments_payment_mode_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT payments_payment_mode_id_fkey FOREIGN KEY (payment_mode_id) REFERENCES payment_mode(payment_mode_id);
+
+
+--
+-- Name: payments_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT payments_relationship_id_fkey FOREIGN KEY (relationship_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: receipt_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_currency_id_fkey FOREIGN KEY (currency_id) REFERENCES currency(currency_id);
+
+
+--
+-- Name: receipt_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_product_id_fkey FOREIGN KEY (product_id) REFERENCES products(product_id);
+
+
+--
+-- Name: receipt_items_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_receipt_id_fkey FOREIGN KEY (receipt_id) REFERENCES receipt(receipt_id) ON DELETE CASCADE;
+
+
+--
+-- Name: receipt_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY receipt_items
+    ADD CONSTRAINT receipt_items_uom_id_fkey FOREIGN KEY (uom_id) REFERENCES uom(uom_id);
+
+
+--
+-- Name: receipt_payment_relation_payment_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY receipt_payment_relation
+    ADD CONSTRAINT receipt_payment_relation_payment_id_fkey FOREIGN KEY (payment_id) REFERENCES payments(payment_id);
+
+
+--
+-- Name: receipt_payment_relation_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY receipt_payment_relation
+    ADD CONSTRAINT receipt_payment_relation_receipt_id_fkey FOREIGN KEY (receipt_id) REFERENCES receipt(receipt_id);
+
+
+--
+-- Name: receipt_supplier_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY receipt
+    ADD CONSTRAINT receipt_supplier_id_fkey FOREIGN KEY (supplier_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: receipt_tax_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY receipt_tax
+    ADD CONSTRAINT receipt_tax_receipt_id_fkey FOREIGN KEY (receipt_id) REFERENCES receipt(receipt_id) ON DELETE CASCADE;
+
+
+--
+-- Name: receipt_tax_tax_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY receipt_tax
+    ADD CONSTRAINT receipt_tax_tax_id_fkey FOREIGN KEY (tax_id) REFERENCES tax(tax_id);
+
+
+--
+-- Name: sales_buyer_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY sales
+    ADD CONSTRAINT sales_buyer_id_fkey FOREIGN KEY (buyer_id) REFERENCES relationships(relationship_id);
+
+
+--
+-- Name: sales_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_currency_id_fkey FOREIGN KEY (currency_id) REFERENCES currency(currency_id);
+
+
+--
+-- Name: sales_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_product_id_fkey FOREIGN KEY (product_id) REFERENCES products(product_id);
+
+
+--
+-- Name: sales_items_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_sales_id_fkey FOREIGN KEY (sales_id) REFERENCES sales(sales_id) ON DELETE CASCADE;
+
+
+--
+-- Name: sales_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY sales_items
+    ADD CONSTRAINT sales_items_uom_id_fkey FOREIGN KEY (uom_id) REFERENCES uom(uom_id);
+
+
+--
+-- Name: sales_payment_relation_payment_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY sales_payment_relation
+    ADD CONSTRAINT sales_payment_relation_payment_id_fkey FOREIGN KEY (payment_id) REFERENCES payments(payment_id);
+
+
+--
+-- Name: sales_payment_relation_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY sales_payment_relation
+    ADD CONSTRAINT sales_payment_relation_sales_id_fkey FOREIGN KEY (sales_id) REFERENCES sales(sales_id);
+
+
+--
+-- Name: sales_tax_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY sales_tax
+    ADD CONSTRAINT sales_tax_sales_id_fkey FOREIGN KEY (sales_id) REFERENCES sales(sales_id) ON DELETE CASCADE;
+
+
+--
+-- Name: sales_tax_tax_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY sales_tax
+    ADD CONSTRAINT sales_tax_tax_id_fkey FOREIGN KEY (tax_id) REFERENCES tax(tax_id);
+
+
+--
+-- Name: tax_tax_type_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY tax
+    ADD CONSTRAINT tax_tax_type_id_fkey FOREIGN KEY (tax_type_id) REFERENCES tax_type(tax_type_id);
+
+
+--
+-- Name: transaction_balance_trans_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY transaction_balance
+    ADD CONSTRAINT transaction_balance_trans_id_fkey FOREIGN KEY (trans_id) REFERENCES transaction_details(trans_id);
+
+
+--
+-- Name: transaction_details_parent_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY transaction_details
+    ADD CONSTRAINT transaction_details_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES transaction_details(trans_id);
+
+
+--
+-- Name: transaction_details_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: raja
+--
+
+ALTER TABLE ONLY transaction_details
+    ADD CONSTRAINT transaction_details_uom_id_fkey FOREIGN KEY (uom_id) REFERENCES uom(uom_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
