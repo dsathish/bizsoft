@@ -1,7 +1,5 @@
 <?php
-require('conf/setup.inc.php');
-
-$common_obj->isLoggedIn();
+ require('setup.php');$common_obj->isLoggedIn();
 
 $smarty->assign("content", requestAction());
 $smarty->clear_cache("main.tpl");

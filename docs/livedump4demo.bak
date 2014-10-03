@@ -9,13 +9,13 @@ SET client_min_messages = warning;
 SET escape_string_warning = off;
 
 --
--- Name: demo; Type: SCHEMA; Schema: -; Owner: sathish
+-- Name: demo; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
 CREATE SCHEMA demo;
 
 
-ALTER SCHEMA demo OWNER TO sathish;
+ALTER SCHEMA demo OWNER TO postgres;
 
 SET search_path = demo, pg_catalog;
 
@@ -24,7 +24,7 @@ SET default_tablespace = '';
 SET default_with_oids = true;
 
 --
--- Name: city; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: city; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE city (
@@ -36,10 +36,10 @@ CREATE TABLE city (
 );
 
 
-ALTER TABLE demo.city OWNER TO sathish;
+ALTER TABLE demo.city OWNER TO postgres;
 
 --
--- Name: columns; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: columns; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE columns (
@@ -51,10 +51,10 @@ CREATE TABLE columns (
 );
 
 
-ALTER TABLE demo.columns OWNER TO sathish;
+ALTER TABLE demo.columns OWNER TO postgres;
 
 --
--- Name: contacts; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: contacts; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE contacts (
@@ -71,10 +71,10 @@ CREATE TABLE contacts (
 );
 
 
-ALTER TABLE demo.contacts OWNER TO sathish;
+ALTER TABLE demo.contacts OWNER TO postgres;
 
 --
--- Name: country; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: country; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE country (
@@ -85,10 +85,10 @@ CREATE TABLE country (
 );
 
 
-ALTER TABLE demo.country OWNER TO sathish;
+ALTER TABLE demo.country OWNER TO postgres;
 
 --
--- Name: currency; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: currency; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE currency (
@@ -100,10 +100,10 @@ CREATE TABLE currency (
 );
 
 
-ALTER TABLE demo.currency OWNER TO sathish;
+ALTER TABLE demo.currency OWNER TO postgres;
 
 --
--- Name: tsort; Type: TYPE; Schema: demo; Owner: sathish
+-- Name: tsort; Type: TYPE; Schema: demo; Owner: postgres
 --
 
 CREATE TYPE tsort AS ENUM (
@@ -112,10 +112,10 @@ CREATE TYPE tsort AS ENUM (
 );
 
 
-ALTER TYPE demo.tsort OWNER TO sathish;
+ALTER TYPE demo.tsort OWNER TO postgres;
 
 --
--- Name: customization_columns; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: customization_columns; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE customization_columns (
@@ -135,10 +135,10 @@ CREATE TABLE customization_columns (
 );
 
 
-ALTER TABLE demo.customization_columns OWNER TO sathish;
+ALTER TABLE demo.customization_columns OWNER TO postgres;
 
 --
--- Name: customizations; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: customizations; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE customizations (
@@ -155,10 +155,10 @@ CREATE TABLE customizations (
 );
 
 
-ALTER TABLE demo.customizations OWNER TO sathish;
+ALTER TABLE demo.customizations OWNER TO postgres;
 
 --
--- Name: handloan; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: handloan; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE handloan (
@@ -170,10 +170,10 @@ CREATE TABLE handloan (
 );
 
 
-ALTER TABLE demo.handloan OWNER TO sathish;
+ALTER TABLE demo.handloan OWNER TO postgres;
 
 --
--- Name: handloan_items; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: handloan_items; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE handloan_items (
@@ -190,10 +190,10 @@ CREATE TABLE handloan_items (
 );
 
 
-ALTER TABLE demo.handloan_items OWNER TO sathish;
+ALTER TABLE demo.handloan_items OWNER TO postgres;
 
 --
--- Name: tactivity; Type: TYPE; Schema: demo; Owner: sathish
+-- Name: tactivity; Type: TYPE; Schema: demo; Owner: postgres
 --
 
 CREATE TYPE tactivity AS ENUM (
@@ -204,10 +204,10 @@ CREATE TYPE tactivity AS ENUM (
 );
 
 
-ALTER TYPE demo.tactivity OWNER TO sathish;
+ALTER TYPE demo.tactivity OWNER TO postgres;
 
 --
--- Name: thead; Type: TYPE; Schema: demo; Owner: sathish
+-- Name: thead; Type: TYPE; Schema: demo; Owner: postgres
 --
 
 CREATE TYPE thead AS ENUM (
@@ -219,10 +219,10 @@ CREATE TYPE thead AS ENUM (
 );
 
 
-ALTER TYPE demo.thead OWNER TO sathish;
+ALTER TYPE demo.thead OWNER TO postgres;
 
 --
--- Name: ttype; Type: TYPE; Schema: demo; Owner: sathish
+-- Name: ttype; Type: TYPE; Schema: demo; Owner: postgres
 --
 
 CREATE TYPE ttype AS ENUM (
@@ -231,10 +231,10 @@ CREATE TYPE ttype AS ENUM (
 );
 
 
-ALTER TYPE demo.ttype OWNER TO sathish;
+ALTER TYPE demo.ttype OWNER TO postgres;
 
 --
--- Name: products; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: products; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE products (
@@ -251,10 +251,10 @@ CREATE TABLE products (
 );
 
 
-ALTER TABLE demo.products OWNER TO sathish;
+ALTER TABLE demo.products OWNER TO postgres;
 
 --
--- Name: relationships; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: relationships; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE relationships (
@@ -266,10 +266,10 @@ CREATE TABLE relationships (
 );
 
 
-ALTER TABLE demo.relationships OWNER TO sathish;
+ALTER TABLE demo.relationships OWNER TO postgres;
 
 --
--- Name: transaction_details; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: transaction_details; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE transaction_details (
@@ -287,10 +287,10 @@ CREATE TABLE transaction_details (
 );
 
 
-ALTER TABLE demo.transaction_details OWNER TO sathish;
+ALTER TABLE demo.transaction_details OWNER TO postgres;
 
 --
--- Name: uom; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: uom; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE uom (
@@ -300,20 +300,20 @@ CREATE TABLE uom (
 );
 
 
-ALTER TABLE demo.uom OWNER TO sathish;
+ALTER TABLE demo.uom OWNER TO postgres;
 
 --
--- Name: handloan_report_view; Type: VIEW; Schema: demo; Owner: sathish
+-- Name: handloan_report_view; Type: VIEW; Schema: demo; Owner: postgres
 --
 
 CREATE VIEW handloan_report_view AS
     SELECT hd.handln_id, hi.item_id, hd.handln_ref, hd.handln_date, re.relationship_name, hdb.handln_id AS parent_id, CASE WHEN (hi.ref_id IS NOT NULL) THEN hdb.handln_ref ELSE NULL::character varying END AS parent_ref, pr.product_desc, uo.uom_desc, CASE WHEN ((tr.trans_type = 'o'::ttype) AND (hi.ref_id IS NULL)) THEN tr.quantity ELSE (0)::numeric END AS issued_quantity, CASE WHEN (tr.trans_type = 'o'::ttype) THEN hib.received_quantity ELSE (0)::numeric END AS received_back_quantity, CASE WHEN ((tr.trans_type = 'i'::ttype) AND (hi.ref_id IS NULL)) THEN tr.quantity ELSE (0)::numeric END AS received_quantity, CASE WHEN (tr.trans_type = 'i'::ttype) THEN hib.received_quantity ELSE (0)::numeric END AS issued_back_quantity FROM (((((((handloan hd JOIN handloan_items hi ON ((hd.handln_id = hi.handln_id))) JOIN transaction_details tr ON (((tr.ref_id = hi.item_id) AND (tr.trans_head = 'hdl'::thead)))) LEFT JOIN handloan_items hib ON ((hib.item_id = hi.ref_id))) LEFT JOIN handloan hdb ON ((hdb.handln_id = hib.handln_id))) JOIN relationships re ON ((re.relationship_id = hd.relationship_id))) JOIN products pr ON ((pr.product_id = hi.product_id))) JOIN uom uo ON ((uo.uom_id = hi.uom_id)));
 
 
-ALTER TABLE demo.handloan_report_view OWNER TO sathish;
+ALTER TABLE demo.handloan_report_view OWNER TO postgres;
 
 --
--- Name: order_items; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: order_items; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE order_items (
@@ -332,10 +332,10 @@ CREATE TABLE order_items (
 );
 
 
-ALTER TABLE demo.order_items OWNER TO sathish;
+ALTER TABLE demo.order_items OWNER TO postgres;
 
 --
--- Name: tstatus; Type: TYPE; Schema: demo; Owner: sathish
+-- Name: tstatus; Type: TYPE; Schema: demo; Owner: postgres
 --
 
 CREATE TYPE tstatus AS ENUM (
@@ -346,10 +346,10 @@ CREATE TYPE tstatus AS ENUM (
 );
 
 
-ALTER TYPE demo.tstatus OWNER TO sathish;
+ALTER TYPE demo.tstatus OWNER TO postgres;
 
 --
--- Name: orders; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: orders; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE orders (
@@ -363,20 +363,20 @@ CREATE TABLE orders (
 );
 
 
-ALTER TABLE demo.orders OWNER TO sathish;
+ALTER TABLE demo.orders OWNER TO postgres;
 
 --
--- Name: order_report_view; Type: VIEW; Schema: demo; Owner: sathish
+-- Name: order_report_view; Type: VIEW; Schema: demo; Owner: postgres
 --
 
 CREATE VIEW order_report_view AS
     SELECT od.order_id, oi.item_id, od.order_ref, od.order_date, od.order_type, od.order_status AS status, re.relationship_name, uo.uom_code, uo.uom_desc, oi.order_quantity, oi.trans_quantity, pr.product_desc, oi.price, oi.conversion_rate, ((oi.order_quantity * oi.price) * oi.conversion_rate) AS order_value, cu.currency_code, oi.remarks FROM (((((orders od JOIN order_items oi USING (order_id)) JOIN products pr USING (product_id)) JOIN relationships re USING (relationship_id)) JOIN uom uo ON ((uo.uom_id = oi.uom_id))) JOIN currency cu ON ((cu.currency_id = oi.currency_id)));
 
 
-ALTER TABLE demo.order_report_view OWNER TO sathish;
+ALTER TABLE demo.order_report_view OWNER TO postgres;
 
 --
--- Name: payment_mode; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: payment_mode; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE payment_mode (
@@ -387,10 +387,10 @@ CREATE TABLE payment_mode (
 );
 
 
-ALTER TABLE demo.payment_mode OWNER TO sathish;
+ALTER TABLE demo.payment_mode OWNER TO postgres;
 
 --
--- Name: payments; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: payments; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE payments (
@@ -403,10 +403,10 @@ CREATE TABLE payments (
 );
 
 
-ALTER TABLE demo.payments OWNER TO sathish;
+ALTER TABLE demo.payments OWNER TO postgres;
 
 --
--- Name: receipt; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: receipt; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE receipt (
@@ -422,10 +422,10 @@ CREATE TABLE receipt (
 );
 
 
-ALTER TABLE demo.receipt OWNER TO sathish;
+ALTER TABLE demo.receipt OWNER TO postgres;
 
 --
--- Name: receipt_payment_relation; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: receipt_payment_relation; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE receipt_payment_relation (
@@ -437,10 +437,10 @@ CREATE TABLE receipt_payment_relation (
 );
 
 
-ALTER TABLE demo.receipt_payment_relation OWNER TO sathish;
+ALTER TABLE demo.receipt_payment_relation OWNER TO postgres;
 
 --
--- Name: sales; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: sales; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE sales (
@@ -456,10 +456,10 @@ CREATE TABLE sales (
 );
 
 
-ALTER TABLE demo.sales OWNER TO sathish;
+ALTER TABLE demo.sales OWNER TO postgres;
 
 --
--- Name: sales_payment_relation; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: sales_payment_relation; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE sales_payment_relation (
@@ -471,22 +471,22 @@ CREATE TABLE sales_payment_relation (
 );
 
 
-ALTER TABLE demo.sales_payment_relation OWNER TO sathish;
+ALTER TABLE demo.sales_payment_relation OWNER TO postgres;
 
 --
--- Name: payment_report_view; Type: VIEW; Schema: demo; Owner: sathish
+-- Name: payment_report_view; Type: VIEW; Schema: demo; Owner: postgres
 --
 
 CREATE VIEW payment_report_view AS
     SELECT pa.payment_id, pa.payment_date, pa.payment_ref, pa.status, pm.payment_mode_name AS payment_mode, re.receipt_ref, 'NA'::character varying AS sales_ref, re.receipt_id, re.receipt_date AS trans_date, r.relationship_name, r.activity, rpr.amount AS paid_amount, rpr.deductions AS paid_deductions, (rpr.amount - rpr.deductions) AS paid_total, 0.00 AS received_amount, 0.00 AS received_deductions, 0.00 AS received_total FROM ((((payments pa JOIN receipt_payment_relation rpr USING (payment_id)) JOIN receipt re USING (receipt_id)) JOIN relationships r USING (relationship_id)) JOIN payment_mode pm USING (payment_mode_id)) UNION SELECT pa.payment_id, pa.payment_date, pa.payment_ref, pa.status, pm.payment_mode_name AS payment_mode, 'NA'::character varying AS receipt_ref, sa.sales_ref, sa.sales_id AS receipt_id, sa.sales_date AS trans_date, r.relationship_name, r.activity, 0.00 AS paid_amount, 0.00 AS paid_deductions, 0.00 AS paid_total, spr.amount AS received_amount, spr.deductions AS received_deductions, (spr.amount - spr.deductions) AS received_total FROM ((((payments pa JOIN sales_payment_relation spr USING (payment_id)) JOIN sales sa USING (sales_id)) JOIN relationships r USING (relationship_id)) JOIN payment_mode pm USING (payment_mode_id));
 
 
-ALTER TABLE demo.payment_report_view OWNER TO sathish;
+ALTER TABLE demo.payment_report_view OWNER TO postgres;
 
 SET default_with_oids = false;
 
 --
--- Name: product_category; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: product_category; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE product_category (
@@ -496,12 +496,12 @@ CREATE TABLE product_category (
 );
 
 
-ALTER TABLE demo.product_category OWNER TO sathish;
+ALTER TABLE demo.product_category OWNER TO postgres;
 
 SET default_with_oids = true;
 
 --
--- Name: receipt_items; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: receipt_items; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE receipt_items (
@@ -520,10 +520,10 @@ CREATE TABLE receipt_items (
 );
 
 
-ALTER TABLE demo.receipt_items OWNER TO sathish;
+ALTER TABLE demo.receipt_items OWNER TO postgres;
 
 --
--- Name: format_number(numeric); Type: FUNCTION; Schema: demo; Owner: sathish
+-- Name: format_number(numeric); Type: FUNCTION; Schema: demo; Owner: postgres
 --
 
 CREATE FUNCTION format_number(numeric) RETURNS numeric
@@ -541,10 +541,10 @@ $_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION demo.format_number(numeric) OWNER TO sathish;
+ALTER FUNCTION demo.format_number(numeric) OWNER TO postgres;
 
 --
--- Name: receipt_item_tax_value_func(integer, integer); Type: FUNCTION; Schema: demo; Owner: sathish
+-- Name: receipt_item_tax_value_func(integer, integer); Type: FUNCTION; Schema: demo; Owner: postgres
 --
 
 CREATE FUNCTION receipt_item_tax_value_func(integer, integer) RETURNS numeric
@@ -577,10 +577,10 @@ $_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION demo.receipt_item_tax_value_func(integer, integer) OWNER TO sathish;
+ALTER FUNCTION demo.receipt_item_tax_value_func(integer, integer) OWNER TO postgres;
 
 --
--- Name: #; Type: OPERATOR; Schema: demo; Owner: sathish
+-- Name: #; Type: OPERATOR; Schema: demo; Owner: postgres
 --
 
 CREATE OPERATOR # (
@@ -589,20 +589,20 @@ CREATE OPERATOR # (
 );
 
 
-ALTER OPERATOR demo.# (NONE, numeric) OWNER TO sathish;
+ALTER OPERATOR demo.# (NONE, numeric) OWNER TO postgres;
 
 --
--- Name: receipt_report_view; Type: VIEW; Schema: demo; Owner: sathish
+-- Name: receipt_report_view; Type: VIEW; Schema: demo; Owner: postgres
 --
 
 CREATE VIEW receipt_report_view AS
     SELECT rc.receipt_id, rc.receipt_ref, rc.receipt_date, re.relationship_name AS supplier, uo.uom_code, ri.quantity, pr.product_desc, ri.price, ri.conversion_rate, cu.currency_code, ri.remarks, (# receipt_item_tax_value_func(ri.receipt_id, ri.item_id)) AS item_tax_value FROM ((((((receipt rc JOIN receipt_items ri USING (receipt_id)) JOIN transaction_details td ON ((((td.ref_id = ri.item_id) AND (td.trans_type = 'i'::ttype)) AND (td.trans_head = ANY (ARRAY['pur'::thead, 'adj'::thead]))))) JOIN products pr ON ((pr.product_id = ri.product_id))) JOIN relationships re ON ((re.relationship_id = rc.supplier_id))) JOIN uom uo ON ((uo.uom_id = ri.uom_id))) JOIN currency cu ON ((cu.currency_id = ri.currency_id)));
 
 
-ALTER TABLE demo.receipt_report_view OWNER TO sathish;
+ALTER TABLE demo.receipt_report_view OWNER TO postgres;
 
 --
--- Name: receipt_tax; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: receipt_tax; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE receipt_tax (
@@ -614,10 +614,10 @@ CREATE TABLE receipt_tax (
 );
 
 
-ALTER TABLE demo.receipt_tax OWNER TO sathish;
+ALTER TABLE demo.receipt_tax OWNER TO postgres;
 
 --
--- Name: reports; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: reports; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE reports (
@@ -628,10 +628,10 @@ CREATE TABLE reports (
 );
 
 
-ALTER TABLE demo.reports OWNER TO sathish;
+ALTER TABLE demo.reports OWNER TO postgres;
 
 --
--- Name: sales_items; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: sales_items; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE sales_items (
@@ -650,10 +650,10 @@ CREATE TABLE sales_items (
 );
 
 
-ALTER TABLE demo.sales_items OWNER TO sathish;
+ALTER TABLE demo.sales_items OWNER TO postgres;
 
 --
--- Name: sales_item_tax_value_func(integer, integer); Type: FUNCTION; Schema: demo; Owner: sathish
+-- Name: sales_item_tax_value_func(integer, integer); Type: FUNCTION; Schema: demo; Owner: postgres
 --
 
 CREATE FUNCTION sales_item_tax_value_func(integer, integer) RETURNS numeric
@@ -686,20 +686,20 @@ $_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION demo.sales_item_tax_value_func(integer, integer) OWNER TO sathish;
+ALTER FUNCTION demo.sales_item_tax_value_func(integer, integer) OWNER TO postgres;
 
 --
--- Name: sales_report_view; Type: VIEW; Schema: demo; Owner: sathish
+-- Name: sales_report_view; Type: VIEW; Schema: demo; Owner: postgres
 --
 
 CREATE VIEW sales_report_view AS
     SELECT sa.sales_id, sa.sales_ref, sa.sales_date, re.relationship_name AS buyer, uo.uom_code, si.quantity, pr.product_desc, si.price, si.conversion_rate, cu.currency_code, si.remarks, (# sales_item_tax_value_func(si.sales_id, si.item_id)) AS item_tax_value FROM (((((sales sa JOIN sales_items si USING (sales_id)) JOIN products pr ON ((pr.product_id = si.product_id))) JOIN relationships re ON ((re.relationship_id = sa.buyer_id))) JOIN uom uo ON ((uo.uom_id = si.uom_id))) JOIN currency cu ON ((cu.currency_id = si.currency_id)));
 
 
-ALTER TABLE demo.sales_report_view OWNER TO sathish;
+ALTER TABLE demo.sales_report_view OWNER TO postgres;
 
 --
--- Name: sales_tax; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: sales_tax; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE sales_tax (
@@ -711,10 +711,10 @@ CREATE TABLE sales_tax (
 );
 
 
-ALTER TABLE demo.sales_tax OWNER TO sathish;
+ALTER TABLE demo.sales_tax OWNER TO postgres;
 
 --
--- Name: transaction_balance; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: transaction_balance; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE transaction_balance (
@@ -729,20 +729,20 @@ CREATE TABLE transaction_balance (
 );
 
 
-ALTER TABLE demo.transaction_balance OWNER TO sathish;
+ALTER TABLE demo.transaction_balance OWNER TO postgres;
 
 --
--- Name: stock_report_view; Type: VIEW; Schema: demo; Owner: sathish
+-- Name: stock_report_view; Type: VIEW; Schema: demo; Owner: postgres
 --
 
 CREATE VIEW stock_report_view AS
     SELECT td.trans_id, td.trans_date, pr.product_code, pr.product_desc, u.uom_code, u.uom_desc, tb.in_qty, tb.out_qty, tb.bal_qty, rc.receipt_ref, re.relationship_name AS supplier FROM ((((((transaction_details td JOIN transaction_balance tb USING (trans_id)) JOIN receipt_items ri ON ((ri.item_id = td.ref_id))) JOIN receipt rc ON ((rc.receipt_id = ri.receipt_id))) JOIN relationships re ON ((re.relationship_id = rc.supplier_id))) JOIN products pr ON ((pr.product_id = ri.product_id))) JOIN uom u ON ((u.uom_id = td.uom_id))) WHERE ((tb.bal_qty > (0)::numeric) AND (td.trans_head = ANY (ARRAY['pur'::thead, 'adj'::thead])));
 
 
-ALTER TABLE demo.stock_report_view OWNER TO sathish;
+ALTER TABLE demo.stock_report_view OWNER TO postgres;
 
 --
--- Name: tax; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: tax; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE tax (
@@ -754,10 +754,10 @@ CREATE TABLE tax (
 );
 
 
-ALTER TABLE demo.tax OWNER TO sathish;
+ALTER TABLE demo.tax OWNER TO postgres;
 
 --
--- Name: tax_type; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: tax_type; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE tax_type (
@@ -766,10 +766,10 @@ CREATE TABLE tax_type (
 );
 
 
-ALTER TABLE demo.tax_type OWNER TO sathish;
+ALTER TABLE demo.tax_type OWNER TO postgres;
 
 --
--- Name: users; Type: TABLE; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: users; Type: TABLE; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE users (
@@ -782,10 +782,10 @@ CREATE TABLE users (
 );
 
 
-ALTER TABLE demo.users OWNER TO sathish;
+ALTER TABLE demo.users OWNER TO postgres;
 
 --
--- Name: order_qty_update_func(); Type: FUNCTION; Schema: demo; Owner: sathish
+-- Name: order_qty_update_func(); Type: FUNCTION; Schema: demo; Owner: postgres
 --
 
 CREATE FUNCTION order_qty_update_func() RETURNS trigger
@@ -805,10 +805,10 @@ $$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION demo.order_qty_update_func() OWNER TO sathish;
+ALTER FUNCTION demo.order_qty_update_func() OWNER TO postgres;
 
 --
--- Name: receipt_tax_value_bupdate_func(); Type: FUNCTION; Schema: demo; Owner: sathish
+-- Name: receipt_tax_value_bupdate_func(); Type: FUNCTION; Schema: demo; Owner: postgres
 --
 
 CREATE FUNCTION receipt_tax_value_bupdate_func() RETURNS trigger
@@ -835,10 +835,10 @@ $$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION demo.receipt_tax_value_bupdate_func() OWNER TO sathish;
+ALTER FUNCTION demo.receipt_tax_value_bupdate_func() OWNER TO postgres;
 
 --
--- Name: sales_tax_value_bupdate_func(); Type: FUNCTION; Schema: demo; Owner: sathish
+-- Name: sales_tax_value_bupdate_func(); Type: FUNCTION; Schema: demo; Owner: postgres
 --
 
 CREATE FUNCTION sales_tax_value_bupdate_func() RETURNS trigger
@@ -865,10 +865,10 @@ $$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION demo.sales_tax_value_bupdate_func() OWNER TO sathish;
+ALTER FUNCTION demo.sales_tax_value_bupdate_func() OWNER TO postgres;
 
 --
--- Name: trans_balance_func(); Type: FUNCTION; Schema: demo; Owner: sathish
+-- Name: trans_balance_func(); Type: FUNCTION; Schema: demo; Owner: postgres
 --
 
 CREATE FUNCTION trans_balance_func() RETURNS trigger
@@ -900,10 +900,10 @@ $$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION demo.trans_balance_func() OWNER TO sathish;
+ALTER FUNCTION demo.trans_balance_func() OWNER TO postgres;
 
 --
--- Name: city_city_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: city_city_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE city_city_id_seq
@@ -913,24 +913,24 @@ CREATE SEQUENCE city_city_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.city_city_id_seq OWNER TO sathish;
+ALTER TABLE demo.city_city_id_seq OWNER TO postgres;
 
 --
--- Name: city_city_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: city_city_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE city_city_id_seq OWNED BY city.city_id;
 
 
 --
--- Name: city_city_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: city_city_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('city_city_id_seq', 1, true);
 
 
 --
--- Name: columns_column_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: columns_column_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE columns_column_id_seq
@@ -940,24 +940,24 @@ CREATE SEQUENCE columns_column_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.columns_column_id_seq OWNER TO sathish;
+ALTER TABLE demo.columns_column_id_seq OWNER TO postgres;
 
 --
--- Name: columns_column_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: columns_column_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE columns_column_id_seq OWNED BY columns.column_id;
 
 
 --
--- Name: columns_column_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: columns_column_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('columns_column_id_seq', 46, true);
 
 
 --
--- Name: contacts_contact_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: contacts_contact_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE contacts_contact_id_seq
@@ -968,24 +968,24 @@ CREATE SEQUENCE contacts_contact_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.contacts_contact_id_seq OWNER TO sathish;
+ALTER TABLE demo.contacts_contact_id_seq OWNER TO postgres;
 
 --
--- Name: contacts_contact_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: contacts_contact_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE contacts_contact_id_seq OWNED BY contacts.contact_id;
 
 
 --
--- Name: contacts_contact_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: contacts_contact_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('contacts_contact_id_seq', 1, false);
 
 
 --
--- Name: country_country_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: country_country_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE country_country_id_seq
@@ -995,24 +995,24 @@ CREATE SEQUENCE country_country_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.country_country_id_seq OWNER TO sathish;
+ALTER TABLE demo.country_country_id_seq OWNER TO postgres;
 
 --
--- Name: country_country_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: country_country_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE country_country_id_seq OWNED BY country.country_id;
 
 
 --
--- Name: country_country_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: country_country_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('country_country_id_seq', 1, true);
 
 
 --
--- Name: currency_currency_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: currency_currency_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE currency_currency_id_seq
@@ -1022,24 +1022,24 @@ CREATE SEQUENCE currency_currency_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.currency_currency_id_seq OWNER TO sathish;
+ALTER TABLE demo.currency_currency_id_seq OWNER TO postgres;
 
 --
--- Name: currency_currency_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: currency_currency_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE currency_currency_id_seq OWNED BY currency.currency_id;
 
 
 --
--- Name: currency_currency_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: currency_currency_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('currency_currency_id_seq', 3, true);
 
 
 --
--- Name: customizations_customization_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: customizations_customization_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE customizations_customization_id_seq
@@ -1049,24 +1049,24 @@ CREATE SEQUENCE customizations_customization_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.customizations_customization_id_seq OWNER TO sathish;
+ALTER TABLE demo.customizations_customization_id_seq OWNER TO postgres;
 
 --
--- Name: customizations_customization_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: customizations_customization_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE customizations_customization_id_seq OWNED BY customizations.customization_id;
 
 
 --
--- Name: customizations_customization_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: customizations_customization_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('customizations_customization_id_seq', 23, true);
 
 
 --
--- Name: handloan_handln_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: handloan_handln_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE handloan_handln_id_seq
@@ -1076,24 +1076,24 @@ CREATE SEQUENCE handloan_handln_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.handloan_handln_id_seq OWNER TO sathish;
+ALTER TABLE demo.handloan_handln_id_seq OWNER TO postgres;
 
 --
--- Name: handloan_handln_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: handloan_handln_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE handloan_handln_id_seq OWNED BY handloan.handln_id;
 
 
 --
--- Name: handloan_handln_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: handloan_handln_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('handloan_handln_id_seq', 9, true);
 
 
 --
--- Name: handloan_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: handloan_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE handloan_items_item_id_seq
@@ -1103,24 +1103,24 @@ CREATE SEQUENCE handloan_items_item_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.handloan_items_item_id_seq OWNER TO sathish;
+ALTER TABLE demo.handloan_items_item_id_seq OWNER TO postgres;
 
 --
--- Name: handloan_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: handloan_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE handloan_items_item_id_seq OWNED BY handloan_items.item_id;
 
 
 --
--- Name: handloan_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: handloan_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('handloan_items_item_id_seq', 9, true);
 
 
 --
--- Name: order_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: order_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE order_items_item_id_seq
@@ -1130,24 +1130,24 @@ CREATE SEQUENCE order_items_item_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.order_items_item_id_seq OWNER TO sathish;
+ALTER TABLE demo.order_items_item_id_seq OWNER TO postgres;
 
 --
--- Name: order_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: order_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE order_items_item_id_seq OWNED BY order_items.item_id;
 
 
 --
--- Name: order_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: order_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('order_items_item_id_seq', 8, true);
 
 
 --
--- Name: orders_order_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: orders_order_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE orders_order_id_seq
@@ -1157,24 +1157,24 @@ CREATE SEQUENCE orders_order_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.orders_order_id_seq OWNER TO sathish;
+ALTER TABLE demo.orders_order_id_seq OWNER TO postgres;
 
 --
--- Name: orders_order_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: orders_order_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE orders_order_id_seq OWNED BY orders.order_id;
 
 
 --
--- Name: orders_order_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: orders_order_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('orders_order_id_seq', 3, true);
 
 
 --
--- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE payment_mode_payment_mode_id_seq
@@ -1184,24 +1184,24 @@ CREATE SEQUENCE payment_mode_payment_mode_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.payment_mode_payment_mode_id_seq OWNER TO sathish;
+ALTER TABLE demo.payment_mode_payment_mode_id_seq OWNER TO postgres;
 
 --
--- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE payment_mode_payment_mode_id_seq OWNED BY payment_mode.payment_mode_id;
 
 
 --
--- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: payment_mode_payment_mode_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('payment_mode_payment_mode_id_seq', 3, true);
 
 
 --
--- Name: payments_payment_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: payments_payment_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE payments_payment_id_seq
@@ -1211,24 +1211,24 @@ CREATE SEQUENCE payments_payment_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.payments_payment_id_seq OWNER TO sathish;
+ALTER TABLE demo.payments_payment_id_seq OWNER TO postgres;
 
 --
--- Name: payments_payment_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: payments_payment_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE payments_payment_id_seq OWNED BY payments.payment_id;
 
 
 --
--- Name: payments_payment_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: payments_payment_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('payments_payment_id_seq', 8, true);
 
 
 --
--- Name: product_category_product_category_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: product_category_product_category_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE product_category_product_category_id_seq
@@ -1238,24 +1238,24 @@ CREATE SEQUENCE product_category_product_category_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.product_category_product_category_id_seq OWNER TO sathish;
+ALTER TABLE demo.product_category_product_category_id_seq OWNER TO postgres;
 
 --
--- Name: product_category_product_category_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: product_category_product_category_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE product_category_product_category_id_seq OWNED BY product_category.product_category_id;
 
 
 --
--- Name: product_category_product_category_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: product_category_product_category_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('product_category_product_category_id_seq', 2, true);
 
 
 --
--- Name: products_product_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: products_product_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE products_product_id_seq
@@ -1265,24 +1265,24 @@ CREATE SEQUENCE products_product_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.products_product_id_seq OWNER TO sathish;
+ALTER TABLE demo.products_product_id_seq OWNER TO postgres;
 
 --
--- Name: products_product_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: products_product_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE products_product_id_seq OWNED BY products.product_id;
 
 
 --
--- Name: products_product_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: products_product_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('products_product_id_seq', 17, true);
 
 
 --
--- Name: receipt_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: receipt_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE receipt_items_item_id_seq
@@ -1292,24 +1292,24 @@ CREATE SEQUENCE receipt_items_item_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.receipt_items_item_id_seq OWNER TO sathish;
+ALTER TABLE demo.receipt_items_item_id_seq OWNER TO postgres;
 
 --
--- Name: receipt_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: receipt_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE receipt_items_item_id_seq OWNED BY receipt_items.item_id;
 
 
 --
--- Name: receipt_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: receipt_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('receipt_items_item_id_seq', 14, true);
 
 
 --
--- Name: receipt_receipt_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: receipt_receipt_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE receipt_receipt_id_seq
@@ -1319,24 +1319,24 @@ CREATE SEQUENCE receipt_receipt_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.receipt_receipt_id_seq OWNER TO sathish;
+ALTER TABLE demo.receipt_receipt_id_seq OWNER TO postgres;
 
 --
--- Name: receipt_receipt_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: receipt_receipt_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE receipt_receipt_id_seq OWNED BY receipt.receipt_id;
 
 
 --
--- Name: receipt_receipt_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: receipt_receipt_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('receipt_receipt_id_seq', 4, true);
 
 
 --
--- Name: relationships_relationship_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: relationships_relationship_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE relationships_relationship_id_seq
@@ -1346,24 +1346,24 @@ CREATE SEQUENCE relationships_relationship_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.relationships_relationship_id_seq OWNER TO sathish;
+ALTER TABLE demo.relationships_relationship_id_seq OWNER TO postgres;
 
 --
--- Name: relationships_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: relationships_relationship_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE relationships_relationship_id_seq OWNED BY relationships.relationship_id;
 
 
 --
--- Name: relationships_relationship_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: relationships_relationship_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('relationships_relationship_id_seq', 17, true);
 
 
 --
--- Name: reports_report_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: reports_report_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE reports_report_id_seq
@@ -1373,24 +1373,24 @@ CREATE SEQUENCE reports_report_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.reports_report_id_seq OWNER TO sathish;
+ALTER TABLE demo.reports_report_id_seq OWNER TO postgres;
 
 --
--- Name: reports_report_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: reports_report_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE reports_report_id_seq OWNED BY reports.report_id;
 
 
 --
--- Name: reports_report_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: reports_report_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('reports_report_id_seq', 6, true);
 
 
 --
--- Name: sales_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: sales_items_item_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE sales_items_item_id_seq
@@ -1400,24 +1400,24 @@ CREATE SEQUENCE sales_items_item_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.sales_items_item_id_seq OWNER TO sathish;
+ALTER TABLE demo.sales_items_item_id_seq OWNER TO postgres;
 
 --
--- Name: sales_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: sales_items_item_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE sales_items_item_id_seq OWNED BY sales_items.item_id;
 
 
 --
--- Name: sales_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: sales_items_item_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('sales_items_item_id_seq', 25, true);
 
 
 --
--- Name: sales_sales_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: sales_sales_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE sales_sales_id_seq
@@ -1427,24 +1427,24 @@ CREATE SEQUENCE sales_sales_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.sales_sales_id_seq OWNER TO sathish;
+ALTER TABLE demo.sales_sales_id_seq OWNER TO postgres;
 
 --
--- Name: sales_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: sales_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE sales_sales_id_seq OWNED BY sales.sales_id;
 
 
 --
--- Name: sales_sales_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: sales_sales_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('sales_sales_id_seq', 14, true);
 
 
 --
--- Name: tax_tax_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: tax_tax_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE tax_tax_id_seq
@@ -1454,24 +1454,24 @@ CREATE SEQUENCE tax_tax_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.tax_tax_id_seq OWNER TO sathish;
+ALTER TABLE demo.tax_tax_id_seq OWNER TO postgres;
 
 --
--- Name: tax_tax_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: tax_tax_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE tax_tax_id_seq OWNED BY tax.tax_id;
 
 
 --
--- Name: tax_tax_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: tax_tax_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('tax_tax_id_seq', 2, true);
 
 
 --
--- Name: tax_type_tax_type_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: tax_type_tax_type_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE tax_type_tax_type_id_seq
@@ -1481,24 +1481,24 @@ CREATE SEQUENCE tax_type_tax_type_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.tax_type_tax_type_id_seq OWNER TO sathish;
+ALTER TABLE demo.tax_type_tax_type_id_seq OWNER TO postgres;
 
 --
--- Name: tax_type_tax_type_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: tax_type_tax_type_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE tax_type_tax_type_id_seq OWNED BY tax_type.tax_type_id;
 
 
 --
--- Name: tax_type_tax_type_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: tax_type_tax_type_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('tax_type_tax_type_id_seq', 5, true);
 
 
 --
--- Name: transaction_details_trans_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: transaction_details_trans_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE transaction_details_trans_id_seq
@@ -1508,24 +1508,24 @@ CREATE SEQUENCE transaction_details_trans_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.transaction_details_trans_id_seq OWNER TO sathish;
+ALTER TABLE demo.transaction_details_trans_id_seq OWNER TO postgres;
 
 --
--- Name: transaction_details_trans_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: transaction_details_trans_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE transaction_details_trans_id_seq OWNED BY transaction_details.trans_id;
 
 
 --
--- Name: transaction_details_trans_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: transaction_details_trans_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('transaction_details_trans_id_seq', 47, true);
 
 
 --
--- Name: uom_uom_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: uom_uom_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE uom_uom_id_seq
@@ -1535,24 +1535,24 @@ CREATE SEQUENCE uom_uom_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.uom_uom_id_seq OWNER TO sathish;
+ALTER TABLE demo.uom_uom_id_seq OWNER TO postgres;
 
 --
--- Name: uom_uom_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: uom_uom_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE uom_uom_id_seq OWNED BY uom.uom_id;
 
 
 --
--- Name: uom_uom_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: uom_uom_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('uom_uom_id_seq', 3, true);
 
 
 --
--- Name: users_user_id_seq; Type: SEQUENCE; Schema: demo; Owner: sathish
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: demo; Owner: postgres
 --
 
 CREATE SEQUENCE users_user_id_seq
@@ -1562,206 +1562,206 @@ CREATE SEQUENCE users_user_id_seq
     CACHE 1;
 
 
-ALTER TABLE demo.users_user_id_seq OWNER TO sathish;
+ALTER TABLE demo.users_user_id_seq OWNER TO postgres;
 
 --
--- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: sathish
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: demo; Owner: postgres
 --
 
 ALTER SEQUENCE users_user_id_seq OWNED BY users.user_id;
 
 
 --
--- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: sathish
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: demo; Owner: postgres
 --
 
 SELECT pg_catalog.setval('users_user_id_seq', 1, true);
 
 
 --
--- Name: city_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: city_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE city ALTER COLUMN city_id SET DEFAULT nextval('city_city_id_seq'::regclass);
 
 
 --
--- Name: column_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: column_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE columns ALTER COLUMN column_id SET DEFAULT nextval('columns_column_id_seq'::regclass);
 
 
 --
--- Name: contact_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: contact_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE contacts ALTER COLUMN contact_id SET DEFAULT nextval('contacts_contact_id_seq'::regclass);
 
 
 --
--- Name: country_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: country_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE country ALTER COLUMN country_id SET DEFAULT nextval('country_country_id_seq'::regclass);
 
 
 --
--- Name: currency_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: currency_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE currency ALTER COLUMN currency_id SET DEFAULT nextval('currency_currency_id_seq'::regclass);
 
 
 --
--- Name: customization_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: customization_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE customizations ALTER COLUMN customization_id SET DEFAULT nextval('customizations_customization_id_seq'::regclass);
 
 
 --
--- Name: handln_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: handln_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE handloan ALTER COLUMN handln_id SET DEFAULT nextval('handloan_handln_id_seq'::regclass);
 
 
 --
--- Name: item_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE handloan_items ALTER COLUMN item_id SET DEFAULT nextval('handloan_items_item_id_seq'::regclass);
 
 
 --
--- Name: item_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE order_items ALTER COLUMN item_id SET DEFAULT nextval('order_items_item_id_seq'::regclass);
 
 
 --
--- Name: order_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: order_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE orders ALTER COLUMN order_id SET DEFAULT nextval('orders_order_id_seq'::regclass);
 
 
 --
--- Name: payment_mode_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: payment_mode_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE payment_mode ALTER COLUMN payment_mode_id SET DEFAULT nextval('payment_mode_payment_mode_id_seq'::regclass);
 
 
 --
--- Name: payment_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: payment_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE payments ALTER COLUMN payment_id SET DEFAULT nextval('payments_payment_id_seq'::regclass);
 
 
 --
--- Name: product_category_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: product_category_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE product_category ALTER COLUMN product_category_id SET DEFAULT nextval('product_category_product_category_id_seq'::regclass);
 
 
 --
--- Name: product_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: product_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE products ALTER COLUMN product_id SET DEFAULT nextval('products_product_id_seq'::regclass);
 
 
 --
--- Name: receipt_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: receipt_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE receipt ALTER COLUMN receipt_id SET DEFAULT nextval('receipt_receipt_id_seq'::regclass);
 
 
 --
--- Name: item_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE receipt_items ALTER COLUMN item_id SET DEFAULT nextval('receipt_items_item_id_seq'::regclass);
 
 
 --
--- Name: relationship_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: relationship_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE relationships ALTER COLUMN relationship_id SET DEFAULT nextval('relationships_relationship_id_seq'::regclass);
 
 
 --
--- Name: report_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: report_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE reports ALTER COLUMN report_id SET DEFAULT nextval('reports_report_id_seq'::regclass);
 
 
 --
--- Name: sales_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: sales_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'::regclass);
 
 
 --
--- Name: item_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: item_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE sales_items ALTER COLUMN item_id SET DEFAULT nextval('sales_items_item_id_seq'::regclass);
 
 
 --
--- Name: tax_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: tax_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE tax ALTER COLUMN tax_id SET DEFAULT nextval('tax_tax_id_seq'::regclass);
 
 
 --
--- Name: tax_type_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: tax_type_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE tax_type ALTER COLUMN tax_type_id SET DEFAULT nextval('tax_type_tax_type_id_seq'::regclass);
 
 
 --
--- Name: trans_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: trans_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE transaction_details ALTER COLUMN trans_id SET DEFAULT nextval('transaction_details_trans_id_seq'::regclass);
 
 
 --
--- Name: uom_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: uom_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE uom ALTER COLUMN uom_id SET DEFAULT nextval('uom_uom_id_seq'::regclass);
 
 
 --
--- Name: user_id; Type: DEFAULT; Schema: demo; Owner: sathish
+-- Name: user_id; Type: DEFAULT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_seq'::regclass);
 
 
 --
--- Data for Name: city; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: city; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO city VALUES (1, NULL, 'CHENNAI', 1, NULL);
 
 
 --
--- Data for Name: columns; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: columns; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO columns VALUES (1, 'receipt_id', NULL, NULL, 'int');
@@ -1813,20 +1813,20 @@ INSERT INTO columns VALUES (26, 'relationship_name', NULL, 'select relationship_
 
 
 --
--- Data for Name: contacts; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: contacts; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 
 
 --
--- Data for Name: country; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: country; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO country VALUES (1, 'IN', 'INDIA', NULL);
 
 
 --
--- Data for Name: currency; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: currency; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO currency VALUES (1, 'INR', 'INR', 1);
@@ -1835,7 +1835,7 @@ INSERT INTO currency VALUES (3, 'EUR', 'EUR', 68);
 
 
 --
--- Data for Name: customization_columns; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: customization_columns; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO customization_columns VALUES (1, 1, 'Receipt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -2102,7 +2102,7 @@ INSERT INTO customization_columns VALUES (22, 11, 'Sales', NULL, NULL, NULL, NUL
 
 
 --
--- Data for Name: customizations; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: customizations; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO customizations VALUES (3, 'Def', 1, 2, 3, NULL, NULL, NULL, NULL, NULL);
@@ -2131,7 +2131,7 @@ INSERT INTO customizations VALUES (23, 'DANISH HANDLOAN SHEET', 1, 1, 6, 1, NULL
 
 
 --
--- Data for Name: handloan; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: handloan; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO handloan VALUES (1, 'HL0020', 8, '2009-05-15', 1);
@@ -2146,7 +2146,7 @@ INSERT INTO handloan VALUES (9, 'DL0001', 11, '2009-05-19', 1);
 
 
 --
--- Data for Name: handloan_items; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: handloan_items; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO handloan_items VALUES (3, 3, NULL, 6, 2, 100.0000, 0.0000, 210.0000, 1, NULL);
@@ -2161,7 +2161,7 @@ INSERT INTO handloan_items VALUES (8, 8, NULL, 17, 2, 10.0000, 25.0000, 200.0000
 
 
 --
--- Data for Name: order_items; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: order_items; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO order_items VALUES (3, 1, 8, 5000, 0, 2, 1.11, 3, 58, NULL);
@@ -2175,7 +2175,7 @@ INSERT INTO order_items VALUES (8, 3, 16, 200, 0, 2, 200, 1, 1, NULL);
 
 
 --
--- Data for Name: orders; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: orders; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO orders VALUES (1, 'FN0001', 3, '2009-04-02', 'po', 'act');
@@ -2184,7 +2184,7 @@ INSERT INTO orders VALUES (3, 'FD001', 17, '2009-05-19', 'po', 'act');
 
 
 --
--- Data for Name: payment_mode; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: payment_mode; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO payment_mode VALUES (1, NULL, 'CASH', NULL);
@@ -2193,7 +2193,7 @@ INSERT INTO payment_mode VALUES (3, NULL, 'DEMAND DRAFT', NULL);
 
 
 --
--- Data for Name: payments; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: payments; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO payments VALUES (1, 11, 'PO00012', '2009-05-02', 2, 'act');
@@ -2206,7 +2206,7 @@ INSERT INTO payments VALUES (8, 16, 'RM0021', '2009-05-12', 2, 'act');
 
 
 --
--- Data for Name: product_category; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: product_category; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO product_category VALUES (1, NULL, 'GENERIC');
@@ -2214,7 +2214,7 @@ INSERT INTO product_category VALUES (2, NULL, 'DYES');
 
 
 --
--- Data for Name: products; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: products; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO products VALUES (2, NULL, 'ABIPOLYFL DER', NULL, 1, NULL, NULL, NULL, NULL, NULL);
@@ -2236,7 +2236,7 @@ INSERT INTO products VALUES (15, NULL, 'ABIDERM BLACK 2BJ', 100, 2, NULL, NULL, 
 
 
 --
--- Data for Name: receipt; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: receipt; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO receipt VALUES (4, 'R0005', 12, '2009-05-15', 1660000, 66400, 0);
@@ -2245,7 +2245,7 @@ INSERT INTO receipt VALUES (3, 'NC10001', 4, '2009-04-02', 1747000, 87350, 12000
 
 
 --
--- Data for Name: receipt_items; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: receipt_items; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO receipt_items VALUES (2, 2, NULL, 2, 2000, 2, 1.2, 3, 58, NULL);
@@ -2264,7 +2264,7 @@ INSERT INTO receipt_items VALUES (14, 4, 4, 9, 5500, 2, 160, 1, 1, NULL);
 
 
 --
--- Data for Name: receipt_payment_relation; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: receipt_payment_relation; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO receipt_payment_relation VALUES (3, 2, 1200000, 0.0000);
@@ -2272,7 +2272,7 @@ INSERT INTO receipt_payment_relation VALUES (6, 3, 1200000, 0.0000);
 
 
 --
--- Data for Name: receipt_tax; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: receipt_tax; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO receipt_tax VALUES (3, 1, 5, 87350.00000000000000000000, 1);
@@ -2280,7 +2280,7 @@ INSERT INTO receipt_tax VALUES (4, 1, 4, 66400.00000000000000000000, 1);
 
 
 --
--- Data for Name: relationships; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: relationships; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO relationships VALUES (1, NULL, 'DEMO', 'int', NULL);
@@ -2299,7 +2299,7 @@ INSERT INTO relationships VALUES (17, NULL, 'BASF', 'sel', NULL);
 
 
 --
--- Data for Name: reports; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: reports; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO reports VALUES (1, NULL, 'Receipt Report', 'receipt_report_view');
@@ -2311,7 +2311,7 @@ INSERT INTO reports VALUES (6, NULL, 'Handloan Report', 'handloan_report_view');
 
 
 --
--- Data for Name: sales; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: sales; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO sales VALUES (5, 'S00012', 13, '2009-05-20', 168000, 8400, 0);
@@ -2329,7 +2329,7 @@ INSERT INTO sales VALUES (14, 'S00045', 16, '2009-05-04', 495000, 19800, 300000)
 
 
 --
--- Data for Name: sales_items; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: sales_items; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO sales_items VALUES (1, 1, 5, 3, 200, 2, 200, 1, 1, NULL);
@@ -2360,7 +2360,7 @@ INSERT INTO sales_items VALUES (25, 14, NULL, 4, 1000, 2, 340, 1, 1, NULL);
 
 
 --
--- Data for Name: sales_payment_relation; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: sales_payment_relation; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO sales_payment_relation VALUES (1, 8, 40000, 0.0000);
@@ -2372,7 +2372,7 @@ INSERT INTO sales_payment_relation VALUES (8, 14, 300000, 0.0000);
 
 
 --
--- Data for Name: sales_tax; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: sales_tax; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO sales_tax VALUES (1, 1, 5, 4500.00000000000000000000, 1);
@@ -2390,7 +2390,7 @@ INSERT INTO sales_tax VALUES (14, 1, 4, 19800.00000000000000000000, 1);
 
 
 --
--- Data for Name: tax; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: tax; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO tax VALUES (1, 'VAT %', 2, 1, NULL);
@@ -2398,7 +2398,7 @@ INSERT INTO tax VALUES (2, 'Sales Tax', 1, 1, NULL);
 
 
 --
--- Data for Name: tax_type; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: tax_type; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO tax_type VALUES (1, 'Add');
@@ -2409,7 +2409,7 @@ INSERT INTO tax_type VALUES (5, 'Surcharge');
 
 
 --
--- Data for Name: transaction_balance; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: transaction_balance; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO transaction_balance VALUES (16, 100, 100, 0, 0, 0, 0);
@@ -2431,7 +2431,7 @@ INSERT INTO transaction_balance VALUES (46, 25, 10, 15, 0, 0, 0);
 
 
 --
--- Data for Name: transaction_details; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: transaction_details; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO transaction_details VALUES (1, '2009-04-10', 'i', 'pur', 2000, 2, 139200, 2, NULL);
@@ -2484,7 +2484,7 @@ INSERT INTO transaction_details VALUES (47, '2009-05-19', 'o', 'hdl', 10, 2, 1, 
 
 
 --
--- Data for Name: uom; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: uom; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO uom VALUES (1, 'numb', 'Number');
@@ -2493,14 +2493,14 @@ INSERT INTO uom VALUES (3, 'ltrs', 'Litres');
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: demo; Owner: sathish
+-- Data for Name: users; Type: TABLE DATA; Schema: demo; Owner: postgres
 --
 
 INSERT INTO users VALUES (1, 'admin', 'YWRtaW4xMjM=', 'Admin', 'int', '2009-05-18');
 
 
 --
--- Name: city_city_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: city_city_name_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY city
@@ -2508,7 +2508,7 @@ ALTER TABLE ONLY city
 
 
 --
--- Name: city_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: city_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY city
@@ -2516,7 +2516,7 @@ ALTER TABLE ONLY city
 
 
 --
--- Name: columns_column_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: columns_column_name_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY columns
@@ -2524,7 +2524,7 @@ ALTER TABLE ONLY columns
 
 
 --
--- Name: columns_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: columns_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY columns
@@ -2532,7 +2532,7 @@ ALTER TABLE ONLY columns
 
 
 --
--- Name: contacts_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: contacts_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY contacts
@@ -2540,7 +2540,7 @@ ALTER TABLE ONLY contacts
 
 
 --
--- Name: country_country_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: country_country_name_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY country
@@ -2548,7 +2548,7 @@ ALTER TABLE ONLY country
 
 
 --
--- Name: country_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: country_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY country
@@ -2556,7 +2556,7 @@ ALTER TABLE ONLY country
 
 
 --
--- Name: currency_currency_code_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: currency_currency_code_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY currency
@@ -2564,7 +2564,7 @@ ALTER TABLE ONLY currency
 
 
 --
--- Name: currency_currency_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: currency_currency_name_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY currency
@@ -2572,7 +2572,7 @@ ALTER TABLE ONLY currency
 
 
 --
--- Name: currency_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: currency_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY currency
@@ -2580,7 +2580,7 @@ ALTER TABLE ONLY currency
 
 
 --
--- Name: cust_column_id_unq; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: cust_column_id_unq; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY customization_columns
@@ -2588,7 +2588,7 @@ ALTER TABLE ONLY customization_columns
 
 
 --
--- Name: customizations_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: customizations_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY customizations
@@ -2596,7 +2596,7 @@ ALTER TABLE ONLY customizations
 
 
 --
--- Name: handloan_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: handloan_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY handloan_items
@@ -2604,7 +2604,7 @@ ALTER TABLE ONLY handloan_items
 
 
 --
--- Name: handloan_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: handloan_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY handloan
@@ -2612,7 +2612,7 @@ ALTER TABLE ONLY handloan
 
 
 --
--- Name: order_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: order_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY order_items
@@ -2620,7 +2620,7 @@ ALTER TABLE ONLY order_items
 
 
 --
--- Name: orders_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: orders_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY orders
@@ -2628,7 +2628,7 @@ ALTER TABLE ONLY orders
 
 
 --
--- Name: payment_mode_payment_mode_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: payment_mode_payment_mode_name_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY payment_mode
@@ -2636,7 +2636,7 @@ ALTER TABLE ONLY payment_mode
 
 
 --
--- Name: payment_mode_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: payment_mode_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY payment_mode
@@ -2644,7 +2644,7 @@ ALTER TABLE ONLY payment_mode
 
 
 --
--- Name: payments_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: payments_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY payments
@@ -2652,7 +2652,7 @@ ALTER TABLE ONLY payments
 
 
 --
--- Name: product_category_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: product_category_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY product_category
@@ -2660,7 +2660,7 @@ ALTER TABLE ONLY product_category
 
 
 --
--- Name: product_category_product_category_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: product_category_product_category_desc_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY product_category
@@ -2668,7 +2668,7 @@ ALTER TABLE ONLY product_category
 
 
 --
--- Name: products_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: products_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY products
@@ -2676,7 +2676,7 @@ ALTER TABLE ONLY products
 
 
 --
--- Name: products_product_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: products_product_desc_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY products
@@ -2684,7 +2684,7 @@ ALTER TABLE ONLY products
 
 
 --
--- Name: receipt_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: receipt_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY receipt_items
@@ -2692,7 +2692,7 @@ ALTER TABLE ONLY receipt_items
 
 
 --
--- Name: receipt_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: receipt_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY receipt
@@ -2700,7 +2700,7 @@ ALTER TABLE ONLY receipt
 
 
 --
--- Name: relationships_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: relationships_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY relationships
@@ -2708,7 +2708,7 @@ ALTER TABLE ONLY relationships
 
 
 --
--- Name: report_cust_id_unq; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: report_cust_id_unq; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY customizations
@@ -2716,7 +2716,7 @@ ALTER TABLE ONLY customizations
 
 
 --
--- Name: reports_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: reports_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY reports
@@ -2724,7 +2724,7 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: reports_report_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: reports_report_name_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY reports
@@ -2732,7 +2732,7 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: sales_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: sales_items_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY sales_items
@@ -2740,7 +2740,7 @@ ALTER TABLE ONLY sales_items
 
 
 --
--- Name: sales_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: sales_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY sales
@@ -2748,7 +2748,7 @@ ALTER TABLE ONLY sales
 
 
 --
--- Name: tax_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: tax_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY tax
@@ -2756,7 +2756,7 @@ ALTER TABLE ONLY tax
 
 
 --
--- Name: tax_tax_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: tax_tax_desc_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY tax
@@ -2764,7 +2764,7 @@ ALTER TABLE ONLY tax
 
 
 --
--- Name: tax_type_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: tax_type_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY tax_type
@@ -2772,7 +2772,7 @@ ALTER TABLE ONLY tax_type
 
 
 --
--- Name: tax_type_tax_type_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: tax_type_tax_type_desc_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY tax_type
@@ -2780,7 +2780,7 @@ ALTER TABLE ONLY tax_type
 
 
 --
--- Name: transaction_details_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: transaction_details_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY transaction_details
@@ -2788,7 +2788,7 @@ ALTER TABLE ONLY transaction_details
 
 
 --
--- Name: uom_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: uom_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY uom
@@ -2796,7 +2796,7 @@ ALTER TABLE ONLY uom
 
 
 --
--- Name: uom_uom_code_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: uom_uom_code_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY uom
@@ -2804,7 +2804,7 @@ ALTER TABLE ONLY uom
 
 
 --
--- Name: uom_uom_desc_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: uom_uom_desc_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY uom
@@ -2812,7 +2812,7 @@ ALTER TABLE ONLY uom
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: users_pkey; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -2820,7 +2820,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: users_user_name_key; Type: CONSTRAINT; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: users_user_name_key; Type: CONSTRAINT; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -2828,182 +2828,182 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: c_reports_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: c_reports_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX c_reports_idx ON customizations USING btree (report_id);
 
 
 --
--- Name: cc_column_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: cc_column_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX cc_column_id_idx ON customization_columns USING btree (column_id);
 
 
 --
--- Name: cc_customization_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: cc_customization_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX cc_customization_id_idx ON customization_columns USING btree (customization_id);
 
 
 --
--- Name: ci_country_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: ci_country_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX ci_country_id_idx ON city USING btree (country_id);
 
 
 --
--- Name: co_relationship_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: co_relationship_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX co_relationship_id_idx ON contacts USING btree (relationship_id);
 
 
 --
--- Name: r_buyer_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: r_buyer_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX r_buyer_id_idx ON sales USING btree (buyer_id);
 
 
 --
--- Name: r_supplier_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: r_supplier_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX r_supplier_id_idx ON receipt USING btree (supplier_id);
 
 
 --
--- Name: ri_currency_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: ri_currency_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX ri_currency_id_idx ON receipt_items USING btree (currency_id);
 
 
 --
--- Name: ri_product_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: ri_product_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX ri_product_id_idx ON receipt_items USING btree (product_id);
 
 
 --
--- Name: ri_receipt_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: ri_receipt_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX ri_receipt_id_idx ON receipt_items USING btree (receipt_id);
 
 
 --
--- Name: ri_uom_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: ri_uom_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX ri_uom_id_idx ON receipt_items USING btree (uom_id);
 
 
 --
--- Name: rt_receipt_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: rt_receipt_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX rt_receipt_id_idx ON receipt_tax USING btree (receipt_id);
 
 
 --
--- Name: rt_tax_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: rt_tax_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX rt_tax_id_idx ON receipt_tax USING btree (tax_id);
 
 
 --
--- Name: si_currency_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: si_currency_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX si_currency_id_idx ON sales_items USING btree (currency_id);
 
 
 --
--- Name: si_product_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: si_product_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX si_product_id_idx ON sales_items USING btree (product_id);
 
 
 --
--- Name: si_sales_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: si_sales_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX si_sales_id_idx ON sales_items USING btree (sales_id);
 
 
 --
--- Name: si_uom_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: si_uom_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX si_uom_id_idx ON sales_items USING btree (uom_id);
 
 
 --
--- Name: st_sales_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: st_sales_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX st_sales_id_idx ON sales_tax USING btree (sales_id);
 
 
 --
--- Name: st_tax_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: st_tax_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX st_tax_id_idx ON sales_tax USING btree (tax_id);
 
 
 --
--- Name: t_parent_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: t_parent_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX t_parent_idx ON transaction_details USING btree (parent_id);
 
 
 --
--- Name: t_trans_date_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: t_trans_date_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX t_trans_date_idx ON transaction_details USING btree (trans_date);
 
 
 --
--- Name: t_trans_head_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: t_trans_head_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX t_trans_head_idx ON transaction_details USING btree (trans_head);
 
 
 --
--- Name: t_trans_type_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: t_trans_type_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX t_trans_type_idx ON transaction_details USING btree (trans_type);
 
 
 --
--- Name: t_uom_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: t_uom_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX t_uom_idx ON transaction_details USING btree (uom_id);
 
 
 --
--- Name: tb_trans_id_idx; Type: INDEX; Schema: demo; Owner: sathish; Tablespace: 
+-- Name: tb_trans_id_idx; Type: INDEX; Schema: demo; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX tb_trans_id_idx ON transaction_balance USING btree (trans_id);
 
 
 --
--- Name: receipt_qty_update_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+-- Name: receipt_qty_update_trig; Type: TRIGGER; Schema: demo; Owner: postgres
 --
 
 CREATE TRIGGER receipt_qty_update_trig
@@ -3013,7 +3013,7 @@ CREATE TRIGGER receipt_qty_update_trig
 
 
 --
--- Name: receipt_tax_value_bupdate_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+-- Name: receipt_tax_value_bupdate_trig; Type: TRIGGER; Schema: demo; Owner: postgres
 --
 
 CREATE TRIGGER receipt_tax_value_bupdate_trig
@@ -3023,7 +3023,7 @@ CREATE TRIGGER receipt_tax_value_bupdate_trig
 
 
 --
--- Name: sales_qty_update_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+-- Name: sales_qty_update_trig; Type: TRIGGER; Schema: demo; Owner: postgres
 --
 
 CREATE TRIGGER sales_qty_update_trig
@@ -3033,7 +3033,7 @@ CREATE TRIGGER sales_qty_update_trig
 
 
 --
--- Name: sales_tax_value_bupdate_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+-- Name: sales_tax_value_bupdate_trig; Type: TRIGGER; Schema: demo; Owner: postgres
 --
 
 CREATE TRIGGER sales_tax_value_bupdate_trig
@@ -3043,7 +3043,7 @@ CREATE TRIGGER sales_tax_value_bupdate_trig
 
 
 --
--- Name: trans_balance_trig; Type: TRIGGER; Schema: demo; Owner: sathish
+-- Name: trans_balance_trig; Type: TRIGGER; Schema: demo; Owner: postgres
 --
 
 CREATE TRIGGER trans_balance_trig
@@ -3053,7 +3053,7 @@ CREATE TRIGGER trans_balance_trig
 
 
 --
--- Name: city_country_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: city_country_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY city
@@ -3061,7 +3061,7 @@ ALTER TABLE ONLY city
 
 
 --
--- Name: contacts_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: contacts_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY contacts
@@ -3069,7 +3069,7 @@ ALTER TABLE ONLY contacts
 
 
 --
--- Name: customization_columns_column_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: customization_columns_column_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY customization_columns
@@ -3077,7 +3077,7 @@ ALTER TABLE ONLY customization_columns
 
 
 --
--- Name: customization_columns_customization_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: customization_columns_customization_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY customization_columns
@@ -3085,7 +3085,7 @@ ALTER TABLE ONLY customization_columns
 
 
 --
--- Name: customizations_report_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: customizations_report_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY customizations
@@ -3093,7 +3093,7 @@ ALTER TABLE ONLY customizations
 
 
 --
--- Name: handloan_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: handloan_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY handloan
@@ -3101,7 +3101,7 @@ ALTER TABLE ONLY handloan
 
 
 --
--- Name: handloan_items_handln_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: handloan_items_handln_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY handloan_items
@@ -3109,7 +3109,7 @@ ALTER TABLE ONLY handloan_items
 
 
 --
--- Name: handloan_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: handloan_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY handloan_items
@@ -3117,7 +3117,7 @@ ALTER TABLE ONLY handloan_items
 
 
 --
--- Name: handloan_items_ref_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: handloan_items_ref_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY handloan_items
@@ -3125,7 +3125,7 @@ ALTER TABLE ONLY handloan_items
 
 
 --
--- Name: handloan_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: handloan_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY handloan_items
@@ -3133,7 +3133,7 @@ ALTER TABLE ONLY handloan_items
 
 
 --
--- Name: handloan_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: handloan_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY handloan
@@ -3141,7 +3141,7 @@ ALTER TABLE ONLY handloan
 
 
 --
--- Name: order_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: order_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY order_items
@@ -3149,7 +3149,7 @@ ALTER TABLE ONLY order_items
 
 
 --
--- Name: order_items_order_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: order_items_order_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY order_items
@@ -3157,7 +3157,7 @@ ALTER TABLE ONLY order_items
 
 
 --
--- Name: order_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: order_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY order_items
@@ -3165,7 +3165,7 @@ ALTER TABLE ONLY order_items
 
 
 --
--- Name: order_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: order_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY order_items
@@ -3173,7 +3173,7 @@ ALTER TABLE ONLY order_items
 
 
 --
--- Name: orders_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: orders_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY orders
@@ -3181,7 +3181,7 @@ ALTER TABLE ONLY orders
 
 
 --
--- Name: payments_payment_mode_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: payments_payment_mode_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY payments
@@ -3189,7 +3189,7 @@ ALTER TABLE ONLY payments
 
 
 --
--- Name: payments_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: payments_relationship_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY payments
@@ -3197,7 +3197,7 @@ ALTER TABLE ONLY payments
 
 
 --
--- Name: products_cp_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: products_cp_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY products
@@ -3205,7 +3205,7 @@ ALTER TABLE ONLY products
 
 
 --
--- Name: products_product_category_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: products_product_category_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY products
@@ -3213,7 +3213,7 @@ ALTER TABLE ONLY products
 
 
 --
--- Name: products_sp_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: products_sp_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY products
@@ -3221,7 +3221,7 @@ ALTER TABLE ONLY products
 
 
 --
--- Name: receipt_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt_items
@@ -3229,7 +3229,7 @@ ALTER TABLE ONLY receipt_items
 
 
 --
--- Name: receipt_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt_items
@@ -3237,7 +3237,7 @@ ALTER TABLE ONLY receipt_items
 
 
 --
--- Name: receipt_items_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_items_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt_items
@@ -3245,7 +3245,7 @@ ALTER TABLE ONLY receipt_items
 
 
 --
--- Name: receipt_items_ref_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_items_ref_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt_items
@@ -3253,7 +3253,7 @@ ALTER TABLE ONLY receipt_items
 
 
 --
--- Name: receipt_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt_items
@@ -3261,7 +3261,7 @@ ALTER TABLE ONLY receipt_items
 
 
 --
--- Name: receipt_payment_relation_payment_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_payment_relation_payment_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt_payment_relation
@@ -3269,7 +3269,7 @@ ALTER TABLE ONLY receipt_payment_relation
 
 
 --
--- Name: receipt_payment_relation_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_payment_relation_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt_payment_relation
@@ -3277,7 +3277,7 @@ ALTER TABLE ONLY receipt_payment_relation
 
 
 --
--- Name: receipt_supplier_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_supplier_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt
@@ -3285,7 +3285,7 @@ ALTER TABLE ONLY receipt
 
 
 --
--- Name: receipt_tax_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_tax_receipt_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt_tax
@@ -3293,7 +3293,7 @@ ALTER TABLE ONLY receipt_tax
 
 
 --
--- Name: receipt_tax_tax_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: receipt_tax_tax_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY receipt_tax
@@ -3301,7 +3301,7 @@ ALTER TABLE ONLY receipt_tax
 
 
 --
--- Name: sales_buyer_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_buyer_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales
@@ -3309,7 +3309,7 @@ ALTER TABLE ONLY sales
 
 
 --
--- Name: sales_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_items_currency_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales_items
@@ -3317,7 +3317,7 @@ ALTER TABLE ONLY sales_items
 
 
 --
--- Name: sales_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_items_product_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales_items
@@ -3325,7 +3325,7 @@ ALTER TABLE ONLY sales_items
 
 
 --
--- Name: sales_items_ref_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_items_ref_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales_items
@@ -3333,7 +3333,7 @@ ALTER TABLE ONLY sales_items
 
 
 --
--- Name: sales_items_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_items_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales_items
@@ -3341,7 +3341,7 @@ ALTER TABLE ONLY sales_items
 
 
 --
--- Name: sales_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_items_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales_items
@@ -3349,7 +3349,7 @@ ALTER TABLE ONLY sales_items
 
 
 --
--- Name: sales_payment_relation_payment_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_payment_relation_payment_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales_payment_relation
@@ -3357,7 +3357,7 @@ ALTER TABLE ONLY sales_payment_relation
 
 
 --
--- Name: sales_payment_relation_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_payment_relation_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales_payment_relation
@@ -3365,7 +3365,7 @@ ALTER TABLE ONLY sales_payment_relation
 
 
 --
--- Name: sales_tax_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_tax_sales_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales_tax
@@ -3373,7 +3373,7 @@ ALTER TABLE ONLY sales_tax
 
 
 --
--- Name: sales_tax_tax_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: sales_tax_tax_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY sales_tax
@@ -3381,7 +3381,7 @@ ALTER TABLE ONLY sales_tax
 
 
 --
--- Name: tax_tax_type_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: tax_tax_type_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY tax
@@ -3389,7 +3389,7 @@ ALTER TABLE ONLY tax
 
 
 --
--- Name: transaction_balance_trans_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: transaction_balance_trans_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY transaction_balance
@@ -3397,7 +3397,7 @@ ALTER TABLE ONLY transaction_balance
 
 
 --
--- Name: transaction_details_parent_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: transaction_details_parent_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY transaction_details
@@ -3405,7 +3405,7 @@ ALTER TABLE ONLY transaction_details
 
 
 --
--- Name: transaction_details_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: sathish
+-- Name: transaction_details_uom_id_fkey; Type: FK CONSTRAINT; Schema: demo; Owner: postgres
 --
 
 ALTER TABLE ONLY transaction_details

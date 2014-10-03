@@ -413,7 +413,7 @@ class report
 			{
 				if(is_numeric($arr[$i][$column_name]))
 				{
-					$arr[$i][$column_name] = money_format('%!.'.$decimal_places.'i',$arr[$i][$column_name]);
+					$arr[$i][$column_name] = $arr[$i][$column_name];
 				}
 			}
 		}

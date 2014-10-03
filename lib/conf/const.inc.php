@@ -6,19 +6,19 @@ define('_company_name_','Abirami Colors');
 
 //DB Configuration
 define('DB_ENGINE','pgsql');
-define('DB_NAME','live');
-define('DB_USER','sathish');
-define('DB_PASSWORD','');
+define('DB_NAME','testdb');
+define('DB_USER','admin');
+define('DB_PASSWORD','admin');
+define('DB_PORT','5433');
 define('DB_SCHEMA','demo');
 
 // Include path
-define('_base_path_',ini_get('include_path'));
-define('_tpl_path_',str_replace('/lib/','',_base_path_).'/tpl/');
-define('_xajax_reg_path_',str_replace('/lib/','',_base_path_).'/reg/');
-//define('_tpl_path_','/home/sathish/bizsoft/tpl/');
-define('_smarty_path_',_base_path_.'smarty/');
-define('_xml_path_',_base_path_.'xml/');
-define('_offset_path_','/sathish/bizsoft');
+define('_base_path_',$root_path);
+define('_tpl_path_',_base_path_.'/tpl/');
+define('_xajax_reg_path_',_base_path_.'/reg/');
+define('_smarty_path_',_base_path_.'/lib/smarty/');
+define('_xml_path_','xml/');
+define('_offset_path_','/newbiz');
 
 //DB Table Names
 define('city_table','city');

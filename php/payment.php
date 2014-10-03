@@ -1,5 +1,4 @@
-<?php
-require('conf/setup.inc.php');
+<?php require('setup.php');
 
 $common_obj->isLoggedIn();
 

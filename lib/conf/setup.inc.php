@@ -3,8 +3,15 @@
  * Initializes all objects and includes all required common files.
  * @todo Notes, If any
 */
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+ini_set('display_errors',1);
+error_reporting(E_ERROR );
+
 session_start();
+
+$root_path = realpath(dirname(__FILE__) . '/../../');
+$include_paths = get_include_path();
+set_include_path($include_paths.PATH_SEPARATOR."$root_path/lib");
+
 
 require('conf/const.inc.php');
 require('smarty/Smarty.class.php');
@@ -25,7 +32,9 @@ $smarty->assign('_user_name_',$_SESSION['user_name']);
 
 try
 {
-	$db = new PDO(DB_ENGINE.':host=localhost;dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+	$dsn = DB_ENGINE.':host=localhost;port='.DB_PORT.';dbname=' . DB_NAME;
+
+	$db = new PDO($dsn, DB_USER, DB_PASSWORD);
 
 	$db->query('SET SEARCH_PATH TO '.DB_SCHEMA);
 	//print_r($db->errorInfo());

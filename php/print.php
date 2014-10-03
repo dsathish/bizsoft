@@ -1,5 +1,5 @@
 <?php
-require('conf/setup.inc.php');
+ require('setup.php');
 
 $smarty->assign("content", requestAction());
 $smarty->clear_cache("main.tpl");

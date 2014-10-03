@@ -1,7 +1,5 @@
 <?php
-require('conf/setup.inc.php');
-
-if (isset($_REQUEST['login']))
+ require('setup.php');if (isset($_REQUEST['login']))
 {
 	$user_id=$common_obj->checkLogin($_REQUEST['username'],$_REQUEST['password']);
 
